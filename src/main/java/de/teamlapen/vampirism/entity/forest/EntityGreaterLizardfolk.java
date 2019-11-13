@@ -15,12 +15,18 @@ import de.teamlapen.vampirism.util.IPlayerFace;
 import de.teamlapen.vampirism.util.PlayerSkinHelper;
 import de.teamlapen.vampirism.util.SupporterManager;
 import de.teamlapen.vampirism.world.loot.LootHandler;
+import net.lubriciouskin.iymts_mod.init.ItemRegister;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
+import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -111,6 +117,9 @@ public class EntityGreaterLizardfolk extends EntityBaseLizardfolk implements IAd
                 this.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, 1000000, 0));
             }
         }
+        this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(ItemRegister.IYKatana));
+        this.setItemStackToSlot(EntityEquipmentSlot.OFFHAND,  new ItemStack(Item.getItemFromBlock(Blocks.TORCH)));
+        this.setItemStackToSlot(EntityEquipmentSlot.LEGS,  new ItemStack(Items.CHAINMAIL_LEGGINGS));
     }
 
     @Override

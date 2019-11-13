@@ -17,6 +17,7 @@ import de.teamlapen.vampirism.entity.ai.*;
 import de.teamlapen.vampirism.entity.hunter.EntityHunterBase;
 import de.teamlapen.vampirism.world.loot.LootHandler;
 import de.teamlapen.vampirism.world.villages.VampirismVillageHelper;
+import net.lubriciouskin.iymts_mod.init.ItemRegister;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.*;
@@ -101,7 +102,7 @@ public class EntityLizardfolk extends EntityBaseLizardfolk implements IBasicVamp
     @Nullable
     @Override
     public IVampirismVillage getCurrentFriendlyVillage() {
-        return cachedVillage != null ? cachedVillage.getControllingFaction() == VReference.VAMPIRE_FACTION ? cachedVillage : null : null;
+        return null;
     }
 
     @Override
@@ -142,17 +143,24 @@ public class EntityLizardfolk extends EntityBaseLizardfolk implements IBasicVamp
             this.updateEntityAttributes();
             
             ItemStack WeaponEquipped;
+            
+            if (level > 4) {
+            	this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND,  new ItemStack(ItemRegister.IYKatana));
+            }
+            
             switch(level) {
             case 1:
+            case 2:
             	WeaponEquipped = new ItemStack(alexndr.plugins.SimpleOres.ModItems.copper_sword);
             	break;
-            case 2:
+            case 3:
+            case 4:
             	WeaponEquipped = new ItemStack(Items.IRON_SWORD);
             	break;
         	default:
         		int check = new Random().nextInt(4);
         		if (check == 0) {
-        			WeaponEquipped = ItemStack.EMPTY;
+        			WeaponEquipped = new ItemStack(ItemRegister.IYIronSpear);
         		} else if (check == 1) {
         			WeaponEquipped = new ItemStack(alexndr.plugins.SimpleOres.ModItems.mythril_sword);
         		} else {

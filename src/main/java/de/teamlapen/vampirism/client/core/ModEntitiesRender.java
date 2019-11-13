@@ -6,6 +6,7 @@ import de.teamlapen.vampirism.entity.*;
 import de.teamlapen.vampirism.entity.converted.EntityConvertedCreature;
 import de.teamlapen.vampirism.entity.converted.EntityConvertedHorse;
 import de.teamlapen.vampirism.entity.converted.EntityConvertedVillager;
+import de.teamlapen.vampirism.entity.forest.EntityGreaterLizardfolk;
 import de.teamlapen.vampirism.entity.forest.EntityLizardfolk;
 import de.teamlapen.vampirism.entity.hunter.*;
 import de.teamlapen.vampirism.entity.minions.vampire.EntityVampireMinionBase;
@@ -52,5 +53,6 @@ public class ModEntitiesRender {
          * Forest Tribes
          */
         RenderingRegistry.registerEntityRenderingHandler(EntityLizardfolk.class, RenderLizardfolk::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityGreaterLizardfolk.class, RenderLizardfolk::new);
     }
 }

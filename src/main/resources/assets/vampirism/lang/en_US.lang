@@ -156,6 +156,7 @@ entity.Villager.vampirism.hunter_expert=Hunter Expert
 
 #FOREST TRIBES
 entity.vampirism.lizardfolk.name=Lizardfolk
+entity.vampirism.greater_lizardfolk.name=Lizardfolk Champion
 
 #RITUALS
 text.vampirism.ritual_missing_items=Missing %s of "%s" for this ritual
