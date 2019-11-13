@@ -5,7 +5,6 @@ import de.teamlapen.vampirism.VampirismMod;
 import de.teamlapen.vampirism.api.items.IItemWithTier;
 import de.teamlapen.vampirism.core.ModItems;
 import de.teamlapen.vampirism.items.ItemBloodBottle;
-import de.teamlapen.vampirism.items.ItemCrossbowArrow;
 import de.teamlapen.vampirism.items.ItemInjection;
 import de.teamlapen.vampirism.items.ItemPureBlood;
 import de.teamlapen.vampirism.items.ItemVampireCloak.EnumCloakColor;
@@ -48,12 +47,7 @@ public class ModItemsRender {
 				}
 			}
 		}, ModItems.armor_of_swiftness_feet, ModItems.armor_of_swiftness_chest, ModItems.armor_of_swiftness_head, ModItems.armor_of_swiftness_legs);
-		Minecraft.getMinecraft().getItemColors().registerItemColorHandler((stack, tintIndex) -> {
-			if (tintIndex == 1) {
-				return ItemCrossbowArrow.getType(stack).color;
-			}
-			return 0xFFFFFF;
-		}, ModItems.crossbow_arrow);
+		
 	}
 
 	private static void registerRenderers() {
@@ -71,17 +65,9 @@ public class ModItemsRender {
 		renderHelper.registerRenderAllMeta(ModItems.injection, ItemInjection.META_COUNT);
 		renderHelper.registerRender(ModItems.item_med_chair, "normal");
 		renderHelper.registerRender(ModItems.pitchfork, "normal");
-		renderHelper.registerRender(ModItems.basic_crossbow, "normal");
-		renderHelper.registerRender(ModItems.crossbow_arrow, "normal");
-		renderHelper.registerRender(ModItems.basic_double_crossbow, "normal");
-		renderHelper.registerRender(ModItems.enhanced_crossbow, "normal");
-		renderHelper.registerRender(ModItems.enhanced_double_crossbow, "normal");
 		renderHelper.registerRender(ModItems.stake, "normal");
 		renderHelper.registerRender(ModItems.vampire_blood_bottle, "normal");
 		renderHelper.registerRender(ModItems.blood_potion, "normal");
-		renderHelper.registerRender(ModItems.basic_tech_crossbow, "normal");
-		renderHelper.registerRender(ModItems.enhanced_tech_crossbow, "normal");
-		renderHelper.registerRender(ModItems.tech_crossbow_ammo_package, "normal");
 		renderHelper.registerRender(ModItems.vampire_book, "normal");
 		renderHelper.registerRender(ModItems.hunter_hat0_head, "normal");
 		renderHelper.registerRender(ModItems.hunter_hat1_head, "normal");
@@ -114,8 +100,6 @@ public class ModItemsRender {
 		registerArmorItemWithTier(ModItems.obsidian_armor_legs, "obsidian_armor");
 		registerArmorItemWithTier(ModItems.obsidian_armor_feet, "obsidian_armor");
 
-		registerSimpleItemWithTier(ModItems.heart_seeker);
-		registerSimpleItemWithTier(ModItems.heart_striker);
 		renderHelper.registerRender(ModItems.blood_infused_iron_ingot, "normal");
 		renderHelper.registerRender(ModItems.blood_infused_enhanced_iron_ingot, "normal");
 		renderHelper.registerRender(ModItems.soul_orb_vampire, "normal");

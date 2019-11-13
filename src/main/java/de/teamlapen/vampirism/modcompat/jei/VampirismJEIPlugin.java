@@ -59,6 +59,5 @@ public class VampirismJEIPlugin extends BlankModPlugin {
         registry.useNbtForSubtypes(ModItems.hunter_coat_feet, ModItems.hunter_coat_chest, ModItems.hunter_coat_head, ModItems.hunter_coat_legs);
         registry.useNbtForSubtypes(ModItems.obsidian_armor_feet, ModItems.obsidian_armor_chest, ModItems.obsidian_armor_legs, ModItems.obsidian_armor_head);
         registry.useNbtForSubtypes(ModItems.holy_water_bottle);
-        registry.useNbtForSubtypes(ModItems.crossbow_arrow);
     }
 }

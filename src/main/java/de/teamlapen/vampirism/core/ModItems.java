@@ -59,17 +59,9 @@ public class ModItems {
     public static final ItemInjection injection = getNull();
     public static final ItemMedChair item_med_chair = getNull();
     public static final ItemPitchfork pitchfork = getNull();
-    public static final ItemSimpleCrossbow basic_crossbow = getNull();
-    public static final ItemDoubleCrossbow basic_double_crossbow = getNull();
-    public static final ItemSimpleCrossbow enhanced_crossbow = getNull();
-    public static final ItemDoubleCrossbow enhanced_double_crossbow = getNull();
-    public static final ItemCrossbowArrow crossbow_arrow = getNull();
     public static final ItemStake stake = getNull();
     public static final ItemVampireBloodBottle vampire_blood_bottle = getNull();
     public static final ItemBloodPotion blood_potion = getNull();
-    public static final ItemTechCrossbow basic_tech_crossbow = getNull();
-    public static final ItemTechCrossbow enhanced_tech_crossbow = getNull();
-    public static final VampirismItem tech_crossbow_ammo_package = getNull();
     public static final ItemVampireBook vampire_book = getNull();
     public static final ItemHolyWaterBottle holy_water_bottle = getNull();
     public static final ItemHolyWaterSplashBottle holy_water_splash_bottle = getNull();
@@ -101,8 +93,6 @@ public class ModItems {
 
     public static final ItemHunterAxe hunter_axe = getNull();
 
-    public static final ItemHeartSeeker heart_seeker = getNull();
-    public static final ItemHeartStriker heart_striker = getNull();
     public static final VampirismItem blood_infused_iron_ingot = getNull();
     public static final VampirismItem blood_infused_enhanced_iron_ingot = getNull();
     public static final VampirismItem soul_orb_vampire = getNull();
@@ -115,28 +105,7 @@ public class ModItems {
         // TODO CRAFTING
         HunterWeaponCraftingManager weaponCraftingManager = HunterWeaponCraftingManager.getInstance();
         AlchemicalCauldronCraftingManager cauldronCraftingManager = AlchemicalCauldronCraftingManager.getInstance();
-        weaponCraftingManager.addRecipe(new ItemStack(basic_crossbow), 1, (ISkill) null, 1, "YXXY", " ZZ ", " ZZ ", 'X',
-                Items.IRON_INGOT, 'Y', Items.STRING, 'Z', Blocks.PLANKS);
-        weaponCraftingManager.addRecipe(new ItemStack(basic_double_crossbow), 1, HunterSkills.double_crossbow, 1,
-                "YXXY", "YXXY", " ZZ ", " ZZ ", 'X', Items.IRON_INGOT, 'Y', Items.STRING, 'Z', Blocks.PLANKS);
-        weaponCraftingManager.addRecipe(new ItemStack(enhanced_crossbow), 1, HunterSkills.enhanced_crossbow, 2, "YXXY",
-                " XX ", " XX ", 'X', Items.IRON_INGOT, 'Y', Items.STRING);
-        weaponCraftingManager.addRecipe(new ItemStack(enhanced_double_crossbow), 1,
-                new ISkill[]{HunterSkills.double_crossbow, HunterSkills.enhanced_crossbow}, 3, "YXXY", "YXXY",
-                " XX ", " XX ", 'X', Items.IRON_INGOT, 'Y', Items.STRING);
-        weaponCraftingManager.addRecipe(
-                ItemCrossbowArrow.setType(new ItemStack(crossbow_arrow, 2),
-                        ItemCrossbowArrow.EnumArrowType.VAMPIRE_KILLER),
-                1, (ISkill) null, 1, " X  ", "XYX ", " Z  ", " W  ", 'X', item_garlic, 'Y', Items.GOLD_INGOT, 'Z',
-                Items.STICK, 'W', Items.FEATHER);
-        weaponCraftingManager.addRecipe(new ItemStack(tech_crossbow_ammo_package), 1, (ISkill) null, 1, " XZ ", "YYYY",
-                "YYYY", "YYYY", 'X', Items.IRON_INGOT, 'Y', crossbow_arrow, 'Z', Blocks.PLANKS);
-        weaponCraftingManager.addRecipe(new ItemStack(basic_tech_crossbow), 1, HunterSkills.tech_weapons, 5, "XYYX",
-                "YZZY", " YY ", " YY ", 'X', Items.STRING, 'Y', Items.IRON_INGOT, 'Z', Items.DIAMOND);
-        weaponCraftingManager.addRecipe(new ItemStack(enhanced_tech_crossbow), 1, HunterSkills.tech_weapons, 5, "XYYX",
-                "YZZY", "YZZY", " YY ", 'X', Items.STRING, 'Y', Items.IRON_INGOT, 'Z', Items.DIAMOND);
-        weaponCraftingManager.addRecipe(new ItemStack(pitchfork), 1, (ISkill) null, 0, "X X ", "YYY ", " Y  ", " Y  ",
-                'X', Items.IRON_INGOT, 'Y', Items.STICK);
+        
 
         // Armor of Swiftness
         weaponCraftingManager.addRecipe(createStack(armor_of_swiftness_head, IItemWithTier.TIER.NORMAL), 1,
@@ -226,9 +195,7 @@ public class ModItems {
         // IItemWithTier.TIER.ENHANCED);
         // ItemHolyWaterBottle.registerSplashRecipes(holy_water_bottle,
         // IItemWithTier.TIER.ULTIMATE);
-        weaponCraftingManager.addShapelessRecipe(
-                ItemCrossbowArrow.setType(new ItemStack(crossbow_arrow, 2), ItemCrossbowArrow.EnumArrowType.SPITFIRE),
-                1, (ISkill) null, 2, ModItems.crossbow_arrow, ModItems.item_alchemical_fire, ModItems.crossbow_arrow);
+
         //
         cauldronCraftingManager.registerLiquidColor(ModItems.holy_water_bottle, 0x6666FF);
         cauldronCraftingManager.registerLiquidColor(ModItems.item_garlic, 0xBBBBBB);
@@ -318,38 +285,11 @@ public class ModItems {
         registry.register(new ItemMedChair());
         registry.register(new ItemInjection());
         registry.register(new ItemPitchfork());
-        ItemSimpleCrossbow basic_crossbow = new ItemSimpleCrossbow("basic_crossbow", 1, 20, 300);
-        basic_crossbow.setEnchantability(Item.ToolMaterial.WOOD);
-        registry.register(basic_crossbow);
-        ItemDoubleCrossbow basic_double_crossbow = new ItemDoubleCrossbow("basic_double_crossbow", 1, 20, 300);
-        basic_double_crossbow.setEnchantability(Item.ToolMaterial.WOOD);
-        registry.register(basic_double_crossbow);
-        ItemSimpleCrossbow enhanced_crossbow = new ItemSimpleCrossbow("enhanced_crossbow", 1.5F, 15, 350);
-        enhanced_crossbow.setEnchantability(Item.ToolMaterial.IRON);
-        registry.register(enhanced_crossbow);
-        ItemDoubleCrossbow enhanced_double_crossbow = new ItemDoubleCrossbow("enhanced_double_crossbow", 1.5F, 15, 350);
-        enhanced_double_crossbow.setEnchantability(Item.ToolMaterial.IRON);
-        registry.register(enhanced_double_crossbow);
-        registry.register(new ItemCrossbowArrow());
+        
         registry.register(new ItemStake());
         registry.register(new ItemVampireBloodBottle());
         registry.register(new ItemBloodPotion());
-        ItemTechCrossbow basic_tech_crossbow = new ItemTechCrossbow("basic_tech_crossbow", 1.6F, 6, 300);
-        basic_tech_crossbow.setEnchantability(Item.ToolMaterial.DIAMOND);
-        registry.register(basic_tech_crossbow);
-        ItemTechCrossbow enhanced_tech_crossbow = new ItemTechCrossbow("enhanced_tech_crossbow", 1.7F, 4, 450);
-        enhanced_tech_crossbow.setEnchantability(Item.ToolMaterial.DIAMOND);
-        registry.register(enhanced_tech_crossbow);
-        registry.register(new VampirismItem("tech_crossbow_ammo_package") {
-
-            @SideOnly(Side.CLIENT)
-            @Override
-            public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-                tooltip.add(UtilLib.translateFormatted("item.vampirism." + regName + ".tooltip",
-                        basic_tech_crossbow.getLocalizedName()));
-            }
-
-        });
+       
         registry.register(new ItemVampireBook());
         registry.register(new ItemHolyWaterBottle(ItemHolyWaterBottle.regName));
         registry.register(new ItemHolyWaterSplashBottle(ItemHolyWaterSplashBottle.regName));
@@ -419,17 +359,15 @@ public class ModItems {
         // Check for mappings changed for 1.11 CamelCase to lower underscore
         String old = mapping.key.getPath();
         boolean r = checkMapping(mapping, old, armor_of_swiftness_feet, armor_of_swiftness_chest,
-                armor_of_swiftness_head, armor_of_swiftness_legs, basic_crossbow, basic_double_crossbow,
-                basic_tech_crossbow, blood_bottle, blood_potion, crossbow_arrow, enhanced_crossbow,
-                enhanced_double_crossbow);
+                armor_of_swiftness_head, armor_of_swiftness_legs, blood_bottle, blood_potion);
         if (!r)
-            r = checkMapping(mapping, old, enhanced_tech_crossbow, human_heart, weak_human_heart, hunter_axe,
+            r = checkMapping(mapping, old, human_heart, weak_human_heart, hunter_axe,
                     hunter_coat_feet, hunter_coat_chest, hunter_coat_head, hunter_coat_legs, hunter_hat0_head,
                     hunter_hat1_head, hunter_intel, injection, item_alchemical_fire, item_coffin, item_garlic,
                     item_med_chair);
         if (!r)
             r = checkMapping(mapping, old, item_tent, obsidian_armor_feet, obsidian_armor_chest, obsidian_armor_head,
-                    obsidian_armor_legs, pitchfork, pure_blood, tech_crossbow_ammo_package, vampire_blood_bottle,
+                    obsidian_armor_legs, pitchfork, pure_blood, vampire_blood_bottle,
                     vampire_book, vampire_fang);
         return r;
     }

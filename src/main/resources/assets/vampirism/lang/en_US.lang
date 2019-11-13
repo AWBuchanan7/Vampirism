@@ -154,6 +154,9 @@ entity.Villager.vampirism.hunter_priest=Alchemical Priest
 entity.Villager.vampirism.vampire_expert=Vampire Expert
 entity.Villager.vampirism.hunter_expert=Hunter Expert
 
+#FOREST TRIBES
+entity.vampirism.lizardfolk.name=Lizardfolk
+
 #RITUALS
 text.vampirism.ritual_missing_items=Missing %s of "%s" for this ritual
 text.vampirism.ritual_night_only=You can only perform this ritual at night

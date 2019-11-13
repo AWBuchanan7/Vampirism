@@ -11,6 +11,7 @@ import de.teamlapen.vampirism.entity.converted.EntityConvertedCreature;
 import de.teamlapen.vampirism.entity.converted.EntityConvertedHorse;
 import de.teamlapen.vampirism.entity.converted.EntityConvertedSheep;
 import de.teamlapen.vampirism.entity.converted.EntityConvertedVillager;
+import de.teamlapen.vampirism.entity.forest.EntityLizardfolk;
 import de.teamlapen.vampirism.entity.hunter.*;
 import de.teamlapen.vampirism.entity.minions.vampire.EntityVampireMinionSaveable;
 import de.teamlapen.vampirism.entity.special.EntityDraculaHalloween;
@@ -73,8 +74,8 @@ public class ModEntities {
     public static final String VILLAGER_CONVERTED = "villager_converted";
     public static final String HUNTER_TRAINER_DUMMY = "hunter_trainer_dummy";
     public static final String HORSE_CONVERTED = "converted_horse";
-
-
+    public static final String BASIC_LIZARDFOLK_NAME = "lizardfolk";
+    public static final String GREATER_LIZARDFOLK_NAME = "greater_lizardfolk";
     /**
      * List of entity names which should be spawnable
      */
@@ -116,22 +117,30 @@ public class ModEntities {
         registry.register(prepareEntityEntry(EntityConvertedCreature.class, CONVERTED_CREATURE, "converted.creature", EntityLiving.SpawnPlacementType.ON_GROUND, false).build());
         registry.register(prepareEntityEntry(EntityConvertedSheep.class, CONVERTED_SHEEP, "converted.sheep", EntityLiving.SpawnPlacementType.ON_GROUND, false).build());
         registry.register(prepareEntityEntry(EntityBasicHunter.class, BASIC_HUNTER_NAME, "vampireHunter", EntityLiving.SpawnPlacementType.ON_GROUND, true).build());
+        
         EntityEntryBuilder<EntityBasicVampire> basicVampire = prepareEntityEntry(EntityBasicVampire.class, BASIC_VAMPIRE_NAME, "vampire", EntityLiving.SpawnPlacementType.ON_GROUND, true);
         addSpawn(basicVampire, EnumCreatureType.MONSTER, Balance.mobProps.VAMPIRE_SPAWN_CHANCE, 1, 2, biomes);
         registry.register(basicVampire.build());
+        
+        EntityEntryBuilder<EntityLizardfolk> basicLizardfolk = prepareEntityEntry(EntityLizardfolk.class, BASIC_LIZARDFOLK_NAME, "lizardfolk", EntityLiving.SpawnPlacementType.ON_GROUND, true);
+        addSpawn(basicLizardfolk, EnumCreatureType.MONSTER, Balance.mobProps.LIZARDFOLK_SPAWN_CHANCE, 1, 2, biomes);
+        registry.register(basicLizardfolk.build());
+        
         registry.register(prepareEntityEntry(EntityHunterTrainer.class, HUNTER_TRAINER, "hunter_trainer", EntityLiving.SpawnPlacementType.ON_GROUND, true).build());
         registry.register(prepareEntityEntry(EntityAdvancedHunter.class, ADVANCED_HUNTER, "advanced_hunter", EntityLiving.SpawnPlacementType.ON_GROUND, true).build());
         registry.register(prepareEntityEntry(EntityVampireBaron.class, VAMPIRE_BARON, "vampireBaron", EntityLiving.SpawnPlacementType.ON_GROUND, true).build());
         registry.register(prepareEntityEntry(EntityVampireMinionSaveable.class, VAMPIRE_MINION_SAVEABLE_NAME, "vampireMinionS", EntityLiving.SpawnPlacementType.ON_GROUND, false).build());
         registry.register(prepareEntityEntry(EntityDummyBittenAnimal.class, DUMMY_CREATURE, "dummy_creature", EntityLiving.SpawnPlacementType.ON_GROUND, false).build());
+        
         EntityEntryBuilder<EntityAdvancedVampire> advancedVampire = prepareEntityEntry(EntityAdvancedVampire.class, ADVANCED_VAMPIRE, "advanced_vampire", EntityLiving.SpawnPlacementType.ON_GROUND, true);
         addSpawn(advancedVampire, EnumCreatureType.MONSTER, Balance.mobProps.ADVANCED_VAMPIRE_SPAWN_PROBE, 1, 1, biomes);
         registry.register(advancedVampire.build());
         registry.register(prepareEntityEntry(EntityConvertedVillager.class, VILLAGER_CONVERTED, "converted.villager", EntityLiving.SpawnPlacementType.ON_GROUND, false).build());
+        
         OLD_TO_NEW_MAP.put(new ResourceLocation("vampirism", "converted_villager").toString(), new ResourceLocation("vampirism", VILLAGER_CONVERTED).toString());
         registry.register(prepareEntityEntry(EntityAggressiveVillager.class, VILLAGER_ANGRY, "hunter_villager", EntityLiving.SpawnPlacementType.ON_GROUND, false).build());
         OLD_TO_NEW_MAP.put(new ResourceLocation("vampirism", "hunter_villager").toString(), new ResourceLocation("vampirism", VILLAGER_ANGRY).toString());
-        registry.register(prepareEntityEntry(EntityCrossbowArrow.class, CROSSBOW_ARROW, "crossbow_arrow", EntityLiving.SpawnPlacementType.IN_AIR, false).build());
+        
         registry.register(prepareEntityEntry(EntityAreaParticleCloud.class, PARTICLE_CLOUD, "particle_cloud", EntityLiving.SpawnPlacementType.IN_AIR, false).build());
         registry.register(prepareEntityEntry(EntityThrowableItem.class, THROWABLE_ITEM, "throwable_item", EntityLiving.SpawnPlacementType.IN_AIR, false).build());
         registry.register(prepareEntityEntry(EntityDraculaHalloween.class, SPECIAL_DRACULA_HALLOWEEN, null, EntityLiving.SpawnPlacementType.ON_GROUND, false).build());
@@ -263,8 +272,7 @@ public class ModEntities {
             }
         };
     }
-
-
+    
     private static <T extends Entity> EntityEntryBuilder<T> addSpawn(EntityEntryBuilder<T> builder, EnumCreatureType type, int weight, int min, int max, Biome... biomes) {
         return builder.spawn(type, weight, min, max, biomes);
     }

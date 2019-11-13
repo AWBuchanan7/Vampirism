@@ -51,7 +51,7 @@ public class RenderBasicHunter extends RenderBiped<EntityBasicHunter> {
         super.renderModel(entitylivingbaseIn, p_77036_2_, p_77036_3_, p_77036_4_, p_77036_5_, p_77036_6_, partTicks);
         bindTexture(textureExtra);
         ((ModelBasicHunter) mainModel).renderHat(partTicks, level == 0 ? type : -1);
-        ((ModelBasicHunter) mainModel).renderWeapons(partTicks, level < 2 || entitylivingbaseIn.isCrossbowInMainhand());
+        ((ModelBasicHunter) mainModel).renderWeapons(partTicks, level < 2);
 
     }
 }

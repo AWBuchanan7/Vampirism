@@ -6,6 +6,7 @@ import de.teamlapen.vampirism.entity.*;
 import de.teamlapen.vampirism.entity.converted.EntityConvertedCreature;
 import de.teamlapen.vampirism.entity.converted.EntityConvertedHorse;
 import de.teamlapen.vampirism.entity.converted.EntityConvertedVillager;
+import de.teamlapen.vampirism.entity.forest.EntityLizardfolk;
 import de.teamlapen.vampirism.entity.hunter.*;
 import de.teamlapen.vampirism.entity.minions.vampire.EntityVampireMinionBase;
 import de.teamlapen.vampirism.entity.special.EntityDraculaHalloween;
@@ -17,6 +18,7 @@ import net.minecraft.client.renderer.entity.RenderBat;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import de.teamlapen.vampirism.client.render.entities.RenderLizardfolk;
 
 /**
  * Handles entity render registration
@@ -38,7 +40,6 @@ public class ModEntitiesRender {
         RenderingRegistry.registerEntityRenderingHandler(EntityAdvancedVampire.class, RenderAdvancedVampire::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityConvertedVillager.class, RenderConvertedVillager::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityAggressiveVillager.class, RenderHunterVillager::new);
-        RenderingRegistry.registerEntityRenderingHandler(EntityCrossbowArrow.class, RenderCrossbowArrow::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityAreaParticleCloud.class, RenderAreaParticleCloud::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityThrowableItem.class, manager -> new RenderThrowableItem(manager, Minecraft.getMinecraft().getRenderItem()));
         RenderingRegistry.registerEntityRenderingHandler(EntityDraculaHalloween.class, RenderSpecialDraculaHalloween::new);
@@ -46,5 +47,10 @@ public class ModEntitiesRender {
         RenderingRegistry.registerEntityRenderingHandler(EntitySoulOrb.class, manager -> new RenderSoulOrb(manager, Minecraft.getMinecraft().getRenderItem()));
         RenderingRegistry.registerEntityRenderingHandler(EntityHunterTrainerDummy.class, RenderHunterTrainerDummy::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityConvertedHorse.class, RenderConvertedHorse::new);
+        
+        /*
+         * Forest Tribes
+         */
+        RenderingRegistry.registerEntityRenderingHandler(EntityLizardfolk.class, RenderLizardfolk::new);
     }
 }

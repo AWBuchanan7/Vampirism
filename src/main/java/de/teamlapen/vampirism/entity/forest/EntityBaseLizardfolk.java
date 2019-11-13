@@ -1,4 +1,4 @@
-package de.teamlapen.vampirism.entity.vampire;
+package de.teamlapen.vampirism.entity.forest;
 
 import de.teamlapen.lib.lib.util.UtilLib;
 import de.teamlapen.vampirism.api.EnumStrength;
@@ -39,7 +39,7 @@ import javax.annotation.Nonnull;
  * Base class for Vampirism's vampire entities
  */
 @SuppressWarnings("EntityConstructor")
-public abstract class EntityVampireBase extends EntityVampirism implements IVampireMob {
+public abstract class EntityBaseLizardfolk extends EntityVampirism implements IVampireMob {
 
     /**
      * Rules to consider for {@link #getCanSpawnHere()}
@@ -50,7 +50,6 @@ public abstract class EntityVampireBase extends EntityVampirism implements IVamp
     @Override
     public boolean getCanSpawnHere() {
         if (spawnRestriction.level >= SpawnRestriction.SIMPLE.level) {
-            if (isGettingSundamage(true) || isGettingGarlicDamage(true) != EnumStrength.NONE) return false;
 
             if (spawnRestriction.level >= SpawnRestriction.NORMAL.level) {
                 if ((world.isDaytime() && rand.nextInt(5) != 0)) {
@@ -86,7 +85,7 @@ public abstract class EntityVampireBase extends EntityVampirism implements IVamp
     /**
      * @param countAsMonsterForSpawn If this entity should be counted as vampire and as monster during spawning
      */
-    public EntityVampireBase(World world, boolean countAsMonsterForSpawn) {
+    public EntityBaseLizardfolk(World world, boolean countAsMonsterForSpawn) {
         super(world);
         this.countAsMonsterForSpawn = countAsMonsterForSpawn;
 
@@ -223,12 +222,7 @@ public abstract class EntityVampireBase extends EntityVampirism implements IVamp
 
     @Override
     public void onLivingUpdate() {
-        if (this.ticksExisted % REFERENCE.REFRESH_GARLIC_TICKS == 3) {
-            isGettingGarlicDamage(true);
-        }
-        if (this.ticksExisted % REFERENCE.REFRESH_SUNDAMAGE_TICKS == 2) {
-            isGettingSundamage(true);
-        }
+        
         if (!world.isRemote) {
             if (isGettingSundamage() && ticksExisted % 40 == 11) {
                 double dmg = getEntityAttribute(VReference.sunDamage).getAttributeValue();
@@ -297,9 +291,6 @@ public abstract class EntityVampireBase extends EntityVampirism implements IVamp
      * Only exception is the vampire biome in which it returns true if ontop of {@link ModBlocks#cursed_earth}
      */
     private boolean getCanSpawnHereRestricted() {
-        boolean vampireBiome = ModBiomes.vampireForest.equals(this.world.getBiome(this.getPosition()));
-        if (!vampireBiome) return isLowLightLevel();
-        IBlockState iblockstate = this.world.getBlockState((new BlockPos(this)).down());
-        return ModBlocks.cursed_earth.equals(iblockstate.getBlock());
+        return true;
     }
 }

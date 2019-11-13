@@ -24,7 +24,6 @@ import de.teamlapen.vampirism.core.ModEntities;
 import de.teamlapen.vampirism.core.ModFluids;
 import de.teamlapen.vampirism.core.ModItems;
 import de.teamlapen.vampirism.items.ItemBloodBottle;
-import de.teamlapen.vampirism.items.ItemCrossbowArrow;
 import de.teamlapen.vampirism.items.ItemInjection;
 import de.teamlapen.vampirism.modcompat.guide.pages.PageHolderWithLinks;
 import de.teamlapen.vampirism.modcompat.guide.pages.PageTable;
@@ -371,8 +370,6 @@ public class GuideBook implements IGuideBook {
         //Vampire
         new ItemInfoBuilder(new ItemStack(ModItems.blood_bottle, 1, ItemBloodBottle.AMOUNT), false).build(entries);
         new ItemInfoBuilder(ModItems.blood_infused_iron_ingot).craftableStacks(ModItems.blood_infused_iron_ingot, WORKBENCH, ModItems.blood_infused_enhanced_iron_ingot, WORKBENCH).build(entries);
-        addItemWithTier(ModItems.heart_seeker, WORKBENCH).setLinks(new ResourceLocation("guide.vampirism.blocks.blood_pedestal"), new ResourceLocation("guide.vampirism.items.blood_infused_iron_ingot")).build(entries);
-        addItemWithTier(ModItems.heart_striker, WORKBENCH).setLinks(new ResourceLocation("guide.vampirism.blocks.blood_pedestal"), new ResourceLocation("guide.vampirism.items.blood_infused_iron_ingot")).build(entries);
         new ItemInfoBuilder(ModItems.vampire_cloak).craftableStacks(new ItemStack(ModItems.vampire_cloak, 1, 0), WORKBENCH, new ItemStack(ModItems.vampire_cloak, 1, 1), WORKBENCH, new ItemStack(ModItems.vampire_cloak, 1, 2), WORKBENCH, new ItemStack(ModItems.vampire_cloak, 1, 3), WORKBENCH, new ItemStack(ModItems.vampire_cloak, 1, 4), WORKBENCH).build(entries);
 
         //Hunter
@@ -382,8 +379,6 @@ public class GuideBook implements IGuideBook {
         new ItemInfoBuilder(ModItems.purified_garlic).setFormats(ModBlocks.garlic_beacon.getLocalizedName()).setLinks(new ResourceLocation("guide.vampirism.blocks.garlic_beacon")).craftable(ALCHEMICAL_CAULDRON).build(entries);
         new ItemInfoBuilder(ModItems.pitchfork).craftable(WEAPON_TABLE).build(entries);
         new ItemInfoBuilder(ModItems.stake).setFormats(((int) (Balance.hps.INSTANT_KILL_SKILL_1_MAX_HEALTH_PERC * 100)) + "%").craftable(WORKBENCH).build(entries);
-        new ItemInfoBuilder(ModItems.basic_crossbow).setFormats(ModItems.crossbow_arrow.getLocalizedName(), ModItems.tech_crossbow_ammo_package.getLocalizedName()).setLinks(new ResourceLocation("guide.vampirism.items.crossbow_arrow")).craftableStacks(ModItems.basic_crossbow, WEAPON_TABLE, ModItems.basic_double_crossbow, WEAPON_TABLE, ModItems.enhanced_crossbow, WEAPON_TABLE, ModItems.enhanced_double_crossbow, WEAPON_TABLE, ModItems.basic_tech_crossbow, WEAPON_TABLE, ModItems.tech_crossbow_ammo_package, WEAPON_TABLE).setName("crossbows").customName().build(entries);
-        new ItemInfoBuilder(ModItems.crossbow_arrow).craftableStacks(ModItems.crossbow_arrow.getStack(ItemCrossbowArrow.EnumArrowType.NORMAL), WORKBENCH, ModItems.crossbow_arrow.getStack(ItemCrossbowArrow.EnumArrowType.VAMPIRE_KILLER), WEAPON_TABLE, ModItems.crossbow_arrow.getStack(ItemCrossbowArrow.EnumArrowType.SPITFIRE), WEAPON_TABLE).build(entries);
         new ItemInfoBuilder(ModItems.holy_water_bottle).setLinks(new ResourceLocation("guide.vampirism.hunter.vamp_slayer"), new ResourceLocation("guide.vampirism.items.holy_salt")).setFormats(ModItems.holy_salt_water.getLocalizedName(), ModItems.holy_salt_water.getLocalizedName(), ModItems.holy_salt.getLocalizedName()).craftableStacks(ModItems.holy_salt_water, BREWING_STAND, ModItems.holy_water_bottle.setTier(new ItemStack(ModItems.holy_water_splash_bottle), IItemWithTier.TIER.NORMAL), BREWING_STAND).build(entries);
         new ItemInfoBuilder(ModItems.holy_salt).setLinks(new ResourceLocation("guide.vampirism.items.holy_water_bottle")).setFormats(ModItems.pure_salt.getLocalizedName(), ModItems.pure_salt.getLocalizedName(), ModBlocks.alchemical_cauldron.getLocalizedName()).craftableStacks(ModItems.pure_salt, ALCHEMICAL_CAULDRON).build(entries);
         new ItemInfoBuilder(ModItems.item_alchemical_fire).setLinks(new ResourceLocation("guide.vampirism.items.crossbow_arrow")).craftable(ALCHEMICAL_CAULDRON).build(entries);

@@ -1,4 +1,4 @@
-package de.teamlapen.vampirism.entity.vampire;
+package de.teamlapen.vampirism.entity.forest;
 
 import de.teamlapen.lib.lib.util.UtilLib;
 import de.teamlapen.vampirism.api.VReference;
@@ -39,19 +39,23 @@ import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
+import java.util.Random;
+
 import javax.annotation.Nullable;
 
+import alexndr.plugins.SimpleOres.SimpleOres;
+
 /**
- * Basic vampire mob.
+ * Basic Lizardfolk mob.
  * Follows nearby advanced hunters
  */
-public class EntityBasicVampire extends EntityVampireBase implements IBasicVampire, IEntityActionUser {
+public class EntityLizardfolk extends EntityBaseLizardfolk implements IBasicVampire, IEntityActionUser {
 
-    private static final DataParameter<Integer> LEVEL = EntityDataManager.createKey(EntityBasicVampire.class, DataSerializers.VARINT);
+    private static final DataParameter<Integer> LEVEL = EntityDataManager.createKey(EntityLizardfolk.class, DataSerializers.VARINT);
     private final int MAX_LEVEL = 2;
     private final int ANGRY_TICKS_PER_ATTACK = 120;
     private int bloodtimer = 100;
-    private EntityAdvancedVampire advancedLeader = null;
+    private EntityGreaterLizardfolk advancedLeader = null;
     private int angryTimer = 0;
 
     private EntityAIBase tasks_avoidHunter;
@@ -84,7 +88,7 @@ public class EntityBasicVampire extends EntityVampireBase implements IBasicVampi
     @Nullable
     private AxisAlignedBB village_defense_area;
 
-    public EntityBasicVampire(World world) {
+    public EntityLizardfolk(World world) {
         super(world, true);
         this.canSuckBloodFromPlayer = true;
         hasArms = true;
@@ -112,7 +116,7 @@ public class EntityBasicVampire extends EntityVampireBase implements IBasicVampi
      */
     public
     @Nullable
-    EntityAdvancedVampire getAdvancedLeader() {
+    EntityGreaterLizardfolk getAdvancedLeader() {
         return advancedLeader;
     }
 
@@ -121,7 +125,7 @@ public class EntityBasicVampire extends EntityVampireBase implements IBasicVampi
      *
      * @param advancedLeader
      */
-    public void setAdvancedLeader(@Nullable EntityAdvancedVampire advancedLeader) {
+    public void setAdvancedLeader(@Nullable EntityGreaterLizardfolk advancedLeader) {
         this.advancedLeader = advancedLeader;
     }
 
@@ -136,14 +140,28 @@ public class EntityBasicVampire extends EntityVampireBase implements IBasicVampi
         if (level >= 0) {
             getDataManager().set(LEVEL, level);
             this.updateEntityAttributes();
-            if (level == 2) {
-                this.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, 1000000, 1));
+            
+            ItemStack WeaponEquipped;
+            switch(level) {
+            case 1:
+            	WeaponEquipped = new ItemStack(alexndr.plugins.SimpleOres.ModItems.copper_sword);
+            	break;
+            case 2:
+            	WeaponEquipped = new ItemStack(Items.IRON_SWORD);
+            	break;
+        	default:
+        		int check = new Random().nextInt(4);
+        		if (check == 0) {
+        			WeaponEquipped = ItemStack.EMPTY;
+        		} else if (check == 1) {
+        			WeaponEquipped = new ItemStack(alexndr.plugins.SimpleOres.ModItems.mythril_sword);
+        		} else {
+        			WeaponEquipped = new ItemStack(alexndr.plugins.SimpleOres.ModItems.copper_sword);
+        		}
+        		break;	
             }
-            if (level == 1) {
-                this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(Items.IRON_SWORD));
-            } else {
-                this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, ItemStack.EMPTY);
-            }
+            	
+            this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, WeaponEquipped);
 
         }
     }
@@ -335,12 +353,8 @@ public class EntityBasicVampire extends EntityVampireBase implements IBasicVampi
         }
         this.tasks_avoidHunter = new EntityAIAvoidEntity<>(this, EntityCreature.class, VampirismAPI.factionRegistry().getPredicate(getFaction(), false, true, false, false, VReference.HUNTER_FACTION), 10, 1.0, 1.1);
         this.tasks.addTask(2, this.tasks_avoidHunter);
-        this.tasks.addTask(2, new VampireAIRestrictSun(this));
-        this.tasks.addTask(3, new VampireAIFleeSun(this, 0.9, false));
-        this.tasks.addTask(3, new VampireAIFleeGarlic(this, 0.9, false));
         this.tasks.addTask(4, new EntityAIAttackMeleeNoSun(this, 1.0, false));
-        this.tasks.addTask(5, new VampireAIBiteNearbyEntity(this));
-        this.tasks.addTask(6, new VampireAIFollowAdvanced(this, 1.0));
+        this.tasks.addTask(6, new AILizardfolkFollowAdvanced(this, 1.0));
         this.tasks.addTask(7, new VampireAIMoveToBiteable(this, 0.75));
         this.tasks.addTask(8, new EntityAIMoveThroughVillageCustom(this, 0.6, true, 600));
         this.tasks.addTask(9, new EntityAIWander(this, 0.7));

@@ -123,6 +123,9 @@ public class BalanceMobProps extends BalanceValues {
     @DefaultInt(value = 5, minValue = -1, name = "Vampire Minion Regenerate Seconds", comment = "Regenerate 1 heart every n seconds. -1 to disable")
     public int VAMPIRE_MINION_REGENERATE_SECS;
 
+    @DefaultInt(value = 75, minValue = 0, maxValue = 1000000, name = "lizardfolk_spawn_chance", comment = "e.g. Zombie spawn chance: 100")
+    public int LIZARDFOLK_SPAWN_CHANCE;
+    
     public BalanceMobProps(File directory) {
         super("mob_prop", directory);
     }

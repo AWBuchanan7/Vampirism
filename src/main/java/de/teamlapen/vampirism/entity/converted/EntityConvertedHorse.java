@@ -10,7 +10,6 @@ import de.teamlapen.vampirism.api.items.IVampireFinisher;
 import de.teamlapen.vampirism.config.Balance;
 import de.teamlapen.vampirism.core.ModPotions;
 import de.teamlapen.vampirism.entity.DamageHandler;
-import de.teamlapen.vampirism.entity.EntityCrossbowArrow;
 import de.teamlapen.vampirism.entity.EntitySoulOrb;
 import de.teamlapen.vampirism.util.Helper;
 import de.teamlapen.vampirism.util.REFERENCE;
@@ -158,9 +157,7 @@ public class EntityConvertedHorse extends EntityHorse implements IConvertedCreat
     @Override
     public void onDeath(DamageSource cause) {
         super.onDeath(cause);
-        if (cause.getImmediateSource() instanceof EntityCrossbowArrow && Helper.isHunter(cause.getTrueSource())) {
-            dropSoul = true;
-        } else if (cause.getImmediateSource() instanceof EntityPlayer && Helper.isHunter(cause.getImmediateSource())) {
+        if (cause.getImmediateSource() instanceof EntityPlayer && Helper.isHunter(cause.getImmediateSource())) {
             ItemStack weapon = ((EntityPlayer) cause.getImmediateSource()).getHeldItemMainhand();
             if (!weapon.isEmpty() && weapon.getItem() instanceof IVampireFinisher) {
                 dropSoul = true;

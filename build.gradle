@@ -27,7 +27,7 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 loadProperties()
 
 group = "de.teamlapen.vampirism"
-archivesBaseName = "Vampirism"
+archivesBaseName = "supersaix-vampirism"
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 

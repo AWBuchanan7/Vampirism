@@ -1,7 +1,6 @@
 package de.teamlapen.vampirism.client.model;
 
 import de.teamlapen.vampirism.entity.hunter.EntityBasicHunter;
-import de.teamlapen.vampirism.items.VampirismItemCrossbow;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -147,14 +146,7 @@ public class ModelBasicHunter extends ModelBipedCloaked {
         this.targetingRight = false;
         this.targetingLeft = false;
         ItemStack itemStack = entitylivingbaseIn.getHeldItem(EnumHand.MAIN_HAND);
-        if (!itemStack.isEmpty() && itemStack.getItem() instanceof VampirismItemCrossbow && entitylivingbaseIn instanceof EntityBasicHunter && ((EntityBasicHunter) entitylivingbaseIn).isSwingingArms()) {
-            if (entitylivingbaseIn.getPrimaryHand() == EnumHandSide.RIGHT) {
-                this.targetingRight = true;
-            } else {
-                this.targetingLeft = true;
-            }
-            xAngle = -((EntityBasicHunter) entitylivingbaseIn).getTargetAngle() - (float) Math.PI / 3;
-        }
+        
 
         super.setLivingAnimations(entitylivingbaseIn, p_78086_2_, p_78086_3_, partialTickTime);
 
