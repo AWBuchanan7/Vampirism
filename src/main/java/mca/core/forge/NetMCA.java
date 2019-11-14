@@ -72,9 +72,9 @@ public class NetMCA {
         return Minecraft.getMinecraft().player;
     }
 
-    @AllArgsConstructor
+    
     @NoArgsConstructor
-    @Getter
+    
     public static class ButtonAction implements IMessage {
         private String guiKey;
         private String buttonId;
@@ -152,7 +152,7 @@ public class NetMCA {
         }
     }
 
-    @AllArgsConstructor
+    
     @NoArgsConstructor
     public static class Say implements IMessage {
         private String phraseId;
@@ -184,7 +184,7 @@ public class NetMCA {
         }
     }
 
-    @AllArgsConstructor
+    
     @NoArgsConstructor
     public static class BabyName implements IMessage {
         private String babyName;
@@ -218,9 +218,9 @@ public class NetMCA {
         }
     }
 
-    @AllArgsConstructor
+    
     @NoArgsConstructor
-    @Getter
+    
     public static class CareerResponse implements IMessage {
         private int careerId;
         private UUID entityUUID;
@@ -271,7 +271,7 @@ public class NetMCA {
         }
     }
 
-    @AllArgsConstructor
+    
     @NoArgsConstructor
     public static class CareerRequest implements IMessage {
         private UUID entityUUID;
@@ -328,12 +328,17 @@ public class NetMCA {
         }
     }
 
-    @AllArgsConstructor
+    
     @NoArgsConstructor
     public static class InventoryRequest implements IMessage {
         private UUID entityUUID;
 
-        @Override
+        public InventoryRequest(UUID entityUUID) {
+			super();
+			this.entityUUID = entityUUID;
+		}
+
+		@Override
         public void toBytes(ByteBuf buf) {
             ByteBufUtils.writeUTF8String(buf, entityUUID.toString());
         }
@@ -356,7 +361,7 @@ public class NetMCA {
     }
 
     @NoArgsConstructor
-    @Getter
+    
     public static class InventoryResponse implements IMessage {
         private UUID entityUUID;
         private NBTTagCompound inventoryNBT;
@@ -460,12 +465,17 @@ public class NetMCA {
         }
     }
 
-    @AllArgsConstructor
+    
     @NoArgsConstructor
     public static class ReviveVillager implements IMessage {
         private UUID target;
 
-        @Override
+        public ReviveVillager(UUID target) {
+			super();
+			this.target = target;
+		}
+
+		@Override
         public void toBytes(ByteBuf buf) {
             ByteBufUtils.writeUTF8String(buf, target.toString());
         }
@@ -499,13 +509,19 @@ public class NetMCA {
         }
     }
 
-    @AllArgsConstructor
+    
     @NoArgsConstructor
     public static class SetName implements IMessage {
         private String name;
         private UUID entityUUID;
 
-        @Override
+        public SetName(String name, UUID entityUUID) {
+			super();
+			this.name = name;
+			this.entityUUID = entityUUID;
+		}
+
+		@Override
         public void toBytes(ByteBuf buf) {
             ByteBufUtils.writeUTF8String(buf, entityUUID.toString());
             ByteBufUtils.writeUTF8String(buf, name);
@@ -533,13 +549,19 @@ public class NetMCA {
         }
     }
 
-    @AllArgsConstructor
+    
     @NoArgsConstructor
     public static class SpawnParticles implements IMessage {
         private UUID entityUUID;
         private EnumParticleTypes particleType;
 
-        @Override
+        public SpawnParticles(UUID entityUUID, EnumParticleTypes particleType) {
+			super();
+			this.entityUUID = entityUUID;
+			this.particleType = particleType;
+		}
+
+		@Override
         public void toBytes(ByteBuf buf) {
             ByteBufUtils.writeUTF8String(buf, entityUUID.toString());
             buf.writeInt(particleType.getParticleID());
@@ -592,7 +614,7 @@ public class NetMCA {
         }
     }
 
-    @AllArgsConstructor
+    
     @NoArgsConstructor
     public static class GetFamilyResponse implements IMessage {
         private List<NBTTagCompound> familyData;
@@ -630,12 +652,17 @@ public class NetMCA {
         }
     }
 
-    @AllArgsConstructor
+    
     @NoArgsConstructor
     public static class CallToPlayer implements IMessage {
         private UUID targetUUID;
 
-        @Override
+        public CallToPlayer(UUID targetUUID) {
+			super();
+			this.targetUUID = targetUUID;
+		}
+
+		@Override
         public void toBytes(ByteBuf buf) {
             ByteBufUtils.writeUTF8String(buf, targetUUID.toString());
         }
@@ -659,7 +686,7 @@ public class NetMCA {
         }
     }
 
-    @AllArgsConstructor
+    
     @NoArgsConstructor
     public static class SetProfession implements IMessage {
         private UUID targetUUID;
@@ -722,7 +749,7 @@ public class NetMCA {
         }
     }
 
-    @AllArgsConstructor
+    
     @NoArgsConstructor
     public static class SetTexture implements IMessage {
         private UUID targetUUID;

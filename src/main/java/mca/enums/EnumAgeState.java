@@ -8,7 +8,7 @@ import java.util.Optional;
 
 import de.teamlapen.vampirism.VampirismMod;
 
-@AllArgsConstructor
+
 public enum EnumAgeState {
     UNASSIGNED(-1, 0.8f, 2.0f, 1.5f),
     BABY(0, 0.3f, 0.5f, 0.4f),

@@ -191,10 +191,10 @@ public class EntityGrimReaper extends EntityMob {
                 int rZ = this.getRNG().nextInt(10);
                 teleportTo(this.posX + 5 + rX, this.posY, this.posZ + rZ);
             } else {
-                entity.attackEntityFrom(DamageSource.causeMobDamage(this), this.world.getDifficulty().getDifficultyId() * 5.75F);
+                entity.attackEntityFrom(DamageSource.causeMobDamage(this), this.world.getDifficulty().getId() * 5.75F);
 
                 if (entity instanceof EntityLivingBase) {
-                    ((EntityLivingBase) entity).addPotionEffect(new PotionEffect(MobEffects.WITHER, this.world.getDifficulty().getDifficultyId() * 20, 1));
+                    ((EntityLivingBase) entity).addPotionEffect(new PotionEffect(MobEffects.WITHER, this.world.getDifficulty().getId() * 20, 1));
                 }
 
                 setAttackState(EnumReaperAttackState.POST);
@@ -226,7 +226,7 @@ public class EntityGrimReaper extends EntityMob {
                             player.inventory.mainInventory.set(currentItem, randomItemStack);
                             player.inventory.mainInventory.set(randomItem, currentItemStack);
 
-                            player.addPotionEffect(new PotionEffect(MobEffects.BLINDNESS, this.world.getDifficulty().getDifficultyId() * 40, 1));
+                            player.addPotionEffect(new PotionEffect(MobEffects.BLINDNESS, this.world.getDifficulty().getId() * 40, 1));
                         }
                     } else // If the player is not blocking, ready the scythe, or randomly block their attack.
                     {

@@ -22,7 +22,6 @@ public class ItemStaffOfLife extends Item {
     public ItemStaffOfLife() {
         super();
         maxStackSize = 1;
-        setUnlocalizedName("staff_of_life");
         setMaxDamage(4);
     }
 

@@ -8,8 +8,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-@AllArgsConstructor
-@Getter
+
+
 public enum EnumConstraint {
     FAMILY("family"),
     NOT_FAMILY("notfamily"),

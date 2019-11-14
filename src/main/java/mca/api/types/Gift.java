@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 
-@AllArgsConstructor
+
 public class Gift {
     private String type;
     private String name;

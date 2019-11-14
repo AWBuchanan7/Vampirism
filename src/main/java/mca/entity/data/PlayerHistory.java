@@ -9,13 +9,13 @@ import net.minecraft.nbt.NBTTagCompound;
 import java.util.UUID;
 
 public class PlayerHistory {
-    @Getter private int hearts;
-    @Getter private int interactionFatigue;
-    @Getter private boolean giftPresent;
-    @Getter private int greetTimer;
-    @Getter private EnumDialogueType dialogueType;
+     private int hearts;
+     private int interactionFatigue;
+     private boolean giftPresent;
+     private int greetTimer;
+     private EnumDialogueType dialogueType;
 
-    @Getter private UUID playerUUID;
+     private UUID playerUUID;
     private EntityVillagerMCA villager;
 
     public boolean isGiftPresent() {

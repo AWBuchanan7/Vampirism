@@ -9,7 +9,7 @@ import java.util.Optional;
 
 import de.teamlapen.vampirism.VampirismMod;
 
-@AllArgsConstructor
+
 public enum EnumChore {
     NONE(0, "none", null),
     PROSPECT(1, "gui.label.prospecting", ItemPickaxe.class),
@@ -40,9 +40,9 @@ public enum EnumChore {
 		this.friendlyName = friendlyName;
 	}
 
-	@Getter int id;
+	 int id;
     String friendlyName;
-    @Getter Class toolType;
+     Class toolType;
 
     public static EnumChore byId(int id) {
         Optional<EnumChore> state = Arrays.stream(values()).filter((e) -> e.id == id).findFirst();

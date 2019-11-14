@@ -66,7 +66,6 @@ public final class BlocksMCA {
 
     private static void setBlockName(Block block, String blockName) {
         block.setRegistryName(REFERENCE.MODID, blockName);
-        block.setUnlocalizedName(block.getRegistryName().toString());
     }
 
     @SideOnly(Side.CLIENT)

@@ -11,7 +11,7 @@ import java.util.UUID;
 
 import static mca.entity.EntityVillagerMCA.*;
 
-@Getter
+
 public class ParentData {
     private UUID parent1UUID = Constants.ZERO_UUID;
     private UUID parent2UUID = Constants.ZERO_UUID;

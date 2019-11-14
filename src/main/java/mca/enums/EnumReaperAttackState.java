@@ -5,8 +5,8 @@ import lombok.Getter;
 
 import java.util.Arrays;
 
-@AllArgsConstructor
-@Getter
+
+
 public enum EnumReaperAttackState {
     IDLE(0),
     PRE(1),
@@ -14,7 +14,15 @@ public enum EnumReaperAttackState {
     REST(3),
     BLOCK(4);
 
-    int id;
+    public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	int id;
 
     private EnumReaperAttackState(int id) {
 		this.id = id;

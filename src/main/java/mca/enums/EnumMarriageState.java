@@ -6,8 +6,8 @@ import lombok.Getter;
 import java.util.Arrays;
 import java.util.Optional;
 
-@AllArgsConstructor
-@Getter
+
+
 public enum EnumMarriageState {
     NOT_MARRIED(0),
     ENGAGED(1),

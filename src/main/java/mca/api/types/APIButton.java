@@ -14,18 +14,18 @@ import java.util.List;
  * These buttons are dynamically attached to a GuiScreen and include additional instruction/constraints for building
  * and processing interactions.
  */
-@AllArgsConstructor
+
 public class APIButton {
-    @Getter private int id;             // numeric id
-    @Getter private String identifier;  // string identifier for the button in the .lang file
-    @Getter private int x;              // x position
-    @Getter private int y;              // y position
-    @Getter private int width;          // button width
-    @Getter private int height;         // button height
-    @Getter private boolean notifyServer;   // whether the button press is sent to the server for processing
-    @Getter private boolean targetServer;   // whether the button is processed by the villager or the server itself
+     private int id;             // numeric id
+     private String identifier;  // string identifier for the button in the .lang file
+     private int x;              // x position
+     private int y;              // y position
+     private int width;          // button width
+     private int height;         // button height
+     private boolean notifyServer;   // whether the button press is sent to the server for processing
+     private boolean targetServer;   // whether the button is processed by the villager or the server itself
     private String constraints;     // list of EnumConstraints separated by a pipe character |
-    @Getter private boolean isInteraction;  // whether the button is an interaction that generates a response and boosts/decreases hearts
+     private boolean isInteraction;  // whether the button is an interaction that generates a response and boosts/decreases hearts
 
     public int getId() {
 		return id;

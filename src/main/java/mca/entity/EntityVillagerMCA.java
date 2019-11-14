@@ -90,6 +90,7 @@ import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.Util;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.registry.RegistryNamespaced;
@@ -367,7 +368,7 @@ public class EntityVillagerMCA extends EntityVillager {
 
             if (isMarried()) {
                 UUID spouseUUID = get(SPOUSE_UUID).or(Constants.ZERO_UUID);
-                Optional<EntityVillagerMCA> spouse = Util.getEntityByUUID(world, spouseUUID, EntityVillagerMCA.class);
+                Optional<EntityVillagerMCA> spouse = mca.util.Util.getEntityByUUID(world, spouseUUID, EntityVillagerMCA.class);
                 PlayerSaveData playerSaveData = PlayerSaveData.getExisting(world, spouseUUID);
 
                 // Notify spouse of the death
@@ -601,8 +602,8 @@ public class EntityVillagerMCA extends EntityVillager {
 		this.playerToFollowUUID = playerToFollowUUID;
 	}
 
-	public BlockPos getHome() {
-		return home;
+	public AxisAlignedBB getHome() {
+		return new AxisAlignedBB(home.ORIGIN);
 	}
 
 	public void setHome(BlockPos home) {

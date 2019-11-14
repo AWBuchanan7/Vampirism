@@ -11,7 +11,6 @@ public class ItemVillagerEditor extends Item {
         super();
 
         maxStackSize = 1;
-        setUnlocalizedName("villager_editor");
     }
 
     @SideOnly(Side.CLIENT)

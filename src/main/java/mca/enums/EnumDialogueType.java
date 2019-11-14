@@ -5,8 +5,8 @@ import lombok.Getter;
 
 import java.util.Arrays;
 
-@AllArgsConstructor
-@Getter
+
+
 public enum EnumDialogueType {
     CHILDP("childp"),
     CHILD("child"),

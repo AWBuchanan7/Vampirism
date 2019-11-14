@@ -55,7 +55,6 @@ public class Localizer {
 
     private String parseVars(String str, ArrayList<String> vars) {
         int index = 1;
-        str = str.replaceAll("%Supporter%", VampirismMod.getInstance().getRandomSupporter());
 
         String varString = "%v" + index + "%";
         while (str.contains("%v") && index < 10) { // signature of a var being present

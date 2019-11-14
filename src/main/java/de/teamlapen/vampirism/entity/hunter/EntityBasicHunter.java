@@ -182,7 +182,7 @@ public class EntityBasicHunter extends EntityHunterBase implements IBasicHunter,
 
     @Override
     public void makeNormalHunter() {
-        super.setHome(null);
+        super.setHome(new AxisAlignedBB(null));
         this.disableMoveTowardsRestriction();
     }
 

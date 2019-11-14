@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.Optional;
 import java.util.Random;
 
-@AllArgsConstructor
+
 public enum EnumGender {
     UNASSIGNED(0, "unassigned"),
     MALE(1, "male"),
