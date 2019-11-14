@@ -1,5 +1,9 @@
-Vampirism for Minecraft 1.12 - Latest branch [![](http://cf.way2muchnoise.eu/short_233029_downloads.svg)](https://minecraft.curseforge.com/projects/vampirism-become-a-vampire) [![Build Status](https://travis-ci.org/TeamLapen/Vampirism.svg?branch=1.12)](https://travis-ci.org/TeamLapen/Vampirism) 
-============================================
+# Vampirism Comes Alive (Minecraft 1.12.2)
+
+This is a (currently very messy) merge of MCA and Vampirism. It also integrates with (and requires) iYamato's Mod for the new Lizardfolk and Apefolk factions.
+
+# Original Vampirism Docs
+
 [![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://maxanier.de) 
 ## Mod Description
 
