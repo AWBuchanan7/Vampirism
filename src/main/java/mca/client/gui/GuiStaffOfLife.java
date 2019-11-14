@@ -16,6 +16,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import de.teamlapen.vampirism.VampirismMod;
+
 @SideOnly(Side.CLIENT)
 public class GuiStaffOfLife extends GuiScreen {
     private Map<String, NBTTagCompound> villagerData;
@@ -44,8 +46,8 @@ public class GuiStaffOfLife extends GuiScreen {
         buttonList.add(backButton = new GuiButton(1, width / 2 - 123, height / 2 + 65, 20, 20, "<<"));
         buttonList.add(nextButton = new GuiButton(2, width / 2 + 103, height / 2 + 65, 20, 20, ">>"));
         buttonList.add(nameButton = new GuiButton(3, width / 2 - 100, height / 2 + 65, 200, 20, ""));
-        buttonList.add(reviveButton = new GuiButton(4, width / 2 - 100, height / 2 + 90, 60, 20, MCA.getLocalizer().localize("gui.button.revive")));
-        buttonList.add(closeButton = new GuiButton(5, width / 2 + 40, height / 2 + 90, 60, 20, MCA.getLocalizer().localize("gui.button.exit")));
+        buttonList.add(reviveButton = new GuiButton(4, width / 2 - 100, height / 2 + 90, 60, 20, VampirismMod.getLocalizer().localize("gui.button.revive")));
+        buttonList.add(closeButton = new GuiButton(5, width / 2 + 40, height / 2 + 90, 60, 20, VampirismMod.getLocalizer().localize("gui.button.exit")));
     }
 
     @Override

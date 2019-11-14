@@ -8,7 +8,6 @@ import java.util.Optional;
 import java.util.Random;
 
 @AllArgsConstructor
-@Getter
 public enum EnumGender {
     UNASSIGNED(0, "unassigned"),
     MALE(1, "male"),
@@ -17,6 +16,11 @@ public enum EnumGender {
     int id;
     String strName;
 
+    private EnumGender(int _id, String _strName) {
+    	id = _id;
+    	strName = _strName;
+    }
+    
     public static EnumGender byId(int id) {
         Optional<EnumGender> gender = Arrays.stream(values()).filter((e) -> e.id == id).findFirst();
         return gender.orElse(UNASSIGNED);
@@ -29,6 +33,14 @@ public enum EnumGender {
     public static EnumGender byName(String name) {
         Optional<EnumGender> gender = Arrays.stream(values()).filter((e) -> e.getStrName().equals(name)).findFirst();
         return gender.orElse(UNASSIGNED);
+    }
+    
+    public int getId() {
+    	return id;
+    }
+    
+    public String getStrName() {
+    	return strName;
     }
 }
 

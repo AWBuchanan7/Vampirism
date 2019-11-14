@@ -1,7 +1,7 @@
 package mca.entity;
 
 
-import mca.core.MCA;
+import de.teamlapen.vampirism.VampirismMod;
 import mca.core.minecraft.ItemsMCA;
 import mca.core.minecraft.SoundsMCA;
 import mca.enums.EnumReaperAttackState;
@@ -276,7 +276,7 @@ public class EntityGrimReaper extends EntityMob {
         super.onUpdate();
         extinguish(); // No fire.
 
-        if (!MCA.getConfig().allowGrimReaper) {
+        if (!VampirismMod.getConfig().allowGrimReaper) {
             setDead();
         }
 

@@ -127,7 +127,7 @@ public class GuiVillagerEditor extends GuiScreen {
     public void drawScreen(int sizeX, int sizeY, float offset) {
         drawGradientRect(0, 0, width, height, -1072689136, -804253680);
         drawString(fontRenderer, "Name:", width / 2 - 205, height / 2 - 110, 0xffffff);
-        drawCenteredString(fontRenderer, MCA.getLocalizer().localize("gui.title.editor"), width / 2, height / 2 - 110, 0xffffff);
+        drawCenteredString(fontRenderer, VampirismMod.getLocalizer().localize("gui.title.editor"), width / 2, height / 2 - 110, 0xffffff);
         nameTextField.drawTextBox();
         professionTextField.drawTextBox();
         textureTextField.drawTextBox();

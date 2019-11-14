@@ -1,6 +1,5 @@
 package mca.entity.ai;
 
-import mca.core.MCA;
 import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumChore;
 import mca.util.Util;
@@ -14,6 +13,8 @@ import net.minecraft.util.math.BlockPos;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import de.teamlapen.vampirism.VampirismMod;
 
 public class EntityAIHarvesting extends AbstractEntityAIChore {
     private int blockWork = 0;
@@ -102,7 +103,7 @@ public class EntityAIHarvesting extends AbstractEntityAIChore {
                         IProperty<Integer> property = (IProperty<Integer>) crop.getBlockState().getProperty("age");
                         villager.world.setBlockState(target, state.withProperty(property, 0));
                     } catch (Exception e) { // age property may have some issues on certain mods, if it errors just set to air
-                        MCA.getLog().warn("Error resetting crop age at " + target.toString() + "! Setting to air.");
+                    	VampirismMod.getLog().warn("Error resetting crop age at " + target.toString() + "! Setting to air.");
                         villager.world.setBlockToAir(target);
                     }
                 }

@@ -1,7 +1,6 @@
 package mca.items;
 
 import com.google.common.base.Optional;
-import mca.core.MCA;
 import mca.entity.EntityVillagerMCA;
 import mca.entity.data.PlayerHistory;
 import mca.entity.data.PlayerSaveData;

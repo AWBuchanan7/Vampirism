@@ -1,7 +1,6 @@
 package mca.core.minecraft;
 
 import mca.blocks.BlockVillagerSpawner;
-import mca.core.MCA;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockOre;
 import net.minecraft.client.Minecraft;
@@ -17,6 +16,9 @@ import net.minecraftforge.registries.IForgeRegistry;
 
 import java.util.ArrayList;
 
+import de.teamlapen.vampirism.VampirismMod;
+import de.teamlapen.vampirism.util.REFERENCE;
+
 public final class BlocksMCA {
     public static final Block ROSE_GOLD_BLOCK = new BlockOre();
     public static final Block ROSE_GOLD_ORE = new BlockOre();
@@ -25,11 +27,11 @@ public final class BlocksMCA {
     private static final ArrayList<Block> BLOCKS = new ArrayList<>();
 
     public static void register(RegistryEvent.Register<Block> event) {
-        ROSE_GOLD_BLOCK.setHardness(3.0F).setResistance(5.0F).setCreativeTab(MCA.creativeTab);
+        ROSE_GOLD_BLOCK.setHardness(3.0F).setResistance(5.0F).setCreativeTab(VampirismMod.creativeTab);
         ROSE_GOLD_BLOCK.setHarvestLevel("pickaxe", 2);
-        ROSE_GOLD_ORE.setHardness(3.0F).setResistance(5.0F).setCreativeTab(MCA.creativeTab);
+        ROSE_GOLD_ORE.setHardness(3.0F).setResistance(5.0F).setCreativeTab(VampirismMod.creativeTab);
         ROSE_GOLD_ORE.setHarvestLevel("pickaxe", 2);
-        VILLAGER_SPAWNER.setCreativeTab(MCA.creativeTab);
+        VILLAGER_SPAWNER.setCreativeTab(VampirismMod.creativeTab);
 
         Block[] blocks = {
                 ROSE_GOLD_BLOCK,
@@ -63,7 +65,7 @@ public final class BlocksMCA {
     }
 
     private static void setBlockName(Block block, String blockName) {
-        block.setRegistryName(MCA.MODID, blockName);
+        block.setRegistryName(REFERENCE.MODID, blockName);
         block.setUnlocalizedName(block.getRegistryName().toString());
     }
 

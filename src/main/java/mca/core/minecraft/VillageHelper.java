@@ -1,7 +1,8 @@
 package mca.core.minecraft;
 
 import com.google.common.base.Optional;
-import mca.core.MCA;
+
+import de.teamlapen.vampirism.VampirismMod;
 import mca.entity.EntityVillagerMCA;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -30,7 +31,7 @@ public class VillageHelper {
     }
 
     private static void spawnGuards(World world, Village village) {
-        int guardCapacity = village.getNumVillagers() / MCA.getConfig().guardSpawnRate;
+        int guardCapacity = village.getNumVillagers() / VampirismMod.getConfig().guardSpawnRate;
         int guards = 0;
 
         // Grab all villagers in the area

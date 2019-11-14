@@ -1,8 +1,7 @@
 package mca.entity.ai;
 
-import lombok.RequiredArgsConstructor;
+import de.teamlapen.vampirism.VampirismMod;
 import mca.core.Constants;
-import mca.core.MCA;
 import mca.core.minecraft.ItemsMCA;
 import mca.entity.EntityVillagerMCA;
 import mca.entity.data.PlayerSaveData;
@@ -13,11 +12,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundCategory;
 
-@RequiredArgsConstructor
 public class EntityAIProcreate extends EntityAIBase {
     private final EntityVillagerMCA villager;
     public int procreateTimer;
 
+    public EntityAIProcreate(EntityVillagerMCA _villager) {
+    	villager = _villager;
+    }
+    
     @Override
     public boolean shouldExecute() {
         return villager.get(EntityVillagerMCA.IS_PROCREATING);
@@ -36,7 +38,7 @@ public class EntityAIProcreate extends EntityAIBase {
                 spousePlayer.inventory.addItemStackToInventory(new ItemStack(villager.getRNG().nextBoolean() ? ItemsMCA.BABY_BOY : ItemsMCA.BABY_GIRL));
                 PlayerSaveData.get(spousePlayer).setBabyPresent(true);
 
-                if (villager.getRNG().nextFloat() < MCA.getConfig().chanceToHaveTwins / 100)
+                if (villager.getRNG().nextFloat() < VampirismMod.getConfig().chanceToHaveTwins / 100)
                     spousePlayer.inventory.addItemStackToInventory(new ItemStack(villager.getRNG().nextBoolean() ? ItemsMCA.BABY_BOY : ItemsMCA.BABY_GIRL));
             }
         }

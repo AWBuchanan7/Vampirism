@@ -81,6 +81,10 @@ public class PlayerHistory {
         villager.updatePlayerHistoryMap(this);
     }
 
+    public int getInteractionFatigue() {
+    	return interactionFatigue;
+    }
+    
     public void update() {
         // every 5 minutes reduce interaction fatigues
         if (villager.ticksExisted % 6000 == 0) changeInteractionFatigue(-1);

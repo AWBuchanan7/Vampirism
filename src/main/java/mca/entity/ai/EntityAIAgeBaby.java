@@ -1,7 +1,8 @@
 package mca.entity.ai;
 
 import com.google.common.base.Optional;
-import mca.core.MCA;
+
+import de.teamlapen.vampirism.VampirismMod;
 import mca.entity.EntityVillagerMCA;
 import mca.entity.data.ParentData;
 import mca.enums.EnumGender;
@@ -23,7 +24,7 @@ public class EntityAIAgeBaby extends EntityAIBase {
         if (villager.ticksExisted % 1200 != 0) return;
         villager.babyAge += 1;
 
-        if (villager.babyAge < MCA.getConfig().babyGrowUpTime) return;
+        if (villager.babyAge < VampirismMod.getConfig().babyGrowUpTime) return;
 
         EntityVillagerMCA child = new EntityVillagerMCA(villager.world, Optional.absent(), Optional.of(villager.get(EntityVillagerMCA.BABY_IS_MALE) ? EnumGender.MALE : EnumGender.FEMALE));
         child.set(EntityVillagerMCA.PARENTS, ParentData.fromVillager(villager).toNBT());

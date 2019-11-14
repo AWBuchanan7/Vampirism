@@ -56,4 +56,8 @@ public class APIButton {
         }
         return false;
     }
+    
+    public String getIdentifier() {
+    	return identifier;
+    }
 }

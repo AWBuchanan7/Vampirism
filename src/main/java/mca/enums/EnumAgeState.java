@@ -9,7 +9,6 @@ import java.util.Optional;
 import de.teamlapen.vampirism.VampirismMod;
 
 @AllArgsConstructor
-@Getter
 public enum EnumAgeState {
     UNASSIGNED(-1, 0.8f, 2.0f, 1.5f),
     BABY(0, 0.3f, 0.5f, 0.4f),
@@ -22,8 +21,15 @@ public enum EnumAgeState {
     float width;
     float height;
     float scaleForAge;
+    
+    private EnumAgeState(int id, float width, float height, float scaleForAge) {
+		this.id = id;
+		this.width = width;
+		this.height = height;
+		this.scaleForAge = scaleForAge;
+	}
 
-    public static EnumAgeState byId(int id) {
+	public static EnumAgeState byId(int id) {
         Optional<EnumAgeState> state = Arrays.stream(values()).filter((e) -> e.id == id).findFirst();
         return state.orElse(UNASSIGNED);
     }
@@ -40,4 +46,13 @@ public enum EnumAgeState {
     public String localizedName() {
         return VampirismMod.getLocalizer().localize("enum.agestate." + name().toLowerCase());
     }
+    
+    public int getId() {
+    	return id;
+    }
+    
+    public float getScaleForAge() {
+    	return scaleForAge;
+    }
+    
 }

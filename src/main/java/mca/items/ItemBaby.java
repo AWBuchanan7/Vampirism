@@ -6,7 +6,6 @@ import de.teamlapen.vampirism.VampirismMod;
 import mca.api.API;
 import mca.core.Constants;
 import mca.core.Localizer;
-import mca.core.MCA;
 import mca.core.minecraft.ProfessionsMCA;
 import mca.entity.EntityVillagerMCA;
 import mca.entity.data.ParentData;

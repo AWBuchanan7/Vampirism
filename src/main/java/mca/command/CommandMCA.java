@@ -1,7 +1,6 @@
 package mca.command;
 
 import mca.core.Constants;
-import mca.core.MCA;
 import mca.core.MCAServer;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
@@ -12,6 +11,8 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.TextComponentString;
 
 import java.util.Arrays;
+
+import de.teamlapen.vampirism.VampirismMod;
 
 public class CommandMCA extends CommandBase {
     @Override
@@ -27,7 +28,7 @@ public class CommandMCA extends CommandBase {
     @Override
     public void execute(MinecraftServer server, ICommandSender commandSender, String[] input) throws CommandException {
         try {
-            if (!MCA.getConfig().allowPlayerMarriage) {
+            if (!VampirismMod.getConfig().allowPlayerMarriage) {
                 sendMessage(commandSender, "MCA commands have been disabled by the server administrator.");
                 return;
             }
@@ -39,7 +40,7 @@ public class CommandMCA extends CommandBase {
             final EntityPlayer player = (EntityPlayer) commandSender;
             String subcommand = input[0].toLowerCase();
             String[] arguments = Arrays.copyOfRange(input, 1, input.length);
-            MCA.getLog().info(player.getName() + " entered command " + Arrays.toString(input));
+            VampirismMod.getLog().info(player.getName() + " entered command " + Arrays.toString(input));
 
             switch (subcommand) {
                 case "help":

@@ -3,7 +3,6 @@ package mca.client.gui;
 import mca.api.API;
 import mca.client.gui.component.GuiButtonEx;
 import mca.core.Constants;
-import mca.core.MCA;
 import mca.core.forge.NetMCA;
 import mca.entity.EntityVillagerMCA;
 import mca.entity.data.ParentData;
@@ -19,6 +18,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
+
+import de.teamlapen.vampirism.VampirismMod;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -170,18 +171,18 @@ public class GuiInteract extends GuiScreen {
 
         if (hoveringOverMarriageIcon()) {
             String spouseName = villager.get(EntityVillagerMCA.SPOUSE_NAME);
-            if (marriageState == EnumMarriageState.MARRIED) marriageInfo = MCA.getLocalizer().localize("gui.interact.label.married", spouseName);
-            else if (marriageState == EnumMarriageState.ENGAGED) marriageInfo = MCA.getLocalizer().localize("gui.interact.label.engaged", spouseName);
-            else marriageInfo = MCA.getLocalizer().localize("gui.interact.label.notmarried");
+            if (marriageState == EnumMarriageState.MARRIED) marriageInfo = VampirismMod.getLocalizer().localize("gui.interact.label.married", spouseName);
+            else if (marriageState == EnumMarriageState.ENGAGED) marriageInfo = VampirismMod.getLocalizer().localize("gui.interact.label.engaged", spouseName);
+            else marriageInfo = VampirismMod.getLocalizer().localize("gui.interact.label.notmarried");
 
             this.drawHoveringText(marriageInfo, 35, 85);
         }
         if (canDrawParentsIcon() && hoveringOverParentsIcon()) {
             ParentData data = ParentData.fromNBT(villager.get(EntityVillagerMCA.PARENTS));
-            this.drawHoveringText(MCA.getLocalizer().localize("gui.interact.label.parents", data.getParent1Name(), data.getParent2Name()), 35, 115);
+            this.drawHoveringText(VampirismMod.getLocalizer().localize("gui.interact.label.parents", data.getParent1Name(), data.getParent2Name()), 35, 115);
         }
 
-        if (canDrawGiftIcon() && hoveringOverGiftIcon()) this.drawHoveringText(MCA.getLocalizer().localize("gui.interact.label.gift"), 35, 145);
+        if (canDrawGiftIcon() && hoveringOverGiftIcon()) this.drawHoveringText(VampirismMod.getLocalizer().localize("gui.interact.label.gift"), 35, 145);
     }
 
     private boolean hoveringOverHeartsIcon() {

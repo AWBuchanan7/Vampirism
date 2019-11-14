@@ -49,8 +49,8 @@ public class GuiWhistle extends GuiScreen {
         buttonList.add(selectionLeftButton = new GuiButton(1, width / 2 - 123, height / 2 + 65, 20, 20, "<<"));
         buttonList.add(selectionRightButton = new GuiButton(2, width / 2 + 103, height / 2 + 65, 20, 20, ">>"));
         buttonList.add(villagerNameButton = new GuiButton(3, width / 2 - 100, height / 2 + 65, 200, 20, ""));
-        buttonList.add(callButton = new GuiButton(4, width / 2 - 100, height / 2 + 90, 60, 20, MCA.getLocalizer().localize("gui.button.call")));
-        buttonList.add(exitButton = new GuiButton(6, width / 2 + 40, height / 2 + 90, 60, 20, MCA.getLocalizer().localize("gui.button.exit")));
+        buttonList.add(callButton = new GuiButton(4, width / 2 - 100, height / 2 + 90, 60, 20, VampirismMod.getLocalizer().localize("gui.button.call")));
+        buttonList.add(exitButton = new GuiButton(6, width / 2 + 40, height / 2 + 90, 60, 20, VampirismMod.getLocalizer().localize("gui.button.exit")));
         NetMCA.INSTANCE.sendToServer(new NetMCA.GetFamily());
     }
 
@@ -101,7 +101,7 @@ public class GuiWhistle extends GuiScreen {
     @Override
     public void drawScreen(int sizeX, int sizeY, float offset) {
         drawDefaultBackground();
-        drawCenteredString(fontRenderer, MCA.getLocalizer().localize("gui.title.whistle"), width / 2, height / 2 - 110, 0xffffff);
+        drawCenteredString(fontRenderer, VampirismMod.getLocalizer().localize("gui.title.whistle"), width / 2, height / 2 - 110, 0xffffff);
 
         if (loadingAnimationTicks != -1) {
             drawString(fontRenderer, "Loading" + StringUtils.repeat(".", loadingAnimationTicks % 10), width / 2 - 20, height / 2 - 10, 0xffffff);

@@ -642,10 +642,10 @@ public class EntityVillagerMCA extends EntityVillager {
         successChance -= button.getConstraints().contains(EnumConstraint.ADULTS) ? 0.25F : 0.0F;
         successChance += (history.getHearts() / 10.0D) * 0.025F;
 
-        if (MCA.getConfig().enableDiminishingReturns) successChance -= history.getInteractionFatigue() * 0.05F;
+        if (VampirismMod.getConfig().enableDiminishingReturns) successChance -= history.getInteractionFatigue() * 0.05F;
 
         boolean succeeded = rand.nextFloat() < successChance;
-        if (MCA.getConfig().enableDiminishingReturns && succeeded)
+        if (VampirismMod.getConfig().enableDiminishingReturns && succeeded)
             heartsBoost -= history.getInteractionFatigue() * 0.05F;
 
         history.changeInteractionFatigue(1);
@@ -698,7 +698,7 @@ public class EntityVillagerMCA extends EntityVillager {
                 }
                 break;
             case "gui.button.inventory":
-                player.openGui(MCA.getInstance(), Constants.GUI_ID_INVENTORY, player.world, this.getEntityId(), 0, 0);
+                player.openGui(VampirismMod.getInstance(), Constants.GUI_ID_INVENTORY, player.world, this.getEntityId(), 0, 0);
                 break;
             case "gui.button.gift":
                 ItemStack stack = player.inventory.getStackInSlot(player.inventory.currentItem);

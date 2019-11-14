@@ -19,5 +19,9 @@ public enum EnumMarriageState {
         Optional<EnumMarriageState> state = Arrays.stream(values()).filter((e) -> e.id == id).findFirst();
         return state.orElse(NOT_MARRIED);
     }
+    
+    public int getId() {
+    	return id;
+    }
 }
 

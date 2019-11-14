@@ -31,7 +31,7 @@ public class Localizer {
                 localizerMap.put(key, value);
             }
         } catch (IOException e) {
-            MCA.getLog().error("Error initializing localizer: " + e);
+        	VampirismMod.getLog().error("Error initializing localizer: " + e);
         }
     }
 
@@ -53,7 +53,7 @@ public class Localizer {
 
     private String parseVars(String str, ArrayList<String> vars) {
         int index = 1;
-        str = str.replaceAll("%Supporter%", MCA.getInstance().getRandomSupporter());
+        str = str.replaceAll("%Supporter%", VampirismMod.getInstance().getRandomSupporter());
 
         String varString = "%v" + index + "%";
         while (str.contains("%v") && index < 10) { // signature of a var being present
@@ -61,7 +61,7 @@ public class Localizer {
                 str = str.replaceAll(varString, vars.get(index - 1));
             } catch (IndexOutOfBoundsException e) {
                 str = str.replaceAll(varString, "");
-                MCA.getLog().warn("Failed to replace variable in localized string: " + str);
+                VampirismMod.getLog().warn("Failed to replace variable in localized string: " + str);
             } finally {
                 index++;
                 varString = "%v" + index + "%";

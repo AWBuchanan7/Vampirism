@@ -2,7 +2,6 @@ package mca.entity.data;
 
 import lombok.Getter;
 import mca.core.Constants;
-import mca.core.MCA;
 import mca.enums.EnumMarriageState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;

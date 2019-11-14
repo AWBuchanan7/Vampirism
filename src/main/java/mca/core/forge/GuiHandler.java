@@ -1,5 +1,6 @@
 package mca.core.forge;
 
+import de.teamlapen.vampirism.VampirismMod;
 import mca.client.gui.*;
 import mca.core.Constants;
 import mca.core.MCA;
@@ -45,7 +46,7 @@ public class GuiHandler implements IGuiHandler {
             case Constants.GUI_ID_WHISTLE:
                 return new GuiWhistle();
             default:
-                MCA.getLog().fatal("Failed to handle provided GUI ID on client: " + guiId);
+            	VampirismMod.getLog().fatal("Failed to handle provided GUI ID on client: " + guiId);
                 return null;
         }
     }

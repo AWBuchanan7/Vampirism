@@ -48,6 +48,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
+import de.teamlapen.vampirism.VampirismMod;
+
 public class EventHooks {
     // Maps a player UUID to the itemstack of their held ItemBaby. Filled when a player dies so the baby is never lost.
     public Map<UUID, ItemStack> limbo = new HashMap<>();
@@ -109,7 +111,7 @@ public class EventHooks {
         Entity entity = event.getEntity();
 
         if (world.isRemote) return;
-        if (!MCA.getConfig().overwriteOriginalVillagers) return;
+        if (!VampirismMod.getConfig().overwriteOriginalVillagers) return;
 
         if (entity.getClass().equals(EntityVillager.class)) {
             EntityVillager originalVillager = (EntityVillager) entity;
@@ -132,11 +134,11 @@ public class EventHooks {
             if (villager.getProfessionForge() == ProfessionsMCA.bandit) {
                 event.setResult(Event.Result.DENY);
             } else if (player.getHeldItemMainhand().getItem() == ItemsMCA.VILLAGER_EDITOR) {
-                player.openGui(MCA.getInstance(), Constants.GUI_ID_VILLAGEREDITOR, player.world, villager.getEntityId(), 0, 0);
+                player.openGui(VampirismMod.getInstance(), Constants.GUI_ID_VILLAGEREDITOR, player.world, villager.getEntityId(), 0, 0);
                 event.setResult(Event.Result.ALLOW);
             } else {
                 player.addStat(StatList.TALKED_TO_VILLAGER);
-                player.openGui(MCA.getInstance(), Constants.GUI_ID_INTERACT, player.world, villager.getEntityId(), 0, 0);
+                player.openGui(VampirismMod.getInstance(), Constants.GUI_ID_INTERACT, player.world, villager.getEntityId(), 0, 0);
                 event.setResult(Event.Result.ALLOW);
             }
         }

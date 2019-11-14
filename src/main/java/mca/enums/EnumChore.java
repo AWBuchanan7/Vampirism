@@ -2,7 +2,6 @@ package mca.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import mca.core.MCA;
 import net.minecraft.item.*;
 
 import java.util.Arrays;
@@ -19,7 +18,29 @@ public enum EnumChore {
     HUNT(4, "gui.label.hunting", ItemSword.class),
     FISH(5, "gui.label.fishing", ItemFishingRod.class);
 
-    @Getter int id;
+    private EnumChore(int id, String friendlyName, Class toolType) {
+		this.id = id;
+		this.friendlyName = friendlyName;
+		this.toolType = toolType;
+	}
+
+	public Class getToolType() {
+		return toolType;
+	}
+
+	public void setToolType(Class toolType) {
+		this.toolType = toolType;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public void setFriendlyName(String friendlyName) {
+		this.friendlyName = friendlyName;
+	}
+
+	@Getter int id;
     String friendlyName;
     @Getter Class toolType;
 
@@ -30,6 +51,10 @@ public enum EnumChore {
 
     public String getFriendlyName() {
         return VampirismMod.getLocalizer().localize(this.friendlyName);
+    }
+    
+    public int getId() {
+    	return id;
     }
 }
 
