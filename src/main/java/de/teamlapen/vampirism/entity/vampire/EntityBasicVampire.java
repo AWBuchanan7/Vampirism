@@ -11,12 +11,16 @@ import de.teamlapen.vampirism.api.world.IVampirismVillage;
 import de.teamlapen.vampirism.config.Balance;
 import de.teamlapen.vampirism.core.ModPotions;
 import de.teamlapen.vampirism.core.ModSounds;
+import de.teamlapen.vampirism.core.ModVillages;
 import de.teamlapen.vampirism.entity.action.EntityActionHandler;
 import de.teamlapen.vampirism.entity.ai.EntityAIDefendVillage;
 import de.teamlapen.vampirism.entity.ai.*;
 import de.teamlapen.vampirism.entity.hunter.EntityHunterBase;
 import de.teamlapen.vampirism.world.loot.LootHandler;
 import de.teamlapen.vampirism.world.villages.VampirismVillageHelper;
+import mca.entity.ai.EntityAIGoHangout;
+import mca.entity.ai.EntityAIGoWorkplace;
+import mca.entity.ai.EntityAISleeping;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.*;
@@ -38,6 +42,8 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+
+import java.util.Iterator;
 
 import javax.annotation.Nullable;
 
@@ -86,6 +92,7 @@ public class EntityBasicVampire extends EntityVampireBase implements IBasicVampi
 
     public EntityBasicVampire(World world) {
         super(world, true);
+        super.setProfession(ModVillages.profession_vampire_rogue);
         this.canSuckBloodFromPlayer = true;
         hasArms = true;
         this.setSpawnRestriction(SpawnRestriction.SPECIAL);
@@ -328,6 +335,13 @@ public class EntityBasicVampire extends EntityVampireBase implements IBasicVampi
     @Override
     protected void initEntityAI() {
         super.initEntityAI();
+        
+        removeCertainTasks(EntityAIAvoidEntity.class);
+        removeCertainTasks(EntityAIWatchClosest.class);
+        removeCertainTasks(EntityAIGoHangout.class);
+        removeCertainTasks(EntityAISleeping.class);
+        removeCertainTasks(EntityAIGoWorkplace.class);
+        
         if (world.getDifficulty() == EnumDifficulty.HARD) {
             //Only break doors on hard difficulty
             this.tasks.addTask(1, new EntityAIBreakDoor(this));
@@ -344,16 +358,29 @@ public class EntityBasicVampire extends EntityVampireBase implements IBasicVampi
         this.tasks.addTask(7, new VampireAIMoveToBiteable(this, 0.75));
         this.tasks.addTask(8, new EntityAIMoveThroughVillageCustom(this, 0.6, true, 600));
         this.tasks.addTask(9, new EntityAIWander(this, 0.7));
-        this.tasks.addTask(10, new EntityAIWatchClosestVisible(this, EntityPlayer.class, 20F, 0.6F));
+        this.tasks.addTask(10, new EntityAIWatchClosestVisible(this, EntityPlayer.class, 8F));
         this.tasks.addTask(10, new EntityAIWatchClosest(this, EntityHunterBase.class, 17F));
         this.tasks.addTask(10, new EntityAILookIdle(this));
 
         this.targetTasks.addTask(3, new EntityAIHurtByTarget(this, false));
         this.targetTasks.addTask(4, new EntityAIAttackVillage<>(this));
         this.targetTasks.addTask(4, new EntityAIDefendVillage<>(this));//Should automatically be mutually exclusive with  attack village
-        this.targetTasks.addTask(5, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, 5, true, false, VampirismAPI.factionRegistry().getPredicate(getFaction(), true, false, false, false, null)));
+        this.targetTasks.addTask(5, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, 5, true, false, VampirismAPI.factionRegistry().getPredicate(getFaction(), true, true, false, false, null)));
         this.targetTasks.addTask(6, new EntityAINearestAttackableTarget<>(this, EntityCreature.class, 5, true, false, VampirismAPI.factionRegistry().getPredicate(getFaction(), false, true, false, false, null)));//TODO maybe make them not attack hunters, although it looks interesting
 
+    }
+    
+    private void removeCertainTasks(Class typ) {
+        Iterator<EntityAITasks.EntityAITaskEntry> iterator = this.tasks.taskEntries.iterator();
+
+        while (iterator.hasNext()) {
+            EntityAITasks.EntityAITaskEntry entityaitasks$entityaitaskentry = iterator.next();
+            EntityAIBase entityaibase = entityaitasks$entityaitaskentry.action;
+
+            if (entityaibase.getClass().equals(typ)) {
+                iterator.remove();
+            }
+        }
     }
 
     protected void updateEntityAttributes() {

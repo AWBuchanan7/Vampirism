@@ -153,6 +153,8 @@ text.vampirism.entity_level=Level
 entity.Villager.vampirism.hunter_priest=Alchemical Priest
 entity.Villager.vampirism.vampire_expert=Vampire Expert
 entity.Villager.vampirism.hunter_expert=Hunter Expert
+entity.Villager.vampirism.vampire_rogue=Vampire Rogue
+entity.Villager.vampirism.vampire_alchemist=Vampire Alchemist
 
 #FOREST TRIBES
 entity.vampirism.lizardfolk.name=Lizardfolk

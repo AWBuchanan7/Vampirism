@@ -2,6 +2,7 @@ package de.teamlapen.vampirism.entity;
 
 import de.teamlapen.vampirism.api.world.IVampirismVillage;
 import de.teamlapen.vampirism.world.villages.VampirismVillageHelper;
+import mca.entity.EntityVillagerMCA;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -17,7 +18,7 @@ import javax.annotation.Nullable;
 /**
  * Villager extended with the ability to attack and some other things
  */
-public class EntityVillagerVampirism extends EntityVillager {
+public class EntityVillagerVampirism extends EntityVillagerMCA {
 
     protected boolean peaceful = false;
     protected
@@ -33,7 +34,7 @@ public class EntityVillagerVampirism extends EntityVillager {
     }
 
     public EntityVillagerVampirism(World worldIn, int professionId) {
-        super(worldIn, professionId);
+        super(worldIn);
     }
 
     public boolean attackEntityAsMob(Entity entity) {

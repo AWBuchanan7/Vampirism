@@ -4,8 +4,8 @@ import de.teamlapen.vampirism.api.entity.IVillageCaptureEntity;
 import de.teamlapen.vampirism.api.entity.factions.IFaction;
 import de.teamlapen.vampirism.api.entity.factions.IPlayableFaction;
 import de.teamlapen.vampirism.api.world.IVampirismVillage;
+import mca.entity.EntityVillagerMCA;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -51,20 +51,20 @@ public abstract class VampirismVillageEvent extends Event {
          * Used as a "seed" villager to get a valid spawn point.
          */
         private final @Nonnull
-        EntityVillager seedVillager;
+        EntityVillagerMCA seedVillager;
         private @Nullable
-        EntityVillager newVillager;
+        EntityVillagerMCA newVillager;
         private boolean willBeConverted;
         private final IPlayableFaction<?> faction;
 
-        public SpawnNewVillager(@Nonnull IVampirismVillage village, @Nonnull EntityVillager seedVillager, boolean willBeConverted, IPlayableFaction<?> faction) {
+        public SpawnNewVillager(@Nonnull IVampirismVillage village, @Nonnull EntityVillagerMCA seedVillager, boolean willBeConverted, IPlayableFaction<?> faction) {
             super(village);
             this.seedVillager = seedVillager;
             this.willBeConverted = willBeConverted;
             this.faction = faction;
         }
 
-        public EntityVillager getNewVillager() {
+        public EntityVillagerMCA getNewVillager() {
             return newVillager;
         }
 
@@ -74,7 +74,7 @@ public abstract class VampirismVillageEvent extends Event {
          *
          * @param newVillager
          */
-        public void setNewVillager(EntityVillager newVillager) {
+        public void setNewVillager(EntityVillagerMCA newVillager) {
             this.newVillager = newVillager;
         }
 
@@ -84,7 +84,7 @@ public abstract class VampirismVillageEvent extends Event {
          * @return
          */
         @Nonnull
-        public EntityVillager getSeedVillager() {
+        public EntityVillagerMCA getSeedVillager() {
             return seedVillager;
         }
 
@@ -120,10 +120,10 @@ public abstract class VampirismVillageEvent extends Event {
     @Cancelable
     public static class MakeAggressive extends VampirismVillageEvent {
 
-        private final EntityVillager oldVillager;
+        private final EntityVillagerMCA oldVillager;
         private @Nullable IVillageCaptureEntity captureVillager;
 
-        public MakeAggressive(@Nullable IVampirismVillage village, @Nonnull EntityVillager villager) {
+        public MakeAggressive(@Nullable IVampirismVillage village, @Nonnull EntityVillagerMCA villager) {
             super(village);
             this.oldVillager = villager;
         }
@@ -136,7 +136,7 @@ public abstract class VampirismVillageEvent extends Event {
         /**
          * @return The villager which should be made agressive
          */
-        public EntityVillager getOldVillager() {
+        public EntityVillagerMCA getOldVillager() {
             return oldVillager;
         }
 
@@ -144,11 +144,11 @@ public abstract class VampirismVillageEvent extends Event {
          * Set the aggressive version of the old villager.
          * Event has to be canceled for this to take effect
          *
-         * @param captureVillager Must extend EntityVillager
+         * @param captureVillager Must extend EntityVillagerMCA
          */
         public void setAgressiveVillager(@Nullable IVillageCaptureEntity captureVillager) {
-            if (captureVillager != null && !(captureVillager instanceof EntityVillager)) {
-                throw new IllegalArgumentException("Aggressive villager must be a instanceof EntityVillager");
+            if (captureVillager != null && !(captureVillager instanceof EntityVillagerMCA)) {
+                throw new IllegalArgumentException("Aggressive villager must be a instanceof EntityVillagerMCA");
             }
             this.captureVillager = captureVillager;
         }
@@ -161,12 +161,12 @@ public abstract class VampirismVillageEvent extends Event {
     @HasResult
     public static class VillagerCaptureFinish extends VampirismVillageEvent {
 
-        private final @Nonnull List<EntityVillager> villager;
+        private final @Nonnull List<EntityVillagerMCA> villager;
         private final @Nullable IPlayableFaction<?> controllingFaction;
         private final @Nonnull IPlayableFaction<?> capturingFaction;
         private final @Nonnull AxisAlignedBB affectedArea;
 
-        public VillagerCaptureFinish(@Nonnull IVampirismVillage village, @Nonnull List<EntityVillager> villagerIn, @Nullable IPlayableFaction<?> controllingFactionIn, @Nonnull IPlayableFaction<?> capturingFactionIn, @Nonnull AxisAlignedBB affectedAreaIn) {
+        public VillagerCaptureFinish(@Nonnull IVampirismVillage village, @Nonnull List<EntityVillagerMCA> villagerIn, @Nullable IPlayableFaction<?> controllingFactionIn, @Nonnull IPlayableFaction<?> capturingFactionIn, @Nonnull AxisAlignedBB affectedAreaIn) {
             super(village);
             villager = villagerIn;
             controllingFaction = controllingFactionIn;
@@ -175,10 +175,10 @@ public abstract class VampirismVillageEvent extends Event {
         }
 
         /**
-         * @returns all {@link EntityVillager} that are in the village boundingBox
+         * @returns all {@link EntityVillagerMCA} that are in the village boundingBox
          */
         @Nonnull
-        public List<EntityVillager> getVillager() {
+        public List<EntityVillagerMCA> getVillager() {
             return villager;
         }
 
@@ -258,11 +258,11 @@ public abstract class VampirismVillageEvent extends Event {
     public static class SpawnFactionVillager extends VampirismVillageEvent {
 
         private final @Nonnull IPlayableFaction<?> faction;
-        private final @Nonnull EntityVillager seed;
-        private EntityVillager newVillager;
+        private final @Nonnull EntityVillagerMCA seed;
+        private EntityVillagerMCA newVillager;
         private boolean poisonousBlood;
 
-        public SpawnFactionVillager(@Nullable IVampirismVillage village, @Nonnull EntityVillager seed, @Nonnull IPlayableFaction<?> faction) {
+        public SpawnFactionVillager(@Nullable IVampirismVillage village, @Nonnull EntityVillagerMCA seed, @Nonnull IPlayableFaction<?> faction) {
             super(village);
             this.faction = faction;
             this.seed = seed;
@@ -280,7 +280,7 @@ public abstract class VampirismVillageEvent extends Event {
          * @returns entity to be replaced
          */
         @Nonnull
-        public EntityVillager getSeed() {
+        public EntityVillagerMCA getSeed() {
             return seed;
         }
 
@@ -288,14 +288,14 @@ public abstract class VampirismVillageEvent extends Event {
          * @returns the new villager
          */
         @Nullable
-        public EntityVillager getVillager() {
+        public EntityVillagerMCA getVillager() {
             return newVillager;
         }
 
         /**
          * sets the new villager
          */
-        public void setVillager(EntityVillager villager) {
+        public void setVillager(EntityVillagerMCA villager) {
             newVillager = villager;
         }
 

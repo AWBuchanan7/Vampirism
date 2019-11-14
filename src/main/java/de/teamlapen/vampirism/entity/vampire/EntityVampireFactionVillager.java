@@ -4,9 +4,9 @@ import de.teamlapen.vampirism.api.entity.vampire.IVampire;
 import de.teamlapen.vampirism.core.ModItems;
 import de.teamlapen.vampirism.core.ModVillages;
 import de.teamlapen.vampirism.util.Helper;
+import mca.entity.EntityVillagerMCA;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.IMerchant;
-import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -25,7 +25,7 @@ import java.util.Random;
 
 public class EntityVampireFactionVillager extends EntityVampireFactionVillagerBase implements IVampire {
 
-    private final static EntityVillager.ITradeList[][] TRADES = {
+    private final static EntityVillagerMCA.ITradeList[][] TRADES = {
             {
                     new ItemsForHeart(new PriceInfo(10, 15), new ItemStack(ModItems.pure_blood, 1, 0), new PriceInfo(1, 1)),
                     new ItemsForHeart(new PriceInfo(25, 35), new ItemStack(ModItems.pure_blood, 1, 1), new PriceInfo(1, 1)),

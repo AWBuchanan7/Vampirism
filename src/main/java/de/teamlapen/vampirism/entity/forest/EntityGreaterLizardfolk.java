@@ -119,7 +119,6 @@ public class EntityGreaterLizardfolk extends EntityBaseLizardfolk implements IAd
         }
         this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(ItemRegister.IYKatana));
         this.setItemStackToSlot(EntityEquipmentSlot.OFFHAND,  new ItemStack(Item.getItemFromBlock(Blocks.TORCH)));
-        this.setItemStackToSlot(EntityEquipmentSlot.LEGS,  new ItemStack(Items.CHAINMAIL_LEGGINGS));
     }
 
     @Override

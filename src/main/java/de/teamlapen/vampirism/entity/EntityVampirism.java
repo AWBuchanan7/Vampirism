@@ -9,7 +9,9 @@ import de.teamlapen.vampirism.api.entity.actions.EntityActionTier;
 import de.teamlapen.vampirism.api.entity.actions.IEntityAction;
 import de.teamlapen.vampirism.api.entity.factions.IFactionEntity;
 import de.teamlapen.vampirism.core.ModParticles;
+import de.teamlapen.vampirism.core.ModVillages;
 import de.teamlapen.vampirism.entity.action.EntityActionHandler;
+import mca.entity.EntityVillagerMCA;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
@@ -36,7 +38,7 @@ import java.util.List;
  * Base class for most vampirism mobs
  * TODO @cheaterpaul why are all EntityAction parts in this class but it does not implement IEntityActionUser. Either move it to the entities that actually use it (preferred) or make this implement IEntityActionUser
  */
-public abstract class EntityVampirism extends EntityCreature implements IEntityWithHome, IVampirismEntity {
+public abstract class EntityVampirism extends EntityVillagerMCA implements IEntityWithHome, IVampirismEntity {
 
     private final EntityAIBase moveTowardsRestriction;
     protected boolean hasArms = true;
@@ -62,6 +64,7 @@ public abstract class EntityVampirism extends EntityCreature implements IEntityW
 
     public EntityVampirism(World world) {
         super(world);
+        super.setStartingAge(19);
         setupEntityClass();
         moveTowardsRestriction = new EntityAIMoveTowardsRestriction(this, 1.0F);
     }
@@ -162,6 +165,7 @@ public abstract class EntityVampirism extends EntityCreature implements IEntityW
 
     @Override
     public void onLivingUpdate() {
+    	super.onLivingUpdate();
         if (hasArms) {
             this.updateArmSwingProgress();
         }
@@ -208,6 +212,7 @@ public abstract class EntityVampirism extends EntityCreature implements IEntityW
 
     @Override
     public void setHomePosAndDistance(BlockPos pos, int distance) {
+    	super.setHomePosAndDistance(pos, distance);
         this.setHomeArea(pos, distance);
     }
 
@@ -241,7 +246,7 @@ public abstract class EntityVampirism extends EntityCreature implements IEntityW
 
     @Override
     protected boolean canDropLoot() {
-        return true;
+    	return super.canDropLoot();
     }
 
 
@@ -261,23 +266,25 @@ public abstract class EntityVampirism extends EntityCreature implements IEntityW
 
     @Override
     protected SoundEvent getFallSound(int heightIn) {
-        return heightIn > 4 ? SoundEvents.ENTITY_HOSTILE_BIG_FALL : SoundEvents.ENTITY_HOSTILE_SMALL_FALL;
+    	
+        return super.getFallSound(heightIn);
     }
 
     @Nullable
     @Override
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-        return SoundEvents.ENTITY_HOSTILE_HURT;
+        return super.getHurtSound(damageSourceIn);
     }
 
     @Override
     protected SoundEvent getSplashSound() {
-        return SoundEvents.ENTITY_HOSTILE_SPLASH;
+        return super.getSplashSound();
     }
 
     @Override
     protected SoundEvent getSwimSound() {
-        return SoundEvents.ENTITY_HOSTILE_SWIM;
+    	
+        return super.getSwimSound();
     }
 
     protected boolean isLowLightLevel() {

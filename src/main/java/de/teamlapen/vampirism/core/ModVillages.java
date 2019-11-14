@@ -7,7 +7,7 @@ import de.teamlapen.vampirism.util.SRGNAMES;
 import de.teamlapen.vampirism.world.gen.village.VillagePieceModChurch;
 import de.teamlapen.vampirism.world.gen.village.VillagePieceTotem;
 import de.teamlapen.vampirism.world.gen.village.VillagePieceTrainer;
-import net.minecraft.entity.passive.EntityVillager;
+import mca.entity.EntityVillagerMCA;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -30,6 +30,8 @@ public class ModVillages {
     public static final VillagerRegistry.VillagerProfession profession_hunter_expert = getNull();
     @GameRegistry.ObjectHolder("vampirism:vampire_expert")
     public static final VillagerRegistry.VillagerProfession profession_vampire_expert = getNull();
+    @GameRegistry.ObjectHolder("vampirism:vampire_rogue")
+    public static final VillagerRegistry.VillagerProfession profession_vampire_rogue = getNull();
     private final static String TAG = "ModVillages";
 
     static void init() {
@@ -86,25 +88,28 @@ public class ModVillages {
         VillagerRegistry.VillagerProfession priest = ForgeRegistries.VILLAGER_PROFESSIONS.getValue(new ResourceLocation("minecraft", "priest"));
         if (priest != null) {
             VillagerRegistry.VillagerCareer hunterPriest = new VillagerRegistry.VillagerCareer(priest, "vampirism.hunter_priest");
-            hunterPriest.addTrade(1, new EntityVillager.EmeraldForItems(Items.GOLD_INGOT, new EntityVillager.PriceInfo(8, 10)));
-            hunterPriest.addTrade(2, new EntityVillager.ListItemForEmeralds(ModItems.holy_water_bottle, new EntityVillager.PriceInfo(-8, -2)));
-            hunterPriest.addTrade(3, new EntityVillager.ListItemForEmeralds(ModItems.holy_water_bottle.setTier(new ItemStack(ModItems.holy_water_bottle), IItemWithTier.TIER.ENHANCED), new EntityVillager.PriceInfo(-5, -1)));
-            hunterPriest.addTrade(3, new EntityVillager.ListItemForEmeralds(ModItems.holy_salt, new EntityVillager.PriceInfo(-10, -3)));
-            hunterPriest.addTrade(4, new EntityVillager.ListItemForEmeralds(Items.EXPERIENCE_BOTTLE, new EntityVillager.PriceInfo(3, 11)));
+            hunterPriest.addTrade(1, new EntityVillagerMCA.EmeraldForItems(Items.GOLD_INGOT, new EntityVillagerMCA.PriceInfo(8, 10)));
+            hunterPriest.addTrade(2, new EntityVillagerMCA.ListItemForEmeralds(ModItems.holy_water_bottle, new EntityVillagerMCA.PriceInfo(-8, -2)));
+            hunterPriest.addTrade(3, new EntityVillagerMCA.ListItemForEmeralds(ModItems.holy_water_bottle.setTier(new ItemStack(ModItems.holy_water_bottle), IItemWithTier.TIER.ENHANCED), new EntityVillagerMCA.PriceInfo(-5, -1)));
+            hunterPriest.addTrade(3, new EntityVillagerMCA.ListItemForEmeralds(ModItems.holy_salt, new EntityVillagerMCA.PriceInfo(-10, -3)));
+            hunterPriest.addTrade(4, new EntityVillagerMCA.ListItemForEmeralds(Items.EXPERIENCE_BOTTLE, new EntityVillagerMCA.PriceInfo(3, 11)));
         } else {
             VampirismMod.log.w(TAG, "Did not find vanilla priest profession");
         }
         VillagerRegistry.VillagerCareer normal_hunter_expert = new VillagerRegistry.VillagerCareer(profession_hunter_expert, "vampirism.hunter_expert");
-        normal_hunter_expert.addTrade(1, new EntityVillager.EmeraldForItems(ModItems.vampire_fang, new EntityVillager.PriceInfo(20, 30)));
-        normal_hunter_expert.addTrade(2, new EntityVillager.EmeraldForItems(ModItems.vampire_book, new EntityVillager.PriceInfo(1, 1)));
+        normal_hunter_expert.addTrade(1, new EntityVillagerMCA.EmeraldForItems(ModItems.vampire_fang, new EntityVillagerMCA.PriceInfo(20, 30)));
+        normal_hunter_expert.addTrade(2, new EntityVillagerMCA.EmeraldForItems(ModItems.vampire_book, new EntityVillagerMCA.PriceInfo(1, 1)));
         //TODO modify recipes
         VillagerRegistry.VillagerCareer normal_vampire_expert = new VillagerRegistry.VillagerCareer(profession_vampire_expert, "vampirism.vampire_expert");
-        normal_vampire_expert.addTrade(1, new EntityVillager.EmeraldForItems(ModItems.vampire_fang, new EntityVillager.PriceInfo(20, 30)));
-        normal_vampire_expert.addTrade(2, new EntityVillager.EmeraldForItems(ModItems.vampire_book, new EntityVillager.PriceInfo(1, 1)));
+        normal_vampire_expert.addTrade(1, new EntityVillagerMCA.EmeraldForItems(ModItems.vampire_fang, new EntityVillagerMCA.PriceInfo(20, 30)));
+        normal_vampire_expert.addTrade(2, new EntityVillagerMCA.EmeraldForItems(ModItems.vampire_book, new EntityVillagerMCA.PriceInfo(1, 1)));
+        VillagerRegistry.VillagerCareer normal_vampire_rogue = new VillagerRegistry.VillagerCareer(profession_vampire_rogue, "vampirism.vampire_rogue");
+        normal_vampire_expert.addTrade(1, new EntityVillagerMCA.EmeraldForItems(ModItems.vampire_fang, new EntityVillagerMCA.PriceInfo(20, 30)));
     }
 
     static void registerProfessions(IForgeRegistry<VillagerRegistry.VillagerProfession> registry) {
         registry.register(new VillagerRegistry.VillagerProfession("vampirism:hunter_expert", "vampirism:textures/entity/villager_hunter_expert.png", "vampirism:textures/entity/villager_hunter_expert_zombie.png"));
         registry.register(new VillagerRegistry.VillagerProfession("vampirism:vampire_expert", "vampirism:textures/entity/villager_vampire_expert.png", "vampirism:textures/entity/villager_vampire_expert_zombie.png"));
+        registry.register(new VillagerRegistry.VillagerProfession("vampirism:vampire_rogue", "vampirism:textures/entity/villager_vampire_expert.png", "vampirism:textures/entity/villager_vampire_expert_zombie.png"));
     }
 }

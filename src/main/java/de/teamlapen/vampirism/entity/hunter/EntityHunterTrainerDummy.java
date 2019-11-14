@@ -74,7 +74,7 @@ public class EntityHunterTrainerDummy extends EntityVampirism {
 
 
     @Override
-    protected boolean processInteract(EntityPlayer player, EnumHand hand) {
+    public boolean processInteract(EntityPlayer player, EnumHand hand) {
         ItemStack stack = player.getHeldItem(hand);
         boolean flag = !stack.isEmpty() && stack.getItem() == Items.SPAWN_EGG;
 

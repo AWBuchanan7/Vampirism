@@ -26,6 +26,7 @@ import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Biomes;
 import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
@@ -38,7 +39,6 @@ import javax.annotation.Nonnull;
 /**
  * Base class for Vampirism's vampire entities
  */
-@SuppressWarnings("EntityConstructor")
 public abstract class EntityVampireBase extends EntityVampirism implements IVampireMob {
 
     /**
@@ -95,8 +95,8 @@ public abstract class EntityVampireBase extends EntityVampirism implements IVamp
     /**
      * Select rules to consider for {@link #getCanSpawnHere()}
      */
-    public void setSpawnRestriction(SpawnRestriction r) {
-        this.spawnRestriction = r;
+    public void setSpawnRestriction(SpawnRestriction spawnRules) {
+        this.spawnRestriction = spawnRules;
     }
 
     @Override
@@ -184,7 +184,6 @@ public abstract class EntityVampireBase extends EntityVampirism implements IVamp
 
     @Override
     public boolean isCreatureType(EnumCreatureType type, boolean forSpawnCount) {
-        if (forSpawnCount && countAsMonsterForSpawn && type == EnumCreatureType.MONSTER) return true;
         return super.isCreatureType(type, forSpawnCount);
     }
 
@@ -297,9 +296,20 @@ public abstract class EntityVampireBase extends EntityVampirism implements IVamp
      * Only exception is the vampire biome in which it returns true if ontop of {@link ModBlocks#cursed_earth}
      */
     private boolean getCanSpawnHereRestricted() {
-        boolean vampireBiome = ModBiomes.vampireForest.equals(this.world.getBiome(this.getPosition()));
-        if (!vampireBiome) return isLowLightLevel();
-        IBlockState iblockstate = this.world.getBlockState((new BlockPos(this)).down());
-        return ModBlocks.cursed_earth.equals(iblockstate.getBlock());
+    	IBlockState iBlockState = this.world.getBlockState((new BlockPos(this)).down());
+        boolean[] vampireBiomeValidations = { ModBiomes.vampireForest.equals(this.world.getBiome(this.getPosition())),Biomes.ROOFED_FOREST.equals(this.world.getBiome(this.getPosition())) };
+
+        for (boolean isBiomeValid : vampireBiomeValidations) {
+        	if (isBiomeValid) {
+        		return true;
+        	}
+        }
+
+        return isLowLightLevel() || isCursedTerrain(iBlockState);
     }
+    
+    private boolean isCursedTerrain(IBlockState iBlockState) {
+    	return ModBlocks.cursed_earth.equals(iBlockState.getBlock());
+    }
+
 }

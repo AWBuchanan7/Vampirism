@@ -6,8 +6,8 @@ import de.teamlapen.vampirism.api.entity.factions.IPlayableFaction;
 import de.teamlapen.vampirism.api.event.FactionEvent;
 import de.teamlapen.vampirism.api.event.VampirismVillageEvent;
 import de.teamlapen.vampirism.api.world.IVampirismVillage;
+import mca.entity.EntityVillagerMCA;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -21,8 +21,8 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class ModEventFactory {
-
-    public static boolean fireVillagerCaptureEvent(@Nonnull IVampirismVillage village, @Nonnull List<EntityVillager> villagerIn, @Nullable IPlayableFaction<?> controllingFactionIn, @Nonnull IPlayableFaction<?> capturingFactionIn, @Nonnull AxisAlignedBB affectedArea) {
+	
+    public static boolean fireVillagerCaptureEvent(@Nonnull IVampirismVillage village, @Nonnull List<EntityVillagerMCA> villagerIn, @Nullable IPlayableFaction<?> controllingFactionIn, @Nonnull IPlayableFaction<?> capturingFactionIn, @Nonnull AxisAlignedBB affectedArea) {
         VampirismVillageEvent.VillagerCaptureFinish event = new VampirismVillageEvent.VillagerCaptureFinish(village, villagerIn, controllingFactionIn, capturingFactionIn, affectedArea);
         MinecraftForge.EVENT_BUS.post(event);
         return event.getResult().equals(Result.DENY);
@@ -34,7 +34,7 @@ public class ModEventFactory {
         return event.getEntity();
     }
 
-    public static VampirismVillageEvent.SpawnNewVillager fireSpawnNewVillagerEvent(@Nonnull IVampirismVillage village, @Nonnull EntityVillager seed, boolean converted, IPlayableFaction<?> controllingFaction) {
+    public static VampirismVillageEvent.SpawnNewVillager fireSpawnNewVillagerEvent(@Nonnull IVampirismVillage village, @Nonnull EntityVillagerMCA seed, boolean converted, IPlayableFaction<?> controllingFaction) {
         VampirismVillageEvent.SpawnNewVillager event = new VampirismVillageEvent.SpawnNewVillager(village, seed, converted, controllingFaction);
         MinecraftForge.EVENT_BUS.post(event);
         return event;
@@ -51,7 +51,7 @@ public class ModEventFactory {
         return !event.getResult().equals(Result.DENY);
     }
 
-    public static VampirismVillageEvent.SpawnFactionVillager fireSpawnFactionVillagerEvent(@Nullable IVampirismVillage village, @Nonnull EntityVillager seed, @Nonnull IPlayableFaction<?> controllingFaction) {
+    public static VampirismVillageEvent.SpawnFactionVillager fireSpawnFactionVillagerEvent(@Nullable IVampirismVillage village, @Nonnull EntityVillagerMCA seed, @Nonnull IPlayableFaction<?> controllingFaction) {
         VampirismVillageEvent.SpawnFactionVillager event = new VampirismVillageEvent.SpawnFactionVillager(village, seed, controllingFaction);
         MinecraftForge.EVENT_BUS.post(event);
         return event;

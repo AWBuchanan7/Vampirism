@@ -18,6 +18,7 @@ import de.teamlapen.vampirism.entity.minions.vampire.EntityVampireMinionSaveable
 import de.teamlapen.vampirism.entity.special.EntityDraculaHalloween;
 import de.teamlapen.vampirism.entity.vampire.*;
 import de.teamlapen.vampirism.util.REFERENCE;
+import mca.entity.EntityVillagerMCA;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
@@ -106,7 +107,7 @@ public class ModEntities {
         registry.addConvertible(EntityPolarBear.class, String.format(base, "polarbear"));
         registry.addConvertible(EntityRabbit.class, String.format(base, "rabbit"));
         registry.addConvertible(EntitySheep.class, String.format(base, "sheep"), new EntityConvertedSheep.ConvertingHandler());
-        registry.addConvertible(EntityVillager.class, null, new EntityConvertedVillager.ConvertingHandler());
+        registry.addConvertible(EntityVillagerMCA.class, null, new EntityConvertedVillager.ConvertingHandler());
         registry.addConvertible(EntityLlama.class, String.format(base, "llama"));
     }
 
@@ -124,11 +125,11 @@ public class ModEntities {
         registry.register(basicVampire.build());
         
         EntityEntryBuilder<EntityLizardfolk> basicLizardfolk = prepareEntityEntry(EntityLizardfolk.class, BASIC_LIZARDFOLK_NAME, "lizardfolk", EntityLiving.SpawnPlacementType.ON_GROUND, true);
-        addSpawn(basicLizardfolk, EnumCreatureType.MONSTER, Balance.mobProps.LIZARDFOLK_SPAWN_CHANCE, 1, 2, biomes);
+//        addSpawn(basicLizardfolk, EnumCreatureType.MONSTER, Balance.mobProps.LIZARDFOLK_SPAWN_CHANCE, 1, 2, biomes);
         registry.register(basicLizardfolk.build());
         
         EntityEntryBuilder<EntityGreaterLizardfolk> greaterLizardfolk = prepareEntityEntry(EntityGreaterLizardfolk.class, GREATER_LIZARDFOLK_NAME, "greater_lizardfolk", EntityLiving.SpawnPlacementType.ON_GROUND, true);
-        addSpawn(greaterLizardfolk, EnumCreatureType.MONSTER, Balance.mobProps.ADVANCED_VAMPIRE_SPAWN_PROBE, 1, 1, biomes);
+//        addSpawn(greaterLizardfolk, EnumCreatureType.MONSTER, Balance.mobProps.ADVANCED_VAMPIRE_SPAWN_PROBE, 1, 1, biomes);
         registry.register(greaterLizardfolk.build());
         
         registry.register(prepareEntityEntry(EntityHunterTrainer.class, HUNTER_TRAINER, "hunter_trainer", EntityLiving.SpawnPlacementType.ON_GROUND, true).build());
@@ -191,8 +192,6 @@ public class ModEntities {
         }
 
         return zombieBiomes.toArray(new Biome[zombieBiomes.size()]);
-
-
     }
 
 

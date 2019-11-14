@@ -26,6 +26,7 @@ import de.teamlapen.vampirism.world.VampirismWorldData;
 import de.teamlapen.vampirism.world.gen.VampirismWorldGen;
 import de.teamlapen.vampirism.world.gen.structure.StructureManager;
 import de.teamlapen.vampirism.world.gen.structure.VampirismTemplate;
+import mca.entity.EntityVillagerMCA;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
@@ -35,7 +36,6 @@ import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.passive.EntityCow;
-import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemMap;
 import net.minecraft.item.ItemStack;
@@ -318,8 +318,8 @@ public class TestCommand extends BasicCommand {
             @Override
             public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
                 EntityPlayer player = getCommandSenderAsPlayer(sender);
-                List<EntityVillager> l = player.getEntityWorld().getEntitiesWithinAABB(EntityVillager.class, player.getEntityBoundingBox().grow(3, 2, 3));
-                for (EntityVillager v : l) {
+                List<EntityVillagerMCA> l = player.getEntityWorld().getEntitiesWithinAABB(EntityVillagerMCA.class, player.getEntityBoundingBox().grow(3, 2, 3));
+                for (EntityVillagerMCA v : l) {
                     if (v instanceof IHunter || v instanceof IVampire) continue;
                     TileTotem.makeAggressive(v, null);
 

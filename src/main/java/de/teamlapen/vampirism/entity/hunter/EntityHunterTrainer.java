@@ -99,7 +99,7 @@ public class EntityHunterTrainer extends EntityHunterBase implements HunterAILoo
 
 
     @Override
-    protected boolean processInteract(EntityPlayer player, EnumHand hand) {
+    public boolean processInteract(EntityPlayer player, EnumHand hand) {
         ItemStack stack = player.getHeldItem(hand);
         boolean flag = !stack.isEmpty() && stack.getItem() == Items.SPAWN_EGG;
 

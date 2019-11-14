@@ -21,6 +21,9 @@ import de.teamlapen.vampirism.player.hunter.HunterLevelingConf;
 import de.teamlapen.vampirism.player.hunter.HunterPlayer;
 import de.teamlapen.vampirism.world.loot.LootHandler;
 import de.teamlapen.vampirism.world.villages.VampirismVillageHelper;
+import mca.entity.ai.EntityAIGoHangout;
+import mca.entity.ai.EntityAIGoWorkplace;
+import mca.entity.ai.EntityAISleeping;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.monster.EntityZombie;
@@ -43,6 +46,8 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
+
+import java.util.Iterator;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -328,6 +333,12 @@ public class EntityBasicHunter extends EntityHunterBase implements IBasicHunter,
     @Override
     protected void initEntityAI() {
         super.initEntityAI();
+        
+        removeCertainTasks(EntityAIAvoidEntity.class);
+        removeCertainTasks(EntityAIWatchClosest.class);
+        removeCertainTasks(EntityAIGoHangout.class);
+        removeCertainTasks(EntityAISleeping.class);
+        removeCertainTasks(EntityAIGoWorkplace.class);
 
         this.tasks.addTask(1, new EntityAIOpenDoor(this, true));
         //Attack task is added in #updateCombatTasks which is e.g. called at end of constructor
@@ -351,9 +362,22 @@ public class EntityBasicHunter extends EntityHunterBase implements IBasicHunter,
         this.targetTasks.addTask(6, new EntityAINearestAttackableTarget<>(this, EntityZombie.class, true, true));
         //Also check the priority of tasks that are dynamically added. See top of class
     }
+    
+    private void removeCertainTasks(Class typ) {
+        Iterator<EntityAITasks.EntityAITaskEntry> iterator = this.tasks.taskEntries.iterator();
+
+        while (iterator.hasNext()) {
+            EntityAITasks.EntityAITaskEntry entityaitasks$entityaitaskentry = iterator.next();
+            EntityAIBase entityaibase = entityaitasks$entityaitaskentry.action;
+
+            if (entityaibase.getClass().equals(typ)) {
+                iterator.remove();
+            }
+        }
+    }
 
     @Override
-    protected boolean processInteract(EntityPlayer player, EnumHand hand) {
+    public boolean processInteract(EntityPlayer player, EnumHand hand) {
         int hunterLevel = HunterPlayer.get(player).getLevel();
         if (this.isEntityAlive() && !player.isSneaking()) {
             if (!world.isRemote) {

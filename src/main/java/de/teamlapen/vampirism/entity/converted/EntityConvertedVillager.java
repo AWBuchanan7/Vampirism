@@ -19,11 +19,11 @@ import de.teamlapen.vampirism.items.ItemBloodBottle;
 import de.teamlapen.vampirism.player.vampire.VampirePlayer;
 import de.teamlapen.vampirism.util.Helper;
 import de.teamlapen.vampirism.util.REFERENCE;
+import mca.entity.EntityVillagerMCA;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.*;
-import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
@@ -42,7 +42,7 @@ import java.util.Random;
 /**
  * Vampire Villager
  */
-public class EntityConvertedVillager extends EntityVillagerVampirism implements IConvertedCreature<EntityVillager> {
+public class EntityConvertedVillager extends EntityVillagerVampirism implements IConvertedCreature<EntityVillagerMCA> {
 
     private EnumStrength garlicCache = EnumStrength.NONE;
     private boolean sundamageCache;
@@ -187,10 +187,10 @@ public class EntityConvertedVillager extends EntityVillagerVampirism implements 
         }
     }
 
-    public static class ConvertingHandler implements IConvertingHandler<EntityVillager> {
+    public static class ConvertingHandler implements IConvertingHandler<EntityVillagerMCA> {
 
         @Override
-        public IConvertedCreature<EntityVillager> createFrom(EntityVillager entity) {
+        public IConvertedCreature<EntityVillagerMCA> createFrom(EntityVillagerMCA entity) {
             NBTTagCompound nbt = new NBTTagCompound();
             entity.writeToNBT(nbt);
             EntityConvertedVillager converted = new EntityConvertedVillager(entity.world);

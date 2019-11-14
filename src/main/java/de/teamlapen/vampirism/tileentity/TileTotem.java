@@ -25,7 +25,7 @@ import de.teamlapen.vampirism.potion.PotionSanguinare;
 import de.teamlapen.vampirism.util.ModEventFactory;
 import de.teamlapen.vampirism.world.villages.VampirismVillage;
 import de.teamlapen.vampirism.world.villages.VampirismVillageHelper;
-
+import mca.entity.EntityVillagerMCA;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.*;
@@ -102,7 +102,7 @@ public class TileTotem extends TileEntity implements ITickable {
      * @return New entity
      */
     public static @Nullable
-    IVillageCaptureEntity makeAggressive(EntityVillager villager, @Nullable VampirismVillage v) {
+    IVillageCaptureEntity makeAggressive(EntityVillagerMCA villager, @Nullable VampirismVillage v) {
         VampirismVillageEvent.MakeAggressive event = new VampirismVillageEvent.MakeAggressive(v, villager);
         if (MinecraftForge.EVENT_BUS.post(event)) {
             IVillageCaptureEntity aggressive = event.getAggressiveVillager();
@@ -354,8 +354,8 @@ public class TileTotem extends TileEntity implements ITickable {
         this.markDirty();
         if (getVillage() != null && ModEventFactory.fireInitiateCaptureEvent(getVillage(), world, controllingFaction, capturingFaction)) {
             if (!world.isRemote && capturingFaction == VReference.VAMPIRE_FACTION) {
-                List<EntityVillager> villager = this.world.getEntitiesWithinAABB(EntityVillager.class, getAffectedArea());
-                for (EntityVillager v : villager) {
+                List<EntityVillagerMCA> villager = this.world.getEntitiesWithinAABB(EntityVillagerMCA.class, getAffectedArea());
+                for (EntityVillagerMCA v : villager) {
                     if (v instanceof EntityFactionVillager)
                         continue;
                     if (v.getRNG().nextInt(3) == 0) {
@@ -627,9 +627,9 @@ public class TileTotem extends TileEntity implements ITickable {
                 if (this.controllingFaction != null && time % 512 == 0) {
                     VampirismVillage village = this.getVillage();
                     if (village != null) {
-                        List<EntityVillager> l = this.world.getEntitiesWithinAABB(EntityVillager.class, getAffectedArea());
+                        List<EntityVillagerMCA> l = this.world.getEntitiesWithinAABB(EntityVillagerMCA.class, getAffectedArea());
                         if (l.size() > 0) {
-                            EntityVillager seed = l.get(l.get(0).getRNG().nextInt(l.size()));
+                        	EntityVillagerMCA seed = l.get(l.get(0).getRNG().nextInt(l.size()));
                             int max = (int) Math.min(village.getVillage().getNumVillageDoors() * 1.5f, 30);
                             if (l.size() < max) {
                                 if (seed.getRNG().nextInt(15) == 0) {
@@ -645,11 +645,11 @@ public class TileTotem extends TileEntity implements ITickable {
                                     boolean isConverted = this.controllingFaction != VReference.HUNTER_FACTION && seed.getRNG().nextBoolean();
                                     VampirismVillageEvent.SpawnNewVillager event = ModEventFactory.fireSpawnNewVillagerEvent(village, seed, isConverted, controllingFaction);
                                     if (event.getResult() != Event.Result.DENY) {
-                                        EntityVillager newVillager;
+                                    	EntityVillagerMCA newVillager;
                                         if (event.getResult() == Event.Result.ALLOW && event.getNewVillager() != null) {
                                             newVillager = event.getNewVillager();
                                         } else {
-                                            newVillager = new EntityVillager(this.world);
+                                            newVillager = new EntityVillagerMCA(this.world);
                                             newVillager.copyLocationAndAnglesFrom(seed);
                                             newVillager.setGrowingAge(seed.getGrowingAge());
                                         }
@@ -953,7 +953,7 @@ public class TileTotem extends TileEntity implements ITickable {
      * @param poisonousBlood  if the villager should have poisonous blood
      * @return false if spawn is not possible
      */
-    private boolean spawnVillagerInVillage(EntityVillager newVillager, @Nullable Entity entityToReplace, boolean poisonousBlood, boolean removeEntityToReplace) {
+    private boolean spawnVillagerInVillage(EntityVillagerMCA newVillager, @Nullable Entity entityToReplace, boolean poisonousBlood, boolean removeEntityToReplace) {
         if (newVillager == null) return false;
         if (!spawnEntityInVillage(newVillager, entityToReplace, removeEntityToReplace)) return false;
         if (entityToReplace instanceof EntityVillager) {
@@ -1031,7 +1031,7 @@ public class TileTotem extends TileEntity implements ITickable {
      * handles entities at the end of a complete capture
      */
     private void updateCreaturesOnCapture() {
-        List<EntityVillager> villager = this.world.getEntitiesWithinAABB(EntityVillager.class, getAffectedArea());
+        List<EntityVillagerMCA> villager = this.world.getEntitiesWithinAABB(EntityVillagerMCA.class, getAffectedArea());
         if(getVillage() != null) {
             if (ModEventFactory.fireVillagerCaptureEvent(getVillage(), villager, controllingFaction, capturingFaction, getAffectedArea()))
                 return;
@@ -1042,16 +1042,16 @@ public class TileTotem extends TileEntity implements ITickable {
                     if (hunter.size() > 0) {
                         for (EntityHunterBase e : hunter) {
                             if (i-- > 0) {
-                                spawnVillagerInVillage(new EntityVillager(this.world), e, true,true);
+                                spawnVillagerInVillage(new EntityVillagerMCA(this.world), e, true,true);
                             }
                         }
                     }
                     for (int o = i; o > 0; o--) {
-                        spawnVillagerInVillage(new EntityVillager(this.world), null, true, true);
+                        spawnVillagerInVillage(new EntityVillagerMCA(this.world), null, true, true);
                     }
 
                 } else {
-                    for (EntityVillager e : villager) {
+                    for (EntityVillagerMCA e : villager) {
                         ExtendedCreature.get(e).setPoisonousBlood(true);
                     }
                 }
@@ -1065,7 +1065,7 @@ public class TileTotem extends TileEntity implements ITickable {
                 }
                 spawnVillagerInVillage(new EntityHunterFactionVillager(this.world), null, false, true);
             } else if (capturingFaction == VReference.VAMPIRE_FACTION) {
-                for (EntityVillager e : villager) {
+                for (EntityVillagerMCA e : villager) {
                     ExtendedCreature.get(e).setPoisonousBlood(false);
                     if (e.getRNG().nextInt(2) == 1) continue;
                     PotionSanguinare.addRandom(e, false);
