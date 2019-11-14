@@ -3,7 +3,6 @@ package mca.client.gui;
 import mca.api.API;
 import mca.api.types.APIButton;
 import mca.client.gui.component.GuiButtonEx;
-import mca.core.MCA;
 import mca.core.forge.NetMCA;
 import mca.entity.EntityVillagerMCA;
 import net.minecraft.client.Minecraft;
@@ -14,6 +13,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Keyboard;
+
+import de.teamlapen.vampirism.VampirismMod;
 
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;

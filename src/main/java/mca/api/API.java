@@ -112,7 +112,7 @@ public class API {
                         .findFirst();
 
         return group.map(g -> g.getPaths()[rng.nextInt(g.getPaths().length - 1)]).orElseGet(() -> {
-            MCA.getLog().warn("No skin found for profession: `" + profession.getRegistryName() + "`. A random skin will be generated.");
+        	VampirismMod.getLog().warn("No skin found for profession: `" + profession.getRegistryName() + "`. A random skin will be generated.");
             SkinsGroup randomGroup = null;
             while (randomGroup == null || randomGroup.getGender() != gender) {
                 randomGroup = skinGroups.get(rng.nextInt(skinGroups.size() - 1));

@@ -1,6 +1,8 @@
 package mca.core;
 
 import com.google.common.base.Charsets;
+
+import de.teamlapen.vampirism.VampirismMod;
 import net.minecraft.util.StringUtils;
 import org.apache.commons.io.IOUtils;
 

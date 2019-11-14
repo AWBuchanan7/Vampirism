@@ -16,7 +16,11 @@ public enum EnumReaperAttackState {
 
     int id;
 
-    public static EnumReaperAttackState fromId(int id) {
+    private EnumReaperAttackState(int id) {
+		this.id = id;
+	}
+
+	public static EnumReaperAttackState fromId(int id) {
         return Arrays.stream(values()).filter(s -> s.id == id).findFirst().orElse(IDLE);
     }
 }

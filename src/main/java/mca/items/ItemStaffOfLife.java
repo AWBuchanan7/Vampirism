@@ -13,6 +13,8 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Keyboard;
 
+import de.teamlapen.vampirism.VampirismMod;
+
 import javax.annotation.Nullable;
 import java.util.List;
 
@@ -26,10 +28,10 @@ public class ItemStaffOfLife extends Item {
 
     @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
-        if (!MCA.getConfig().enableRevivals)
-            playerIn.sendMessage(new TextComponentString(MCA.getLocalizer().localize("notify.revival.disabled")));
+        if (!VampirismMod.getConfig().enableRevivals)
+            playerIn.sendMessage(new TextComponentString(VampirismMod.getLocalizer().localize("notify.revival.disabled")));
 
-        playerIn.openGui(MCA.getInstance(), Constants.GUI_ID_STAFFOFLIFE, playerIn.world, 0, 0, 0);
+        playerIn.openGui(VampirismMod.getInstance(), Constants.GUI_ID_STAFFOFLIFE, playerIn.world, 0, 0, 0);
         return super.onItemRightClick(worldIn, playerIn, handIn);
     }
 

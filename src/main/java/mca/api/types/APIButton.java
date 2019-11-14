@@ -27,7 +27,79 @@ public class APIButton {
     private String constraints;     // list of EnumConstraints separated by a pipe character |
     @Getter private boolean isInteraction;  // whether the button is an interaction that generates a response and boosts/decreases hearts
 
-    public List<EnumConstraint> getConstraints() {
+    public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public int getX() {
+		return x;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
+	}
+
+	public boolean isNotifyServer() {
+		return notifyServer;
+	}
+
+	public void setNotifyServer(boolean notifyServer) {
+		this.notifyServer = notifyServer;
+	}
+
+	public boolean isTargetServer() {
+		return targetServer;
+	}
+
+	public void setTargetServer(boolean targetServer) {
+		this.targetServer = targetServer;
+	}
+
+	public boolean isInteraction() {
+		return isInteraction;
+	}
+
+	public void setInteraction(boolean isInteraction) {
+		this.isInteraction = isInteraction;
+	}
+
+	public void setIdentifier(String identifier) {
+		this.identifier = identifier;
+	}
+
+	public void setConstraints(String constraints) {
+		this.constraints = constraints;
+	}
+
+	public List<EnumConstraint> getConstraints() {
         return EnumConstraint.fromStringList(constraints);
     }
 

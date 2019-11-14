@@ -16,7 +16,8 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-@Getter
+import de.teamlapen.vampirism.VampirismMod;
+
 public class PlayerSaveData extends WorldSavedData {
     private static final String PREFIX = "MCA-Player-V1-";
 
@@ -29,7 +30,35 @@ public class PlayerSaveData extends WorldSavedData {
         super(id);
     }
 
-    public static PlayerSaveData get(EntityPlayer player) {
+    public UUID getSpouseUUID() {
+		return spouseUUID;
+	}
+
+	public void setSpouseUUID(UUID spouseUUID) {
+		this.spouseUUID = spouseUUID;
+	}
+
+	public EnumMarriageState getMarriageState() {
+		return marriageState;
+	}
+
+	public void setMarriageState(EnumMarriageState marriageState) {
+		this.marriageState = marriageState;
+	}
+
+	public String getSpouseName() {
+		return spouseName;
+	}
+
+	public void setSpouseName(String spouseName) {
+		this.spouseName = spouseName;
+	}
+
+	public static String getPrefix() {
+		return PREFIX;
+	}
+
+	public static PlayerSaveData get(EntityPlayer player) {
         String dataId = PREFIX + player.getUniqueID().toString();
         PlayerSaveData data = (PlayerSaveData) player.world.loadData(PlayerSaveData.class, dataId);
 
@@ -43,6 +72,10 @@ public class PlayerSaveData extends WorldSavedData {
 
     public static PlayerSaveData getExisting(World world, UUID uuid) {
         return (PlayerSaveData) world.loadData(PlayerSaveData.class, PREFIX + uuid.toString());
+    }
+    
+    public boolean isBabyPresent() {
+    	return babyPresent;
     }
 
     @Override
@@ -100,8 +133,8 @@ public class PlayerSaveData extends WorldSavedData {
             try {
                 player.sendMessage(new TextComponentString(f.getName() + " = " + f.get(this).toString()));
             } catch (Exception e) {
-                MCA.getLog().error("Error dumping player data!");
-                MCA.getLog().error(e);
+            	VampirismMod.getLog().error("Error dumping player data!");
+            	VampirismMod.getLog().error(e);
             }
         }
     }

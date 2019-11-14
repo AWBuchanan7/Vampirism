@@ -1,7 +1,6 @@
 package mca.client.gui;
 
 import mca.api.API;
-import mca.core.MCA;
 import mca.core.forge.NetMCA;
 import mca.items.ItemBaby;
 import net.minecraft.client.gui.GuiButton;
@@ -12,6 +11,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Keyboard;
+
+import de.teamlapen.vampirism.VampirismMod;
 
 import java.io.IOException;
 
@@ -46,8 +47,8 @@ public class GuiNameBaby extends GuiScreen {
         Keyboard.enableRepeatEvents(true);
 
         buttonList.clear();
-        buttonList.add(doneButton = new GuiButton(1, width / 2 - 40, height / 2 - 10, 80, 20, MCA.getLocalizer().localize("gui.button.done")));
-        buttonList.add(randomButton = new GuiButton(2, width / 2 + 105, height / 2 - 60, 60, 20, MCA.getLocalizer().localize("gui.button.random")));
+        buttonList.add(doneButton = new GuiButton(1, width / 2 - 40, height / 2 - 10, 80, 20, VampirismMod.getLocalizer().localize("gui.button.done")));
+        buttonList.add(randomButton = new GuiButton(2, width / 2 + 105, height / 2 - 60, 60, 20, VampirismMod.getLocalizer().localize("gui.button.random")));
         babyNameTextField = new GuiTextField(3, fontRenderer, width / 2 - 100, height / 2 - 60, 200, 20);
         babyNameTextField.setMaxStringLength(32);
 
@@ -88,7 +89,7 @@ public class GuiNameBaby extends GuiScreen {
     @Override
     public void drawScreen(int sizeX, int sizeY, float offset) {
         drawDefaultBackground();
-        drawString(fontRenderer, MCA.getLocalizer().localize("gui.title.namebaby"), width / 2 - 100, height / 2 - 70, 0xa0a0a0);
+        drawString(fontRenderer, VampirismMod.getLocalizer().localize("gui.title.namebaby"), width / 2 - 100, height / 2 - 70, 0xa0a0a0);
         babyNameTextField.drawTextBox();
         super.drawScreen(sizeX, sizeY, offset);
     }

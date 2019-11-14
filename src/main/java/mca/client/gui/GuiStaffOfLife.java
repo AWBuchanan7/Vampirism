@@ -1,6 +1,5 @@
 package mca.client.gui;
 
-import mca.core.MCA;
 import mca.core.forge.NetMCA;
 import mca.entity.EntityVillagerMCA;
 import net.minecraft.client.gui.GuiButton;
@@ -69,7 +68,7 @@ public class GuiStaffOfLife extends GuiScreen {
     public void drawScreen(int sizeX, int sizeY, float offset) {
         drawDefaultBackground();
         drawDummy();
-        drawCenteredString(fontRenderer, MCA.getLocalizer().localize("gui.title.staffoflife"), width / 2, height / 2 - 110, 0xffffff);
+        drawCenteredString(fontRenderer, VampirismMod.getLocalizer().localize("gui.title.staffoflife"), width / 2, height / 2 - 110, 0xffffff);
         super.drawScreen(sizeX, sizeY, offset);
     }
 

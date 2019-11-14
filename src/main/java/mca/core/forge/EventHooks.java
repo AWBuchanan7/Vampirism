@@ -2,7 +2,6 @@ package mca.core.forge;
 
 import mca.client.network.ClientMessageQueue;
 import mca.core.Constants;
-import mca.core.MCA;
 import mca.core.MCAServer;
 import mca.core.minecraft.BlocksMCA;
 import mca.core.minecraft.ItemsMCA;
@@ -83,26 +82,10 @@ public class EventHooks {
     }
 
     @SubscribeEvent
-    public void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
-        if (!MCA.updateAvailable) return;
-        TextComponentString updateMessage = new TextComponentString(Constants.Color.DARKGREEN + "An update for Minecraft Comes Alive is available: v" + MCA.latestVersion);
-        String updateURLText = Constants.Color.YELLOW + "Click " + Constants.Color.BLUE + Constants.Format.ITALIC + Constants.Format.UNDERLINE + "here" + Constants.Format.RESET + Constants.Color.YELLOW + " to download the update.";
-
-        TextComponentString chatComponentUpdate = new TextComponentString(updateURLText);
-        chatComponentUpdate.getStyle().setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://minecraftcomesalive.com/download"));
-        chatComponentUpdate.getStyle().setUnderlined(true);
-
-        event.player.sendMessage(updateMessage);
-        event.player.sendMessage(chatComponentUpdate);
-
-        MCA.updateAvailable = false;
-    }
-
-    @SubscribeEvent
     public void onWorldUnload(WorldEvent.Unload event) {
         // Only send crash reports on unloading the overworld. This will never change based on other mods installed
         // and ensures only one crash report is sent per instance.
-        if (!event.getWorld().isRemote && event.getWorld().provider.getDimension() == 0) MCA.getInstance().checkForCrashReports();
+        if (!event.getWorld().isRemote && event.getWorld().provider.getDimension() == 0) VampirismMod.getInstance().checkForCrashReports();
     }
 
     @SubscribeEvent

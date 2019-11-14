@@ -3,7 +3,6 @@ package mca.core.forge;
 import de.teamlapen.vampirism.VampirismMod;
 import mca.client.gui.*;
 import mca.core.Constants;
-import mca.core.MCA;
 import mca.entity.EntityVillagerMCA;
 import net.minecraft.client.gui.GuiScreenBook;
 import net.minecraft.client.gui.inventory.GuiChest;

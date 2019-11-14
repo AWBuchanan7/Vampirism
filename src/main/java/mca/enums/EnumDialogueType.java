@@ -13,7 +13,19 @@ public enum EnumDialogueType {
     ADULT("adult"),
     SPOUSE("spouse");
 
-    String id;
+    public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	private EnumDialogueType(String id) {
+		this.id = id;
+	}
+
+	String id;
 
     public static EnumDialogueType byValue(String value) {
         return Arrays.stream(values()).filter(c -> c.getId().equals(value)).findFirst().orElse(null);

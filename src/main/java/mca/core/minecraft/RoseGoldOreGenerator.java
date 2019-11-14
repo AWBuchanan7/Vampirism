@@ -11,6 +11,8 @@ import net.minecraftforge.fml.common.IWorldGenerator;
 
 import java.util.Random;
 
+import de.teamlapen.vampirism.VampirismMod;
+
 public final class RoseGoldOreGenerator implements IWorldGenerator {
     public RoseGoldOreGenerator() {
     }
@@ -24,7 +26,7 @@ public final class RoseGoldOreGenerator implements IWorldGenerator {
     }
 
     public void addOreSpawn(Block block, World world, Random random, int blockPosX, int blockPosZ, int maxX, int maxZ, int maxVeinSize, int chancesToSpawn) {
-        if (block == BlocksMCA.ROSE_GOLD_ORE && !MCA.getConfig().allowRoseGoldGeneration) block = Blocks.STONE;
+        if (block == BlocksMCA.ROSE_GOLD_ORE && !VampirismMod.getConfig().allowRoseGoldGeneration) block = Blocks.STONE;
 
         int range = 25;
         for (int x = 0; x < chancesToSpawn; x++) {

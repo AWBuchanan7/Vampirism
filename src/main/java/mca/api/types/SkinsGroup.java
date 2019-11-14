@@ -9,7 +9,23 @@ public class SkinsGroup {
     private String profession;
     private String[] paths;
 
-    public EnumGender getGender() {
+    public String[] getPaths() {
+		return paths;
+	}
+
+	public void setPaths(String[] paths) {
+		this.paths = paths;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	public void setProfession(String profession) {
+		this.profession = profession;
+	}
+
+	public EnumGender getGender() {
         return EnumGender.byName(gender);
     }
     

@@ -15,7 +15,11 @@ public enum EnumMarriageState {
 
     int id;
 
-    public static EnumMarriageState byId(int id) {
+    private EnumMarriageState(int id) {
+		this.id = id;
+	}
+
+	public static EnumMarriageState byId(int id) {
         Optional<EnumMarriageState> state = Arrays.stream(values()).filter((e) -> e.id == id).findFirst();
         return state.orElse(NOT_MARRIED);
     }

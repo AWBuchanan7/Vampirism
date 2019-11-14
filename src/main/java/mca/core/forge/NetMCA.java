@@ -80,7 +80,14 @@ public class NetMCA {
         private String buttonId;
         private UUID targetUUID;
 
-        @Override
+        public ButtonAction(String guiKey, String buttonId, UUID targetUUID) {
+			super();
+			this.guiKey = guiKey;
+			this.buttonId = buttonId;
+			this.targetUUID = targetUUID;
+		}
+
+		@Override
         public void toBytes(ByteBuf buf) {
             buf.writeBoolean(targetUUID != null);
             ByteBufUtils.writeUTF8String(buf, this.guiKey);
@@ -102,7 +109,31 @@ public class NetMCA {
             }
         }
 
-        public boolean targetsServer() {
+        public String getGuiKey() {
+			return guiKey;
+		}
+
+		public void setGuiKey(String guiKey) {
+			this.guiKey = guiKey;
+		}
+
+		public String getButtonId() {
+			return buttonId;
+		}
+
+		public void setButtonId(String buttonId) {
+			this.buttonId = buttonId;
+		}
+
+		public UUID getTargetUUID() {
+			return targetUUID;
+		}
+
+		public void setTargetUUID(UUID targetUUID) {
+			this.targetUUID = targetUUID;
+		}
+
+		public boolean targetsServer() {
             return getTargetUUID() == null;
         }
     }
@@ -158,7 +189,12 @@ public class NetMCA {
     public static class BabyName implements IMessage {
         private String babyName;
 
-        @Override
+        public BabyName(String babyName) {
+			super();
+			this.babyName = babyName;
+		}
+
+		@Override
         public void toBytes(ByteBuf buf) {
             ByteBufUtils.writeUTF8String(buf, this.babyName);
         }
@@ -189,7 +225,29 @@ public class NetMCA {
         private int careerId;
         private UUID entityUUID;
 
-        @Override
+        public int getCareerId() {
+			return careerId;
+		}
+
+		public void setCareerId(int careerId) {
+			this.careerId = careerId;
+		}
+
+		public UUID getEntityUUID() {
+			return entityUUID;
+		}
+
+		public void setEntityUUID(UUID entityUUID) {
+			this.entityUUID = entityUUID;
+		}
+
+		public CareerResponse(int careerId, UUID entityUUID) {
+			super();
+			this.careerId = careerId;
+			this.entityUUID = entityUUID;
+		}
+
+		@Override
         public void toBytes(ByteBuf buf) {
             ByteBufUtils.writeVarInt(buf, careerId, 4);
             ByteBufUtils.writeUTF8String(buf, entityUUID.toString());
@@ -218,7 +276,20 @@ public class NetMCA {
     public static class CareerRequest implements IMessage {
         private UUID entityUUID;
 
-        @Override
+        public UUID getEntityUUID() {
+			return entityUUID;
+		}
+
+		public void setEntityUUID(UUID entityUUID) {
+			this.entityUUID = entityUUID;
+		}
+
+		public CareerRequest(UUID entityUUID) {
+			super();
+			this.entityUUID = entityUUID;
+		}
+
+		@Override
         public void toBytes(ByteBuf buf) {
             ByteBufUtils.writeUTF8String(buf, entityUUID.toString());
         }
@@ -296,7 +367,23 @@ public class NetMCA {
             this.inventoryNBT.setTag("inventory", inventory.writeInventoryToNBT());
         }
 
-        @Override
+        public UUID getEntityUUID() {
+			return entityUUID;
+		}
+
+		public void setEntityUUID(UUID entityUUID) {
+			this.entityUUID = entityUUID;
+		}
+
+		public NBTTagCompound getInventoryNBT() {
+			return inventoryNBT;
+		}
+
+		public void setInventoryNBT(NBTTagCompound inventoryNBT) {
+			this.inventoryNBT = inventoryNBT;
+		}
+
+		@Override
         public void toBytes(ByteBuf buf) {
             ByteBufUtils.writeUTF8String(buf, entityUUID.toString());
             ByteBufUtils.writeTag(buf, inventoryNBT);
@@ -510,7 +597,12 @@ public class NetMCA {
     public static class GetFamilyResponse implements IMessage {
         private List<NBTTagCompound> familyData;
 
-        @Override
+        public GetFamilyResponse(List<NBTTagCompound> familyData) {
+			super();
+			this.familyData = familyData;
+		}
+
+		@Override
         public void toBytes(ByteBuf buf) {
             buf.writeInt(familyData.size());
             familyData.stream().forEach(n -> ByteBufUtils.writeTag(buf, n));
@@ -573,7 +665,13 @@ public class NetMCA {
         private UUID targetUUID;
         private String profession;
 
-        @Override
+        public SetProfession(UUID targetUUID, String profession) {
+			super();
+			this.targetUUID = targetUUID;
+			this.profession = profession;
+		}
+
+		@Override
         public void toBytes(ByteBuf buf) {
             ByteBufUtils.writeUTF8String(buf, targetUUID.toString());
             ByteBufUtils.writeUTF8String(buf, profession);
@@ -630,7 +728,13 @@ public class NetMCA {
         private UUID targetUUID;
         private String texture;
 
-        @Override
+        public SetTexture(UUID targetUUID, String texture) {
+			super();
+			this.targetUUID = targetUUID;
+			this.texture = texture;
+		}
+
+		@Override
         public void toBytes(ByteBuf buf) {
             ByteBufUtils.writeUTF8String(buf, targetUUID.toString());
             ByteBufUtils.writeUTF8String(buf, texture);

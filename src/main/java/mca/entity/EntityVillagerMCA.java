@@ -589,7 +589,179 @@ public class EntityVillagerMCA extends EntityVillager {
         set(HANGOUT_POS, player.getPosition());
     }
 
-    public void say(Optional<EntityPlayer> player, String phraseId, @Nullable String... params) {
+	public void setBabyAge(int babyAge) {
+		this.babyAge = babyAge;
+	}
+
+	public UUID getPlayerToFollowUUID() {
+		return playerToFollowUUID;
+	}
+
+	public void setPlayerToFollowUUID(UUID playerToFollowUUID) {
+		this.playerToFollowUUID = playerToFollowUUID;
+	}
+
+	public BlockPos getHome() {
+		return home;
+	}
+
+	public void setHome(BlockPos home) {
+		this.home = home;
+	}
+
+	public float getSwingProgressTicks() {
+		return swingProgressTicks;
+	}
+
+	public void setSwingProgressTicks(float swingProgressTicks) {
+		this.swingProgressTicks = swingProgressTicks;
+	}
+
+	public float getRenderOffsetX() {
+		return renderOffsetX;
+	}
+
+	public void setRenderOffsetX(float renderOffsetX) {
+		this.renderOffsetX = renderOffsetX;
+	}
+
+	public float getRenderOffsetY() {
+		return renderOffsetY;
+	}
+
+	public void setRenderOffsetY(float renderOffsetY) {
+		this.renderOffsetY = renderOffsetY;
+	}
+
+	public float getRenderOffsetZ() {
+		return renderOffsetZ;
+	}
+
+	public void setRenderOffsetZ(float renderOffsetZ) {
+		this.renderOffsetZ = renderOffsetZ;
+	}
+
+	public static int getVanillaCareerIdFieldIndex() {
+		return VANILLA_CAREER_ID_FIELD_INDEX;
+	}
+
+	public static int getVanillaCareerLevelFieldIndex() {
+		return VANILLA_CAREER_LEVEL_FIELD_INDEX;
+	}
+
+	public static DataParameter<String> getVillagerName() {
+		return VILLAGER_NAME;
+	}
+
+	public static DataParameter<String> getTexture() {
+		return TEXTURE;
+	}
+
+	public static DataParameter<Integer> getGender() {
+		return GENDER;
+	}
+
+	public static DataParameter<Float> getGirth() {
+		return GIRTH;
+	}
+
+	public static DataParameter<Float> getTallness() {
+		return TALLNESS;
+	}
+
+	public static DataParameter<NBTTagCompound> getPlayerHistoryMap() {
+		return PLAYER_HISTORY_MAP;
+	}
+
+	public static DataParameter<Integer> getMoveState() {
+		return MOVE_STATE;
+	}
+
+	public static DataParameter<String> getSpouseName() {
+		return SPOUSE_NAME;
+	}
+
+	public static DataParameter<Optional<UUID>> getSpouseUuid() {
+		return SPOUSE_UUID;
+	}
+
+	public static DataParameter<Integer> getMarriageState() {
+		return MARRIAGE_STATE;
+	}
+
+	public static DataParameter<Boolean> getIsProcreating() {
+		return IS_PROCREATING;
+	}
+
+	public static DataParameter<NBTTagCompound> getParents() {
+		return PARENTS;
+	}
+
+	public static DataParameter<Boolean> getIsInfected() {
+		return IS_INFECTED;
+	}
+
+	public static DataParameter<Integer> getAgeState() {
+		return AGE_STATE;
+	}
+
+	public static DataParameter<Integer> getActiveChore() {
+		return ACTIVE_CHORE;
+	}
+
+	public static DataParameter<Boolean> getIsSwinging() {
+		return IS_SWINGING;
+	}
+
+	public static DataParameter<Boolean> getHasBaby() {
+		return HAS_BABY;
+	}
+
+	public static DataParameter<Boolean> getBabyIsMale() {
+		return BABY_IS_MALE;
+	}
+
+	public static DataParameter<Integer> getBabyAge() {
+		return BABY_AGE;
+	}
+
+	public static DataParameter<Optional<UUID>> getChoreAssigningPlayer() {
+		return CHORE_ASSIGNING_PLAYER;
+	}
+
+	public static DataParameter<BlockPos> getBedPos() {
+		return BED_POS;
+	}
+
+	public static DataParameter<BlockPos> getWorkplacePos() {
+		return WORKPLACE_POS;
+	}
+
+	public static DataParameter<BlockPos> getHangoutPos() {
+		return HANGOUT_POS;
+	}
+
+	public static DataParameter<Boolean> getSleeping() {
+		return SLEEPING;
+	}
+
+	public static Predicate<EntityVillagerMCA> getBanditTargetSelector() {
+		return BANDIT_TARGET_SELECTOR;
+	}
+
+	public static Predicate<EntityVillagerMCA> getGuardTargetSelector() {
+		return GUARD_TARGET_SELECTOR;
+	}
+
+	public InventoryMCA getInventory() {
+		return inventory;
+	}
+
+	public int getStartingAge() {
+		return startingAge;
+	}
+
+	public void say(Optional<EntityPlayer> player, String phraseId, @Nullable String... params) {
         ArrayList<String> paramsList = new ArrayList<>();
         if (params != null) Collections.addAll(paramsList, params);
 
@@ -785,7 +957,7 @@ public class EntityVillagerMCA extends EntityVillager {
             if (decStackSize) player.inventory.decrStackSize(player.inventory.currentItem, -1);
             return true;
         } else if (item == Items.CAKE) {
-            Optional<Entity> spouse = Util.getEntityByUUID(world, get(SPOUSE_UUID).or(Constants.ZERO_UUID));
+            Optional<Entity> spouse = mca.util.Util.getEntityByUUID(world, get(SPOUSE_UUID).or(Constants.ZERO_UUID));
             if (spouse.isPresent()) {
                 EntityVillagerMCA progressor = this.get(GENDER) == EnumGender.FEMALE.getId() ? this : (EntityVillagerMCA) spouse.get();
                 progressor.set(HAS_BABY, true);
@@ -997,7 +1169,7 @@ public class EntityVillagerMCA extends EntityVillager {
 
     //searches for the nearest bed
     public BlockPos searchBed() {
-        List<BlockPos> nearbyBeds = Util.getNearbyBlocks(getPos(), world, BlockBed.class, 8, 8);
+        List<BlockPos> nearbyBeds = mca.util.Util.getNearbyBlocks(getPos(), world, BlockBed.class, 8, 8);
         List<BlockPos> valid = new ArrayList<>();
         for (BlockPos pos : nearbyBeds) {
             IBlockState state = world.getBlockState(pos);
@@ -1005,7 +1177,7 @@ public class EntityVillagerMCA extends EntityVillager {
                 valid.add(pos);
             }
         }
-        return Util.getNearestPoint(getPos(), valid);
+        return mca.util.Util.getNearestPoint(getPos(), valid);
     }
 
     /**
@@ -1048,8 +1220,8 @@ public class EntityVillagerMCA extends EntityVillager {
                 final EnumFacing enumfacing = state.getBlock() instanceof BlockHorizontal ? state.getValue(BlockHorizontal.FACING) : null;
 
                 if (enumfacing != null) {
-                    float f1 = 0.5F + (float) enumfacing.getFrontOffsetX() * 0.4F;
-                    float f = 0.5F + (float) enumfacing.getFrontOffsetZ() * 0.4F;
+                    float f1 = 0.5F + (float) enumfacing.getXOffset() * 0.4F;
+                    float f = 0.5F + (float) enumfacing.getZOffset() * 0.4F;
                     this.setRenderOffsetForSleep(enumfacing);
                     this.setPosition((double) ((float) bedLocation.getX() + f1), (double) ((float) bedLocation.getY() + 0.6875F), (double) ((float) bedLocation.getZ() + f));
                 } else {
@@ -1071,8 +1243,8 @@ public class EntityVillagerMCA extends EntityVillager {
     }
 
     private void setRenderOffsetForSleep(EnumFacing bedDirection) {
-        this.renderOffsetX = -1.0F * (float) bedDirection.getFrontOffsetX();
-        this.renderOffsetZ = -1.0F * (float) bedDirection.getFrontOffsetZ();
+        this.renderOffsetX = -1.0F * (float) bedDirection.getXOffset();
+        this.renderOffsetZ = -1.0F * (float) bedDirection.getZOffset();
     }
 
     public void startSleeping() {

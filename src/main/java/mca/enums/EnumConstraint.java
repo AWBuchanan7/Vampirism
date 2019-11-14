@@ -20,7 +20,11 @@ public enum EnumConstraint {
 
     String id;
 
-    public static List<EnumConstraint> fromStringList(String constraints) {
+    private EnumConstraint(String id) {
+		this.id = id;
+	}
+
+	public static List<EnumConstraint> fromStringList(String constraints) {
         List<EnumConstraint> list = new ArrayList<>();
 
         if (constraints != null && !constraints.isEmpty()) {

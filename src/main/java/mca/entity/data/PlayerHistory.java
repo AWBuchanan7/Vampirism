@@ -18,7 +18,51 @@ public class PlayerHistory {
     @Getter private UUID playerUUID;
     private EntityVillagerMCA villager;
 
-    private PlayerHistory() {
+    public boolean isGiftPresent() {
+		return giftPresent;
+	}
+
+	public void setGiftPresent(boolean giftPresent) {
+		this.giftPresent = giftPresent;
+	}
+
+	public int getGreetTimer() {
+		return greetTimer;
+	}
+
+	public void setGreetTimer(int greetTimer) {
+		this.greetTimer = greetTimer;
+	}
+
+	public UUID getPlayerUUID() {
+		return playerUUID;
+	}
+
+	public void setPlayerUUID(UUID playerUUID) {
+		this.playerUUID = playerUUID;
+	}
+
+	public EntityVillagerMCA getVillager() {
+		return villager;
+	}
+
+	public void setVillager(EntityVillagerMCA villager) {
+		this.villager = villager;
+	}
+
+	public int getHearts() {
+		return hearts;
+	}
+
+	public EnumDialogueType getDialogueType() {
+		return dialogueType;
+	}
+
+	public void setInteractionFatigue(int interactionFatigue) {
+		this.interactionFatigue = interactionFatigue;
+	}
+
+	private PlayerHistory() {
         hearts = 0;
         interactionFatigue = 0;
         giftPresent = false;

@@ -27,7 +27,39 @@ public class ParentData {
         return data;
     }
 
-    public static ParentData create(UUID parent1UUID, UUID parent2UUID, String parent1Name, String parent2Name) {
+    public UUID getParent1UUID() {
+		return parent1UUID;
+	}
+
+	public void setParent1UUID(UUID parent1uuid) {
+		parent1UUID = parent1uuid;
+	}
+
+	public UUID getParent2UUID() {
+		return parent2UUID;
+	}
+
+	public void setParent2UUID(UUID parent2uuid) {
+		parent2UUID = parent2uuid;
+	}
+
+	public String getParent1Name() {
+		return parent1Name;
+	}
+
+	public void setParent1Name(String parent1Name) {
+		this.parent1Name = parent1Name;
+	}
+
+	public String getParent2Name() {
+		return parent2Name;
+	}
+
+	public void setParent2Name(String parent2Name) {
+		this.parent2Name = parent2Name;
+	}
+
+	public static ParentData create(UUID parent1UUID, UUID parent2UUID, String parent1Name, String parent2Name) {
         ParentData data = new ParentData();
         data.parent1UUID = parent1UUID;
         data.parent2UUID = parent2UUID;

@@ -2,8 +2,8 @@ package mca.items;
 
 import java.util.List;
 
+import de.teamlapen.vampirism.VampirismMod;
 import mca.core.Constants;
-import mca.core.MCA;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -20,7 +20,7 @@ public class ItemWhistle extends Item {
 
     @Override
     public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
-        player.openGui(MCA.getInstance(), Constants.GUI_ID_WHISTLE, world, (int)player.posX, (int)player.posY, (int)player.posZ);
+        player.openGui(VampirismMod.getInstance(), Constants.GUI_ID_WHISTLE, world, (int)player.posX, (int)player.posY, (int)player.posZ);
         return super.onItemRightClick(world, player, hand);
     }
 

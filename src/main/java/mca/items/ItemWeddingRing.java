@@ -1,6 +1,8 @@
 package mca.items;
 
 import com.google.common.base.Optional;
+
+import de.teamlapen.vampirism.VampirismMod;
 import mca.entity.EntityVillagerMCA;
 import mca.entity.data.PlayerHistory;
 import mca.entity.data.PlayerSaveData;
@@ -20,9 +22,9 @@ public class ItemWeddingRing extends ItemSpecialCaseGift {
             response = "interaction.marry.fail.marriedtoother";
         else if (playerData.isMarriedOrEngaged())
             response = "interaction.marry.fail.marriedtoother";
-        else if (this instanceof ItemEngagementRing && history.getHearts() < MCA.getConfig().marriageHeartsRequirement / 2)
+        else if (this instanceof ItemEngagementRing && history.getHearts() < VampirismMod.getConfig().marriageHeartsRequirement / 2)
             response = "interaction.marry.fail.lowhearts";
-        else if (!(this instanceof ItemEngagementRing) && history.getHearts() < MCA.getConfig().marriageHeartsRequirement)
+        else if (!(this instanceof ItemEngagementRing) && history.getHearts() < VampirismMod.getConfig().marriageHeartsRequirement)
             response = "interaction.marry.fail.lowhearts";
         else {
             response = "interaction.marry.success";

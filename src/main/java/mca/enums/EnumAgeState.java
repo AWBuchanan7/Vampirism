@@ -17,7 +17,31 @@ public enum EnumAgeState {
     TEEN(3, 0.6f, 1.6f, 1.35f),
     ADULT(4, 0.8f, 2f, 1.5f);
 
-    int id;
+    public float getWidth() {
+		return width;
+	}
+
+	public void setWidth(float width) {
+		this.width = width;
+	}
+
+	public float getHeight() {
+		return height;
+	}
+
+	public void setHeight(float height) {
+		this.height = height;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public void setScaleForAge(float scaleForAge) {
+		this.scaleForAge = scaleForAge;
+	}
+
+	int id;
     float width;
     float height;
     float scaleForAge;

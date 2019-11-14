@@ -5,7 +5,7 @@ import mca.core.forge.NetMCA;
 import net.minecraft.nbt.NBTTagCompound;
 import org.apache.commons.lang3.StringUtils;
 
-import mca.core.MCA;
+import de.teamlapen.vampirism.VampirismMod;
 import mca.entity.EntityVillagerMCA;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
