@@ -3,38 +3,33 @@ package de.teamlapen.vampirism.entity.converted;
 import de.teamlapen.lib.lib.network.ISyncable;
 import de.teamlapen.lib.lib.util.UtilLib;
 import de.teamlapen.vampirism.VampirismMod;
-import de.teamlapen.vampirism.api.EnumStrength;
 import de.teamlapen.vampirism.api.VReference;
 import de.teamlapen.vampirism.api.VampirismAPI;
-import de.teamlapen.vampirism.api.difficulty.Difficulty;
 import de.teamlapen.vampirism.api.entity.convertible.IConvertedCreature;
 import de.teamlapen.vampirism.api.entity.convertible.IConvertingHandler;
-import de.teamlapen.vampirism.api.world.IVampirismVillage;
-import de.teamlapen.vampirism.entity.EntityVampirism;
 import de.teamlapen.vampirism.entity.ai.EntityAIAttackMeleeNoSun;
+import de.teamlapen.vampirism.entity.vampire.EntityVampireBase;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityList;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
 
 /**
  * Converted creature class.
  * Contains (stores and syncs) a normal Entity for rendering purpose
  */
-public class EntityConvertedCreature<T extends EntityCreature> extends EntityVampirism implements IConvertedCreature<T>, ISyncable {
+public class EntityConvertedCreature<T extends EntityCreature> extends EntityVampireBase implements IConvertedCreature<T>, ISyncable {
     private final static String TAG = "ConvCreature";
     private T entityCreature;
     private boolean entityChanged = false;
     private boolean canDespawn = false;
 
     public EntityConvertedCreature(World world) {
-        super(world);
+        super(world, false);
 
     }
 
@@ -267,112 +262,4 @@ public class EntityConvertedCreature<T extends EntityCreature> extends EntityVam
         }
 
     }
-
-	@Override
-	public boolean doesResistGarlic(EnumStrength strength) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void drinkBlood(int amt, float saturationMod, boolean useRemaining) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public EnumStrength isGettingGarlicDamage(boolean forceRefresh) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean isGettingSundamage(boolean forceRefresh) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean isIgnoringSundamage() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean useBlood(int amt, boolean allowPartial) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean wantsBlood() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public EntityLivingBase getRepresentingEntity() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public int getLevel() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void setLevel(int level) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public int getMaxLevel() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int suggestLevel(Difficulty d) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void attackVillage(AxisAlignedBB area) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void defendVillage(AxisAlignedBB area) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public AxisAlignedBB getTargetVillageArea() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean isAttackingVillage() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void stopVillageAttackDefense() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public IVampirismVillage getCurrentFriendlyVillage() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

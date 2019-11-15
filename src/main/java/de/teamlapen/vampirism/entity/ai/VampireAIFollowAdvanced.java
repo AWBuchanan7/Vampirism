@@ -1,6 +1,5 @@
 package de.teamlapen.vampirism.entity.ai;
 
-import de.teamlapen.vampirism.entity.EntityVampirism;
 import de.teamlapen.vampirism.entity.vampire.EntityAdvancedVampire;
 import de.teamlapen.vampirism.entity.vampire.EntityBasicVampire;
 import net.minecraft.entity.ai.EntityAIBase;
@@ -12,7 +11,7 @@ import java.util.List;
  */
 public class VampireAIFollowAdvanced extends EntityAIBase {
 
-    protected final EntityVampirism entity;
+    protected final EntityBasicVampire entity;
     protected final double speed;
     /**
      * Maximum distance before the entity starts following the advanced vampire
@@ -20,8 +19,8 @@ public class VampireAIFollowAdvanced extends EntityAIBase {
     private final int DIST = 20;
     private int delayCounter;
 
-    public VampireAIFollowAdvanced(EntityVampirism entityVampirism, double speed) {
-        this.entity = entityVampirism;
+    public VampireAIFollowAdvanced(EntityBasicVampire entity, double speed) {
+        this.entity = entity;
         this.speed = speed;
         this.setMutexBits(3);
     }

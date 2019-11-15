@@ -2,7 +2,6 @@ package de.teamlapen.vampirism.entity.hunter;
 
 import de.teamlapen.vampirism.api.entity.hunter.IHunter;
 import de.teamlapen.vampirism.entity.EntityVampirism;
-import mca.entity.EntityVillagerMCA;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.ai.EntityAISwimming;
@@ -12,7 +11,7 @@ import net.minecraft.world.World;
  * Base class for all vampire hunter
  */
 @SuppressWarnings("EntityConstructor")
-public abstract class EntityHunterBase extends EntityVillagerMCA implements IHunter {
+public abstract class EntityHunterBase extends EntityVampirism implements IHunter {
     private final boolean countAsMonster;
 
     public EntityHunterBase(World world, boolean countAsMonster) {

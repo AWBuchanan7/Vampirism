@@ -5,13 +5,14 @@ import net.minecraft.entity.ai.EntityAIBase;
 
 import java.util.List;
 
+import de.teamlapen.vampirism.entity.vampire.EntityAdvancedVampire;
+
 /**
  * Makes the basic Lizarfolk follow a nearby advanced Lizardfolk
  */
 public class AILizardfolkFollowAdvanced extends EntityAIBase {
 
     protected final EntityLizardfolk entity;
-    public EntityGreaterLizardfolk advancedLeader;
     protected final double speed;
     /**
      * Maximum distance before the entity starts following the greater Lizardfolk
@@ -38,16 +39,16 @@ public class AILizardfolkFollowAdvanced extends EntityAIBase {
     @Override
     public boolean shouldExecute() {
 
-        EntityGreaterLizardfolk leader = advancedLeader;
+        EntityAdvancedVampire leader = entity.getAdvancedLeader();
         if (leader != null) {
             return leader.isEntityAlive() && this.entity.getDistanceSq(leader) > DIST;
         }
 
-        List<EntityGreaterLizardfolk> list = this.entity.getEntityWorld().getEntitiesWithinAABB(EntityGreaterLizardfolk.class, this.entity.getEntityBoundingBox().grow(8, 4, 8));
+        List<EntityAdvancedVampire> list = this.entity.getEntityWorld().getEntitiesWithinAABB(EntityAdvancedVampire.class, this.entity.getEntityBoundingBox().grow(8, 4, 8));
 
         double d0 = Double.MAX_VALUE;
 
-        for (EntityGreaterLizardfolk entity1 : list) {
+        for (EntityAdvancedVampire entity1 : list) {
             if (entity1.isEntityAlive() && entity1.getFollowingCount() < entity1.getMaxFollowerCount()) {
                 double d1 = this.entity.getDistanceSq(entity1);
 
@@ -60,7 +61,6 @@ public class AILizardfolkFollowAdvanced extends EntityAIBase {
 
         if (leader == null) return false;
         else {
-        	advancedLeader = leader;
             entity.setAdvancedLeader(leader);
             leader.increaseFollowerCount();
             return this.entity.getDistanceSq(leader) > DIST;

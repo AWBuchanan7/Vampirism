@@ -126,7 +126,7 @@ public class BalanceMobProps extends BalanceValues {
     @DefaultInt(value = 75, minValue = 0, maxValue = 1000000, name = "lizardfolk_spawn_chance", comment = "e.g. Zombie spawn chance: 100")
     public int LIZARDFOLK_SPAWN_CHANCE;
     
-    @DefaultInt(value = 20, minValue = 0, maxValue = 1000000, name = "greater_lizardfolk_spawn_chance", comment = "e.g. Zombie spawn chance: 100")
+    @DefaultInt(value = 45, minValue = 0, maxValue = 1000000, name = "greater_lizardfolk_spawn_chance", comment = "e.g. Zombie spawn chance: 100")
     public int GREATER_LIZARDFOLK_SPAWN_CHANCE;
     
     public BalanceMobProps(File directory) {

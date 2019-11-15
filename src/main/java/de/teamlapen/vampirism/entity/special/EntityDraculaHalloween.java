@@ -3,9 +3,6 @@ package de.teamlapen.vampirism.entity.special;
 import com.google.common.base.Optional;
 import de.teamlapen.lib.lib.util.UtilLib;
 import de.teamlapen.vampirism.VampirismMod;
-import de.teamlapen.vampirism.api.EnumStrength;
-import de.teamlapen.vampirism.api.difficulty.Difficulty;
-import de.teamlapen.vampirism.api.world.IVampirismVillage;
 import de.teamlapen.vampirism.core.ModSounds;
 import de.teamlapen.vampirism.entity.EntityAreaParticleCloud;
 import de.teamlapen.vampirism.entity.EntityVampirism;
@@ -21,7 +18,6 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.network.play.server.SPacketSoundEffect;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -195,112 +191,4 @@ public class EntityDraculaHalloween extends EntityVampirism {
             this.setPosition(behind.getX(), y, behind.getZ());
         }
     }
-
-	@Override
-	public boolean doesResistGarlic(EnumStrength strength) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void drinkBlood(int amt, float saturationMod, boolean useRemaining) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public EnumStrength isGettingGarlicDamage(boolean forceRefresh) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean isGettingSundamage(boolean forceRefresh) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean isIgnoringSundamage() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean useBlood(int amt, boolean allowPartial) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean wantsBlood() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public EntityLivingBase getRepresentingEntity() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public int getLevel() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void setLevel(int level) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public int getMaxLevel() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int suggestLevel(Difficulty d) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void attackVillage(AxisAlignedBB area) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void defendVillage(AxisAlignedBB area) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public AxisAlignedBB getTargetVillageArea() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean isAttackingVillage() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void stopVillageAttackDefense() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public IVampirismVillage getCurrentFriendlyVillage() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

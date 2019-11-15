@@ -1,35 +1,27 @@
 package de.teamlapen.vampirism.entity.vampire;
 
 import de.teamlapen.lib.lib.util.UtilLib;
-import de.teamlapen.vampirism.api.EnumStrength;
 import de.teamlapen.vampirism.api.VReference;
 import de.teamlapen.vampirism.api.VampirismAPI;
 import de.teamlapen.vampirism.api.difficulty.Difficulty;
-import de.teamlapen.vampirism.api.difficulty.IAdjustableLevel;
-import de.teamlapen.vampirism.api.entity.IVillageCaptureEntity;
 import de.teamlapen.vampirism.api.entity.actions.EntityActionTier;
-import de.teamlapen.vampirism.api.entity.actions.IEntityAction;
 import de.teamlapen.vampirism.api.entity.actions.IEntityActionUser;
 import de.teamlapen.vampirism.api.entity.vampire.IBasicVampire;
-import de.teamlapen.vampirism.api.entity.vampire.IVampireMob;
 import de.teamlapen.vampirism.api.world.IVampirismVillage;
 import de.teamlapen.vampirism.config.Balance;
 import de.teamlapen.vampirism.core.ModPotions;
 import de.teamlapen.vampirism.core.ModSounds;
 import de.teamlapen.vampirism.core.ModVillages;
-import de.teamlapen.vampirism.entity.EntityVampirism;
 import de.teamlapen.vampirism.entity.action.EntityActionHandler;
 import de.teamlapen.vampirism.entity.ai.EntityAIDefendVillage;
 import de.teamlapen.vampirism.entity.ai.*;
 import de.teamlapen.vampirism.entity.hunter.EntityHunterBase;
 import de.teamlapen.vampirism.world.loot.LootHandler;
 import de.teamlapen.vampirism.world.villages.VampirismVillageHelper;
-import mca.entity.EntityVillagerMCA;
 import mca.entity.ai.EntityAIGoHangout;
 import mca.entity.ai.EntityAIGoWorkplace;
 import mca.entity.ai.EntityAISleeping;
 import net.minecraft.entity.EntityCreature;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.player.EntityPlayer;
@@ -52,7 +44,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
 import java.util.Iterator;
-import java.util.List;
 
 import javax.annotation.Nullable;
 
@@ -60,12 +51,13 @@ import javax.annotation.Nullable;
  * Basic vampire mob.
  * Follows nearby advanced hunters
  */
-public class EntityBasicVampire extends EntityVampirism implements IVampireMob, IAdjustableLevel, IVillageCaptureEntity, IEntityActionUser {
+public class EntityBasicVampire extends EntityVampireBase implements IBasicVampire, IEntityActionUser {
 
     private static final DataParameter<Integer> LEVEL = EntityDataManager.createKey(EntityBasicVampire.class, DataSerializers.VARINT);
     private final int MAX_LEVEL = 2;
     private final int ANGRY_TICKS_PER_ATTACK = 120;
     private int bloodtimer = 100;
+    private EntityAdvancedVampire advancedLeader = null;
     private int angryTimer = 0;
 
     private EntityAIBase tasks_avoidHunter;
@@ -99,9 +91,10 @@ public class EntityBasicVampire extends EntityVampirism implements IVampireMob, 
     private AxisAlignedBB village_defense_area;
 
     public EntityBasicVampire(World world) {
-        super(world);
+        super(world, true);
         super.setProfession(ModVillages.profession_vampire_rogue);
         this.canSuckBloodFromPlayer = true;
+        hasArms = true;
         this.setSpawnRestriction(SpawnRestriction.SPECIAL);
         this.setSize(0.6F, 1.95F);
         this.entitytier = EntityActionTier.Medium;
@@ -130,7 +123,14 @@ public class EntityBasicVampire extends EntityVampirism implements IVampireMob, 
         return advancedLeader;
     }
 
-
+    /**
+     * Set an advanced vampire, this vampire should follow
+     *
+     * @param advancedLeader
+     */
+    public void setAdvancedLeader(@Nullable EntityAdvancedVampire advancedLeader) {
+        this.advancedLeader = advancedLeader;
+    }
 
 
     @Override
@@ -168,7 +168,7 @@ public class EntityBasicVampire extends EntityVampirism implements IVampireMob, 
     @Override
     public boolean isIgnoringSundamage() {
         float health = this.getHealth() / this.getMaxHealth();
-        return angryTimer > 0 && health < 0.7f || health < 0.3f;
+        return super.isIgnoringSundamage() || angryTimer > 0 && health < 0.7f || health < 0.3f;
     }
 
     @Override
@@ -336,6 +336,37 @@ public class EntityBasicVampire extends EntityVampirism implements IVampireMob, 
     protected void initEntityAI() {
         super.initEntityAI();
         
+        removeCertainTasks(EntityAIAvoidEntity.class);
+        removeCertainTasks(EntityAIWatchClosest.class);
+        removeCertainTasks(EntityAIGoHangout.class);
+        removeCertainTasks(EntityAISleeping.class);
+        removeCertainTasks(EntityAIGoWorkplace.class);
+        
+        if (world.getDifficulty() == EnumDifficulty.HARD) {
+            //Only break doors on hard difficulty
+            this.tasks.addTask(1, new EntityAIBreakDoor(this));
+            ((PathNavigateGround) this.getNavigator()).setBreakDoors(true);
+        }
+        this.tasks_avoidHunter = new EntityAIAvoidEntity<>(this, EntityCreature.class, VampirismAPI.factionRegistry().getPredicate(getFaction(), false, true, false, false, VReference.HUNTER_FACTION), 10, 1.0, 1.1);
+        this.tasks.addTask(2, this.tasks_avoidHunter);
+        this.tasks.addTask(2, new VampireAIRestrictSun(this));
+        this.tasks.addTask(3, new VampireAIFleeSun(this, 0.9, false));
+        this.tasks.addTask(3, new VampireAIFleeGarlic(this, 0.9, false));
+        this.tasks.addTask(4, new EntityAIAttackMeleeNoSun(this, 1.0, false));
+        this.tasks.addTask(5, new VampireAIBiteNearbyEntity(this));
+        this.tasks.addTask(6, new VampireAIFollowAdvanced(this, 1.0));
+        this.tasks.addTask(7, new VampireAIMoveToBiteable(this, 0.75));
+        this.tasks.addTask(8, new EntityAIMoveThroughVillageCustom(this, 0.6, true, 600));
+        this.tasks.addTask(9, new EntityAIWander(this, 0.7));
+        this.tasks.addTask(10, new EntityAIWatchClosestVisible(this, EntityPlayer.class, 8F));
+        this.tasks.addTask(10, new EntityAIWatchClosest(this, EntityHunterBase.class, 17F));
+        this.tasks.addTask(10, new EntityAILookIdle(this));
+
+        this.targetTasks.addTask(3, new EntityAIHurtByTarget(this, false));
+        this.targetTasks.addTask(4, new EntityAIAttackVillage<>(this));
+        this.targetTasks.addTask(4, new EntityAIDefendVillage<>(this));//Should automatically be mutually exclusive with  attack village
+        this.targetTasks.addTask(5, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, 5, true, false, VampirismAPI.factionRegistry().getPredicate(getFaction(), true, true, false, false, null)));
+        this.targetTasks.addTask(6, new EntityAINearestAttackableTarget<>(this, EntityCreature.class, 5, true, false, VampirismAPI.factionRegistry().getPredicate(getFaction(), false, true, false, false, null)));//TODO maybe make them not attack hunters, although it looks interesting
 
     }
     
@@ -358,46 +389,4 @@ public class EntityBasicVampire extends EntityVampirism implements IVampireMob, 
         this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(Balance.mobProps.VAMPIRE_ATTACK_DAMAGE + Balance.mobProps.VAMPIRE_ATTACK_DAMAGE_PL * l);
         this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(Balance.mobProps.VAMPIRE_SPEED);
     }
-
-	@Override
-	public List<IEntityAction> getAvailableActions() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean doesResistGarlic(EnumStrength strength) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void drinkBlood(int amt, float saturationMod, boolean useRemaining) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public EnumStrength isGettingGarlicDamage(boolean forceRefresh) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean isGettingSundamage(boolean forceRefresh) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean useBlood(int amt, boolean allowPartial) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public EntityLivingBase getRepresentingEntity() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

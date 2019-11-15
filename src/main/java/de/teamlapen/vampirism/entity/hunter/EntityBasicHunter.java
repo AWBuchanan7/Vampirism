@@ -6,16 +6,15 @@ import de.teamlapen.vampirism.api.VReference;
 import de.teamlapen.vampirism.api.VampirismAPI;
 import de.teamlapen.vampirism.api.difficulty.Difficulty;
 import de.teamlapen.vampirism.api.entity.actions.EntityActionTier;
-import de.teamlapen.vampirism.api.entity.actions.IEntityAction;
 import de.teamlapen.vampirism.api.entity.actions.IEntityActionUser;
 import de.teamlapen.vampirism.api.entity.hunter.IBasicHunter;
 import de.teamlapen.vampirism.api.world.IVampirismVillage;
 import de.teamlapen.vampirism.config.Balance;
 import de.teamlapen.vampirism.core.ModItems;
-import de.teamlapen.vampirism.entity.EntityVampirism;
 import de.teamlapen.vampirism.entity.action.EntityActionHandler;
 import de.teamlapen.vampirism.entity.ai.EntityAIDefendVillage;
 import de.teamlapen.vampirism.entity.ai.*;
+import de.teamlapen.vampirism.entity.vampire.EntityVampireBase;
 import de.teamlapen.vampirism.inventory.HunterBasicContainer;
 import de.teamlapen.vampirism.network.ModGuiHandler;
 import de.teamlapen.vampirism.player.hunter.HunterLevelingConf;
@@ -49,7 +48,6 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 
 import java.util.Iterator;
-import java.util.List;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -101,13 +99,19 @@ public class EntityBasicHunter extends EntityHunterBase implements IBasicHunter,
     private AxisAlignedBB village_defense_area;
 
     public EntityBasicHunter(World world) {
-        super(world, false);
+        super(world, true);
+        saveHome = true;
         ((PathNavigateGround) this.getNavigator()).setEnterDoors(true);
 
         this.setSize(0.6F, 1.95F);
 
+
+        this.setDontDropEquipment();
+
         this.attackMelee = new EntityAIAttackMelee(this, 1.0, false);
         this.updateCombatTask();
+        this.entitytier = EntityActionTier.Medium;
+        this.entityActionHandler = new EntityActionHandler<>(this);
     }
 
     @Override
@@ -170,9 +174,24 @@ public class EntityBasicHunter extends EntityHunterBase implements IBasicHunter,
         this.getDataManager().set(SWINGING_ARMS, b);
     }
 
+    @Override
+    public void makeCampHunter(AxisAlignedBB box) {
+        super.setHome(box);
+        this.setMoveTowardsRestriction(MOVE_TO_RESTRICT_PRIO, true);
+    }
 
+    @Override
+    public void makeNormalHunter() {
+        super.setHome(null);
+        this.disableMoveTowardsRestriction();
+    }
 
+    @Override
+    public void makeVillageHunter(AxisAlignedBB box) {
+        super.setHome(box);
+        this.setMoveTowardsRestriction(MOVE_TO_RESTRICT_PRIO, true);
 
+    }
 
     @Nullable
     @Override
@@ -327,7 +346,7 @@ public class EntityBasicHunter extends EntityHunterBase implements IBasicHunter,
         this.tasks.addTask(5, new EntityAIMoveThroughVillageCustom(this, 0.7F, false, 300));
         this.tasks.addTask(6, new EntityAIWander(this, 0.7, 50));
         this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 13F));
-        this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityVampirism.class, 17F));
+        this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityVampireBase.class, 17F));
         this.tasks.addTask(8, new EntityAILookIdle(this));
 
         this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
@@ -407,6 +426,11 @@ public class EntityBasicHunter extends EntityHunterBase implements IBasicHunter,
         }
     }
 
+    @Override
+    protected void onRandomTick() {
+        super.onRandomTick();
+        this.cachedVillage = VampirismVillageHelper.getNearestVillage(this);
+    }
 
     protected void updateEntityAttributes() {
         int l = Math.max(getLevel(), 0);
@@ -422,28 +446,4 @@ public class EntityBasicHunter extends EntityHunterBase implements IBasicHunter,
     private void updateWatchedId(int id) {
         getDataManager().set(WATCHED_ID, id);
     }
-
-	@Override
-	public List<IEntityAction> getAvailableActions() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void makeVillageHunter(AxisAlignedBB box) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void makeCampHunter(AxisAlignedBB box) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void makeNormalHunter() {
-		// TODO Auto-generated method stub
-		
-	}
 }

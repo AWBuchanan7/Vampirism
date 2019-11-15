@@ -15,6 +15,7 @@ import de.teamlapen.vampirism.entity.action.EntityActionHandler;
 import de.teamlapen.vampirism.entity.ai.EntityAIDefendVillage;
 import de.teamlapen.vampirism.entity.ai.*;
 import de.teamlapen.vampirism.entity.hunter.EntityHunterBase;
+import de.teamlapen.vampirism.entity.vampire.EntityAdvancedVampire;
 import de.teamlapen.vampirism.world.loot.LootHandler;
 import de.teamlapen.vampirism.world.villages.VampirismVillageHelper;
 import net.lubriciouskin.iymts_mod.init.ItemRegister;
@@ -56,7 +57,7 @@ public class EntityLizardfolk extends EntityBaseLizardfolk implements IBasicVamp
     private final int MAX_LEVEL = 2;
     private final int ANGRY_TICKS_PER_ATTACK = 120;
     private int bloodtimer = 100;
-    private EntityGreaterLizardfolk advancedLeader = null;
+    private EntityAdvancedVampire advancedLeader = null;
     private int angryTimer = 0;
 
     private EntityAIBase tasks_avoidHunter;
@@ -113,20 +114,11 @@ public class EntityLizardfolk extends EntityBaseLizardfolk implements IBasicVamp
     }
 
     /**
-     * @return The advanced vampire this entity is following or null if none
-     */
-//    public
-//    @Nullable
-//    EntityGreaterLizardfolk getAdvancedLeader() {
-//        return advancedLeader;
-//    }
-
-    /**
      * Set an advanced vampire, this vampire should follow
      *
      * @param advancedLeader
      */
-    public void setAdvancedLeader(@Nullable EntityGreaterLizardfolk advancedLeader) {
+    public void setAdvancedLeader(@Nullable EntityAdvancedVampire advancedLeader) {
         this.advancedLeader = advancedLeader;
     }
 

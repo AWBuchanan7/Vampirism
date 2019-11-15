@@ -15,11 +15,11 @@ import de.teamlapen.vampirism.config.Balance;
 import de.teamlapen.vampirism.core.ModBlocks;
 import de.teamlapen.vampirism.core.ModParticles;
 import de.teamlapen.vampirism.entity.EntityFactionVillager;
-import de.teamlapen.vampirism.entity.EntityVampirism;
 import de.teamlapen.vampirism.entity.ExtendedCreature;
 import de.teamlapen.vampirism.entity.converted.EntityConvertedVillager;
 import de.teamlapen.vampirism.entity.factions.FactionPlayerHandler;
 import de.teamlapen.vampirism.entity.hunter.*;
+import de.teamlapen.vampirism.entity.vampire.EntityVampireBase;
 import de.teamlapen.vampirism.entity.vampire.EntityVampireFactionVillager;
 import de.teamlapen.vampirism.potion.PotionSanguinare;
 import de.teamlapen.vampirism.util.ModEventFactory;
@@ -670,7 +670,7 @@ public class TileTotem extends TileEntity implements ITickable {
                                 guards = this.world.getEntitiesWithinAABB(EntityHunterBase.class, getAffectedArea());
                                 entityId = getEntityForFaction(this.controllingFaction);
                             } else if (this.controllingFaction.equals(VReference.VAMPIRE_FACTION)) {
-                                guards = this.world.getEntitiesWithinAABB(EntityVampirism.class, getAffectedArea());
+                                guards = this.world.getEntitiesWithinAABB(EntityVampireBase.class, getAffectedArea());
                                 entityId = getEntityForFaction(this.controllingFaction);
                             }
                             if (entityId != null && defenderNumMax > guards.size()) {
@@ -899,8 +899,8 @@ public class TileTotem extends TileEntity implements ITickable {
             return;
         }
         Entity e = EntityList.createEntityByIDFromName(id, world);
-        if (e instanceof EntityVampirism) {
-            ((EntityVampirism) e).setSpawnRestriction(EntityVampirism.SpawnRestriction.SIMPLE);
+        if (e instanceof EntityVampireBase) {
+            ((EntityVampireBase) e).setSpawnRestriction(EntityVampireBase.SpawnRestriction.SIMPLE);
         }
         if (e != null && !UtilLib.spawnEntityInWorld(world, this.getAffectedAreaReduced(), e, 50, world.getPlayers(EntityPlayer.class, EntitySelectors.NOT_SPECTATING))) {
             e.setDead();
@@ -1059,7 +1059,7 @@ public class TileTotem extends TileEntity implements ITickable {
                 for (EntityHunterTrainerDummy e : huntertrainerdummy) {
                     EntityHunterTrainer trainer = new EntityHunterTrainer(this.world);
                     trainer.copyLocationAndAnglesFrom(e);
-//                    trainer.setHome(e.getHome());
+                    trainer.setHome(e.getHome());
                     world.removeEntity(e);
                     world.spawnEntity(trainer);
                 }

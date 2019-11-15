@@ -1,18 +1,14 @@
 package de.teamlapen.vampirism.entity.vampire;
 
 import com.mojang.authlib.GameProfile;
-
-import de.teamlapen.vampirism.api.EnumStrength;
 import de.teamlapen.vampirism.api.VampirismAPI;
 import de.teamlapen.vampirism.api.difficulty.Difficulty;
 import de.teamlapen.vampirism.api.entity.actions.EntityActionTier;
 import de.teamlapen.vampirism.api.entity.actions.IEntityActionUser;
 import de.teamlapen.vampirism.api.entity.vampire.IAdvancedVampire;
-import de.teamlapen.vampirism.api.world.IVampirismVillage;
 import de.teamlapen.vampirism.config.Balance;
 import de.teamlapen.vampirism.core.ModPotions;
 import de.teamlapen.vampirism.core.ModVillages;
-import de.teamlapen.vampirism.entity.EntityVampirism;
 import de.teamlapen.vampirism.entity.action.EntityActionHandler;
 import de.teamlapen.vampirism.entity.ai.*;
 import de.teamlapen.vampirism.entity.hunter.EntityHunterBase;
@@ -22,7 +18,6 @@ import de.teamlapen.vampirism.util.SupporterManager;
 import de.teamlapen.vampirism.world.loot.LootHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityCreature;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.player.EntityPlayer;
@@ -35,7 +30,6 @@ import net.minecraft.pathfinding.PathNavigateGround;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -48,7 +42,7 @@ import javax.annotation.Nullable;
 /**
  * Advanced vampire. Is strong. Represents supporters
  */
-public class EntityAdvancedVampire extends EntityVampirism implements IAdvancedVampire, IPlayerFace, IEntityActionUser {
+public class EntityAdvancedVampire extends EntityVampireBase implements IAdvancedVampire, IPlayerFace, IEntityActionUser {
     private static final DataParameter<Integer> LEVEL = EntityDataManager.createKey(EntityAdvancedVampire.class, DataSerializers.VARINT);
     private static final DataParameter<Integer> TYPE = EntityDataManager.createKey(EntityAdvancedVampire.class, DataSerializers.VARINT);
     private static final DataParameter<String> NAME = EntityDataManager.createKey(EntityAdvancedVampire.class, DataSerializers.STRING);
@@ -66,7 +60,7 @@ public class EntityAdvancedVampire extends EntityVampirism implements IAdvancedV
     private GameProfile facePlayerProfile;
 
     public EntityAdvancedVampire(World world) {
-        super(world);
+        super(world, true);
         super.setProfession(ModVillages.profession_vampire_expert);
         this.setSize(0.6F, 1.95F);
         this.canSuckBloodFromPlayer = true;
@@ -277,88 +271,4 @@ public class EntityAdvancedVampire extends EntityVampirism implements IAdvancedV
         this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(Balance.mobProps.ADVANCED_VAMPIRE_SPEED);
         this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(13);
     }
-
-	@Override
-	public boolean doesResistGarlic(EnumStrength strength) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void drinkBlood(int amt, float saturationMod, boolean useRemaining) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public EnumStrength isGettingGarlicDamage(boolean forceRefresh) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean isGettingSundamage(boolean forceRefresh) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean isIgnoringSundamage() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean useBlood(int amt, boolean allowPartial) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean wantsBlood() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public EntityLivingBase getRepresentingEntity() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void attackVillage(AxisAlignedBB area) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void defendVillage(AxisAlignedBB area) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public AxisAlignedBB getTargetVillageArea() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean isAttackingVillage() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void stopVillageAttackDefense() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public IVampirismVillage getCurrentFriendlyVillage() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

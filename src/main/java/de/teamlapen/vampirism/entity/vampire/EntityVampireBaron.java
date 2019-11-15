@@ -7,12 +7,10 @@ import de.teamlapen.vampirism.api.difficulty.Difficulty;
 import de.teamlapen.vampirism.api.entity.minions.ISaveableMinionHandler;
 import de.teamlapen.vampirism.api.entity.vampire.IVampireBaron;
 import de.teamlapen.vampirism.api.entity.vampire.IVampireMinion;
-import de.teamlapen.vampirism.api.world.IVampirismVillage;
 import de.teamlapen.vampirism.config.Balance;
 import de.teamlapen.vampirism.core.ModBlocks;
 import de.teamlapen.vampirism.core.ModEntities;
 import de.teamlapen.vampirism.core.ModItems;
-import de.teamlapen.vampirism.entity.EntityVampirism;
 import de.teamlapen.vampirism.entity.ai.EntityAIAttackRangedDarkBlood;
 import de.teamlapen.vampirism.entity.ai.EntityAIWatchClosestVisible;
 import de.teamlapen.vampirism.entity.ai.VampireAIFleeGarlic;
@@ -23,7 +21,6 @@ import de.teamlapen.vampirism.items.ItemHunterCoat;
 import de.teamlapen.vampirism.player.vampire.VampirePlayer;
 import de.teamlapen.vampirism.util.REFERENCE;
 import de.teamlapen.vampirism.world.loot.LootHandler;
-import mca.entity.EntityVillagerMCA;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.player.EntityPlayer;
@@ -37,7 +34,6 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
@@ -50,7 +46,7 @@ import java.util.UUID;
 /**
  * Vampire that spawns in the vampire forest, has minions and drops pure blood
  */
-public class EntityVampireBaron extends EntityVampirism implements IVampireBaron {
+public class EntityVampireBaron extends EntityVampireBase implements IVampireBaron {
     private static final DataParameter<Integer> LEVEL = EntityDataManager.createKey(EntityVampireBaron.class, DataSerializers.VARINT);
     private final SaveableMinionHandler<IVampireMinion.Saveable> minionHandler;
     public static final int MAX_LEVEL = 5;
@@ -68,7 +64,7 @@ public class EntityVampireBaron extends EntityVampirism implements IVampireBaron
     private boolean prevAttacking = false;
 
     public EntityVampireBaron(World world) {
-        super(world);
+        super(world, true);
         minionHandler = new SaveableMinionHandler<>(this);
         this.setSize(0.6F, 1.95F);
 
@@ -425,82 +421,4 @@ public class EntityVampireBaron extends EntityVampirism implements IVampireBaron
                 return rand.nextInt(max + 2 - min) + min;
         }
     }
-
-	@Override
-	public boolean doesResistGarlic(EnumStrength strength) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void drinkBlood(int amt, float saturationMod, boolean useRemaining) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public EnumStrength isGettingGarlicDamage(boolean forceRefresh) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean isGettingSundamage(boolean forceRefresh) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean isIgnoringSundamage() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean useBlood(int amt, boolean allowPartial) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean wantsBlood() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void attackVillage(AxisAlignedBB area) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void defendVillage(AxisAlignedBB area) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public AxisAlignedBB getTargetVillageArea() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean isAttackingVillage() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void stopVillageAttackDefense() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public IVampirismVillage getCurrentFriendlyVillage() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

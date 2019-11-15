@@ -43,7 +43,7 @@ import java.util.List;
  * Base class for most vampirism mobs
  * TODO @cheaterpaul why are all EntityAction parts in this class but it does not implement IEntityActionUser. Either move it to the entities that actually use it (preferred) or make this implement IEntityActionUser
  */
-public abstract class EntityVampirism extends EntityVillagerMCA implements IVampireMob, IEntityWithHome, IVampirismEntity, IAdjustableLevel, IVillageCaptureEntity, IFactionEntity {
+public abstract class EntityVampirism extends EntityVillagerMCA implements IEntityWithHome, IVampirismEntity {
 
     public EntityAdvancedVampire advancedLeader = null;
     private final EntityAIBase moveTowardsRestriction;
@@ -128,15 +128,6 @@ public abstract class EntityVampirism extends EntityVillagerMCA implements IVamp
     @Override
     public AxisAlignedBB getHome() {
         return home;
-    }
-    
-    /**
-     * Set an advanced vampire, this vampire should follow
-     *
-     * @param advancedLeader
-     */
-    public void setAdvancedLeader(@Nullable EntityAdvancedVampire advancedLeader) {
-        this.advancedLeader = advancedLeader;
     }
 
     @Override
