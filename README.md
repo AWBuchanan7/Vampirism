@@ -2,6 +2,11 @@
 
 This is a (currently very messy) merge of MCA and Vampirism. It also integrates with (and requires) iYamato's Mod for the new Lizardfolk and Apefolk factions.
 
+Requires:
+* IYamatos_Mod
+* MCA (Minecraft Comes Alive)
+* SimpleCore + SimpleOres
+
 # Original Vampirism Docs
 
 [![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://maxanier.de) 
