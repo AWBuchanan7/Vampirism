@@ -3,13 +3,19 @@
 This is a (currently very messy) project to bring features of MCA and Vampirism together. It also integrates with (and requires) iYamato's Mod to port iYamato's mobs to the new NPC system and give all mod's mobs access to iYamato's weaponry.
 
 Features:
-* Compatibility patch for Vampirism's faction system (including Vampire and Vampire Hunter factions) to work with MCA's NPC interaction system.
-* Compatability patch to use AI improvements from both mods.
+* Vampirism Comes Alive NPC System
+  * Changes to improve compatibility of Vampirism's faction system (including Vampire and Vampire Hunter factions) and MCA's NPC interaction system.
+  * Changes to use AI improvements from both mods where appropriate.
+* Port of iYamato's mobs to the Vampirism Comes Alive NPC System
+  * _Note:_ currently only the lizardfolk have been ported (as a vehicle for behaviour testing)
 
-Requires:
+Mod Requirements:
 * IYamatos_Mod
 * MCA (Minecraft Comes Alive)
 * SimpleCore + SimpleOres
+
+
+--
 
 # Original Vampirism Docs
 
