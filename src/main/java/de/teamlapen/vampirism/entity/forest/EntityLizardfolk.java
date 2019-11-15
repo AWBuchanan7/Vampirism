@@ -115,11 +115,11 @@ public class EntityLizardfolk extends EntityBaseLizardfolk implements IBasicVamp
     /**
      * @return The advanced vampire this entity is following or null if none
      */
-    public
-    @Nullable
-    EntityGreaterLizardfolk getAdvancedLeader() {
-        return advancedLeader;
-    }
+//    public
+//    @Nullable
+//    EntityGreaterLizardfolk getAdvancedLeader() {
+//        return advancedLeader;
+//    }
 
     /**
      * Set an advanced vampire, this vampire should follow

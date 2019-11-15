@@ -1,12 +1,15 @@
 package de.teamlapen.vampirism.entity.hunter;
 
+import de.teamlapen.vampirism.api.EnumStrength;
 import de.teamlapen.vampirism.api.VReference;
 import de.teamlapen.vampirism.api.VampirismAPI;
+import de.teamlapen.vampirism.api.difficulty.Difficulty;
+import de.teamlapen.vampirism.api.world.IVampirismVillage;
 import de.teamlapen.vampirism.entity.EntityVampirism;
 import de.teamlapen.vampirism.entity.ai.HunterAILookAtTrainee;
-import de.teamlapen.vampirism.entity.vampire.EntityVampireBase;
 import de.teamlapen.vampirism.util.Helper;
 import net.minecraft.entity.EntityCreature;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.player.EntityPlayer;
@@ -66,7 +69,7 @@ public class EntityHunterTrainerDummy extends EntityVampirism {
         this.tasks.addTask(4, new EntityAIAttackMelee(this, 1.0, false));
         this.tasks.addTask(6, new EntityAIWander(this, 0.7));
         this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 13F));
-        this.tasks.addTask(9, new EntityAIWatchClosest(this, EntityVampireBase.class, 17F));
+        this.tasks.addTask(9, new EntityAIWatchClosest(this, EntityVampirism.class, 17F));
         this.tasks.addTask(10, new EntityAILookIdle(this));
 
         this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
@@ -92,6 +95,114 @@ public class EntityHunterTrainerDummy extends EntityVampirism {
 
         return super.processInteract(player, hand);
     }
+
+	@Override
+	public boolean doesResistGarlic(EnumStrength strength) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void drinkBlood(int amt, float saturationMod, boolean useRemaining) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public EnumStrength isGettingGarlicDamage(boolean forceRefresh) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean isGettingSundamage(boolean forceRefresh) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isIgnoringSundamage() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean useBlood(int amt, boolean allowPartial) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean wantsBlood() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public EntityLivingBase getRepresentingEntity() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int getLevel() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setLevel(int level) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getMaxLevel() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int suggestLevel(Difficulty d) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void attackVillage(AxisAlignedBB area) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void defendVillage(AxisAlignedBB area) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public AxisAlignedBB getTargetVillageArea() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean isAttackingVillage() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void stopVillageAttackDefense() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public IVampirismVillage getCurrentFriendlyVillage() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 
 }

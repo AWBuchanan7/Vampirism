@@ -11,6 +11,7 @@ import java.util.List;
 public class AILizardfolkFollowAdvanced extends EntityAIBase {
 
     protected final EntityLizardfolk entity;
+    public EntityGreaterLizardfolk advancedLeader;
     protected final double speed;
     /**
      * Maximum distance before the entity starts following the greater Lizardfolk
@@ -37,7 +38,7 @@ public class AILizardfolkFollowAdvanced extends EntityAIBase {
     @Override
     public boolean shouldExecute() {
 
-        EntityGreaterLizardfolk leader = entity.getAdvancedLeader();
+        EntityGreaterLizardfolk leader = advancedLeader;
         if (leader != null) {
             return leader.isEntityAlive() && this.entity.getDistanceSq(leader) > DIST;
         }
@@ -59,6 +60,7 @@ public class AILizardfolkFollowAdvanced extends EntityAIBase {
 
         if (leader == null) return false;
         else {
+        	advancedLeader = leader;
             entity.setAdvancedLeader(leader);
             leader.increaseFollowerCount();
             return this.entity.getDistanceSq(leader) > DIST;

@@ -2,15 +2,20 @@ package de.teamlapen.vampirism.entity;
 
 import de.teamlapen.lib.VampLib;
 import de.teamlapen.vampirism.api.VampirismAPI;
+import de.teamlapen.vampirism.api.difficulty.IAdjustableLevel;
 import de.teamlapen.vampirism.api.entity.EntityClassType;
 import de.teamlapen.vampirism.api.entity.IEntityWithHome;
 import de.teamlapen.vampirism.api.entity.IVampirismEntity;
+import de.teamlapen.vampirism.api.entity.IVillageCaptureEntity;
 import de.teamlapen.vampirism.api.entity.actions.EntityActionTier;
 import de.teamlapen.vampirism.api.entity.actions.IEntityAction;
 import de.teamlapen.vampirism.api.entity.factions.IFactionEntity;
+import de.teamlapen.vampirism.api.entity.vampire.IBasicVampire;
+import de.teamlapen.vampirism.api.entity.vampire.IVampireMob;
 import de.teamlapen.vampirism.core.ModParticles;
 import de.teamlapen.vampirism.core.ModVillages;
 import de.teamlapen.vampirism.entity.action.EntityActionHandler;
+import de.teamlapen.vampirism.entity.vampire.EntityAdvancedVampire;
 import mca.entity.EntityVillagerMCA;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -38,8 +43,9 @@ import java.util.List;
  * Base class for most vampirism mobs
  * TODO @cheaterpaul why are all EntityAction parts in this class but it does not implement IEntityActionUser. Either move it to the entities that actually use it (preferred) or make this implement IEntityActionUser
  */
-public abstract class EntityVampirism extends EntityVillagerMCA implements IEntityWithHome, IVampirismEntity {
+public abstract class EntityVampirism extends EntityVillagerMCA implements IVampireMob, IEntityWithHome, IVampirismEntity, IAdjustableLevel, IVillageCaptureEntity, IFactionEntity {
 
+    public EntityAdvancedVampire advancedLeader = null;
     private final EntityAIBase moveTowardsRestriction;
     protected boolean hasArms = true;
     protected boolean peaceful = false;
@@ -122,6 +128,15 @@ public abstract class EntityVampirism extends EntityVillagerMCA implements IEnti
     @Override
     public AxisAlignedBB getHome() {
         return home;
+    }
+    
+    /**
+     * Set an advanced vampire, this vampire should follow
+     *
+     * @param advancedLeader
+     */
+    public void setAdvancedLeader(@Nullable EntityAdvancedVampire advancedLeader) {
+        this.advancedLeader = advancedLeader;
     }
 
     @Override
@@ -396,5 +411,9 @@ public abstract class EntityVampirism extends EntityVillagerMCA implements IEnti
         this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).applyModifier(entityclass.getHealthModifier());
         this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).applyModifier(entityclass.getDamageModifier());
         this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).applyModifier(entityclass.getSpeedModifier());
+    }
+    
+    public EntityAdvancedVampire getAdvancedLeader() {
+    	return advancedLeader;
     }
 }

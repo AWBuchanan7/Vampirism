@@ -19,8 +19,8 @@ minecraft:chicken=0
 
 
 #Misc Villagers
-mca:EntityHuman=15
-mca:entityvillagermca=15
+vampirism:EntityHuman=15
+vampirism:entityvillagermca=15
 cedunleashedcontrol:custom_villager=15
 toroquest:toroquest_fugitive=15
 iceandfire:snowvillager=15

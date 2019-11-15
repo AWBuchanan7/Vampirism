@@ -4,6 +4,7 @@ import com.google.common.base.Predicates;
 import de.teamlapen.vampirism.api.VampirismAPI;
 import de.teamlapen.vampirism.api.entity.IVillageCaptureEntity;
 import de.teamlapen.vampirism.entity.EntityVampirism;
+import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAITarget;
@@ -11,7 +12,7 @@ import net.minecraft.entity.ai.EntityAITarget;
 import java.util.List;
 
 
-public class EntityAIAttackVillage<T extends EntityVampirism & IVillageCaptureEntity> extends EntityAITarget {
+public class EntityAIAttackVillage<T extends EntityCreature & IVillageCaptureEntity> extends EntityAITarget {
 
     private final T attacker;
     private final EntityAINearestAttackableTarget.Sorter sorter;

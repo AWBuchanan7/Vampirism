@@ -125,11 +125,11 @@ public class ModEntities {
         registry.register(basicVampire.build());
         
         EntityEntryBuilder<EntityLizardfolk> basicLizardfolk = prepareEntityEntry(EntityLizardfolk.class, BASIC_LIZARDFOLK_NAME, "lizardfolk", EntityLiving.SpawnPlacementType.ON_GROUND, true);
-//        addSpawn(basicLizardfolk, EnumCreatureType.MONSTER, Balance.mobProps.LIZARDFOLK_SPAWN_CHANCE, 1, 2, biomes);
+        addSpawn(basicLizardfolk, EnumCreatureType.MONSTER, Balance.mobProps.LIZARDFOLK_SPAWN_CHANCE, 1, 2, biomes);
         registry.register(basicLizardfolk.build());
         
         EntityEntryBuilder<EntityGreaterLizardfolk> greaterLizardfolk = prepareEntityEntry(EntityGreaterLizardfolk.class, GREATER_LIZARDFOLK_NAME, "greater_lizardfolk", EntityLiving.SpawnPlacementType.ON_GROUND, true);
-//        addSpawn(greaterLizardfolk, EnumCreatureType.MONSTER, Balance.mobProps.ADVANCED_VAMPIRE_SPAWN_PROBE, 1, 1, biomes);
+        addSpawn(greaterLizardfolk, EnumCreatureType.MONSTER, Balance.mobProps.GREATER_LIZARDFOLK_SPAWN_CHANCE, 1, 1, biomes);
         registry.register(greaterLizardfolk.build());
         
         registry.register(prepareEntityEntry(EntityHunterTrainer.class, HUNTER_TRAINER, "hunter_trainer", EntityLiving.SpawnPlacementType.ON_GROUND, true).build());

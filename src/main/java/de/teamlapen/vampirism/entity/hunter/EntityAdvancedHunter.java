@@ -4,11 +4,12 @@ import com.mojang.authlib.GameProfile;
 import de.teamlapen.vampirism.api.VampirismAPI;
 import de.teamlapen.vampirism.api.difficulty.Difficulty;
 import de.teamlapen.vampirism.api.entity.actions.EntityActionTier;
+import de.teamlapen.vampirism.api.entity.actions.IEntityAction;
 import de.teamlapen.vampirism.api.entity.actions.IEntityActionUser;
 import de.teamlapen.vampirism.api.entity.hunter.IAdvancedHunter;
 import de.teamlapen.vampirism.config.Balance;
+import de.teamlapen.vampirism.entity.EntityVampirism;
 import de.teamlapen.vampirism.entity.action.EntityActionHandler;
-import de.teamlapen.vampirism.entity.vampire.EntityVampireBase;
 import de.teamlapen.vampirism.util.IPlayerFace;
 import de.teamlapen.vampirism.util.PlayerSkinHelper;
 import de.teamlapen.vampirism.util.SupporterManager;
@@ -33,6 +34,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.util.List;
+
 import javax.annotation.Nullable;
 
 /**
@@ -53,15 +56,9 @@ public class EntityAdvancedHunter extends EntityHunterBase implements IAdvancedH
 
     public EntityAdvancedHunter(World world) {
         super(world, true);
-        saveHome = true;
         ((PathNavigateGround) this.getNavigator()).setEnterDoors(true);
 
         this.setSize(0.6F, 1.95F);
-
-
-        this.setDontDropEquipment();
-        this.entitytier = EntityActionTier.High;
-        this.entityActionHandler = new EntityActionHandler<>(this);
     }
 
     @Override
@@ -152,12 +149,6 @@ public class EntityAdvancedHunter extends EntityHunterBase implements IAdvancedH
     }
 
     @Override
-    public void setCampArea(AxisAlignedBB box) {
-        super.setHome(box);
-        this.setMoveTowardsRestriction(MOVE_TO_RESTRICT_PRIO, true);
-    }
-
-    @Override
     public int suggestLevel(Difficulty d) {
         if (rand.nextBoolean()) {
             return (int) (d.avgPercLevel * MAX_LEVEL / 100F);
@@ -218,7 +209,7 @@ public class EntityAdvancedHunter extends EntityHunterBase implements IAdvancedH
 
         this.tasks.addTask(6, new EntityAIWander(this, 0.7, 50));
         this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 13F));
-        this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityVampireBase.class, 17F));
+        this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityVampirism.class, 17F));
         this.tasks.addTask(8, new EntityAILookIdle(this));
 
         this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
@@ -233,4 +224,16 @@ public class EntityAdvancedHunter extends EntityHunterBase implements IAdvancedH
         this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(Balance.mobProps.ADVANCED_HUNTER_ATTACK_DAMAGE + Balance.mobProps.ADVANCED_HUNTER_ATTACK_DAMAGE_PL * l);
         this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(Balance.mobProps.ADVANCED_HUNTER_SPEED);
     }
+
+	@Override
+	public List<IEntityAction> getAvailableActions() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setCampArea(AxisAlignedBB box) {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -6,6 +6,7 @@ import de.teamlapen.vampirism.api.difficulty.Difficulty;
 import de.teamlapen.vampirism.api.entity.actions.EntityActionTier;
 import de.teamlapen.vampirism.api.entity.actions.IEntityActionUser;
 import de.teamlapen.vampirism.api.entity.vampire.IAdvancedVampire;
+import de.teamlapen.vampirism.api.world.IVampirismVillage;
 import de.teamlapen.vampirism.config.Balance;
 import de.teamlapen.vampirism.core.ModPotions;
 import de.teamlapen.vampirism.entity.action.EntityActionHandler;
@@ -35,6 +36,7 @@ import net.minecraft.pathfinding.PathNavigateGround;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -259,4 +261,40 @@ public class EntityGreaterLizardfolk extends EntityBaseLizardfolk implements IAd
         this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(Balance.mobProps.ADVANCED_VAMPIRE_SPEED);
         this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(13);
     }
+
+	@Override
+	public void attackVillage(AxisAlignedBB area) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void defendVillage(AxisAlignedBB area) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public AxisAlignedBB getTargetVillageArea() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean isAttackingVillage() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void stopVillageAttackDefense() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public IVampirismVillage getCurrentFriendlyVillage() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

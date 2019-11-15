@@ -4,9 +4,9 @@ import de.teamlapen.vampirism.VampirismMod;
 import de.teamlapen.vampirism.api.VReference;
 import de.teamlapen.vampirism.api.VampirismAPI;
 import de.teamlapen.vampirism.core.ModItems;
+import de.teamlapen.vampirism.entity.EntityVampirism;
 import de.teamlapen.vampirism.entity.ai.HunterAILookAtTrainee;
 import de.teamlapen.vampirism.entity.factions.FactionPlayerHandler;
-import de.teamlapen.vampirism.entity.vampire.EntityVampireBase;
 import de.teamlapen.vampirism.inventory.HunterTrainerContainer;
 import de.teamlapen.vampirism.network.ModGuiHandler;
 import de.teamlapen.vampirism.player.hunter.HunterLevelingConf;
@@ -31,12 +31,9 @@ public class EntityHunterTrainer extends EntityHunterBase implements HunterAILoo
 
     public EntityHunterTrainer(World world) {
         super(world, false);
-        saveHome = true;
-        hasArms = true;
         ((PathNavigateGround) this.getNavigator()).setEnterDoors(true);
 
         this.setSize(0.6F, 1.95F);
-        this.setDontDropEquipment();
     }
 
     @Override
@@ -61,12 +58,6 @@ public class EntityHunterTrainer extends EntityHunterBase implements HunterAILoo
     }
 
     @Override
-    public void setHome(AxisAlignedBB box) {
-        super.setHome(box);
-        this.setMoveTowardsRestriction(MOVE_TO_RESTRICT_PRIO, true);
-    }
-
-    @Override
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(300);
@@ -88,7 +79,7 @@ public class EntityHunterTrainer extends EntityHunterBase implements HunterAILoo
         this.tasks.addTask(5, new HunterAILookAtTrainee(this));
         this.tasks.addTask(6, new EntityAIWander(this, 0.7));
         this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 13F));
-        this.tasks.addTask(9, new EntityAIWatchClosest(this, EntityVampireBase.class, 17F));
+        this.tasks.addTask(9, new EntityAIWatchClosest(this, EntityVampirism.class, 17F));
         this.tasks.addTask(10, new EntityAILookIdle(this));
 
         this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));

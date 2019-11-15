@@ -18,7 +18,41 @@ import javax.annotation.Nullable;
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 
+import de.teamlapen.lib.lib.util.UtilLib;
 import de.teamlapen.vampirism.VampirismMod;
+import de.teamlapen.vampirism.api.EnumStrength;
+import de.teamlapen.vampirism.api.VReference;
+import de.teamlapen.vampirism.api.VampirismAPI;
+import de.teamlapen.vampirism.api.entity.factions.IFaction;
+import de.teamlapen.vampirism.api.entity.factions.IFactionEntity;
+import de.teamlapen.vampirism.api.entity.player.vampire.IBloodStats;
+import de.teamlapen.vampirism.api.entity.vampire.IVampireMob;
+import de.teamlapen.vampirism.api.items.IVampireFinisher;
+import de.teamlapen.vampirism.api.items.IItemWithTier.TIER;
+import de.teamlapen.vampirism.config.Balance;
+import de.teamlapen.vampirism.core.ModBiomes;
+import de.teamlapen.vampirism.core.ModBlocks;
+import de.teamlapen.vampirism.core.ModPotions;
+import de.teamlapen.vampirism.core.ModVillages;
+import de.teamlapen.vampirism.entity.DamageHandler;
+import de.teamlapen.vampirism.entity.EntitySoulOrb;
+import de.teamlapen.vampirism.entity.EntityVampirism;
+import de.teamlapen.vampirism.entity.ai.EntityAIAttackMeleeNoSun;
+import de.teamlapen.vampirism.entity.ai.EntityAIAttackVillage;
+import de.teamlapen.vampirism.entity.ai.EntityAIDefendVillage;
+import de.teamlapen.vampirism.entity.ai.EntityAIMoveThroughVillageCustom;
+import de.teamlapen.vampirism.entity.ai.EntityAIWatchClosestVisible;
+import de.teamlapen.vampirism.entity.ai.VampireAIBiteNearbyEntity;
+import de.teamlapen.vampirism.entity.ai.VampireAIFleeGarlic;
+import de.teamlapen.vampirism.entity.ai.VampireAIFleeSun;
+import de.teamlapen.vampirism.entity.ai.VampireAIFollowAdvanced;
+import de.teamlapen.vampirism.entity.ai.VampireAIMoveToBiteable;
+import de.teamlapen.vampirism.entity.ai.VampireAIRestrictSun;
+import de.teamlapen.vampirism.entity.hunter.EntityHunterBase;
+import de.teamlapen.vampirism.items.ItemHunterCoat;
+import de.teamlapen.vampirism.player.vampire.VampirePlayer;
+import de.teamlapen.vampirism.util.Helper;
+import de.teamlapen.vampirism.util.REFERENCE;
 import mca.api.API;
 import mca.api.types.APIButton;
 import mca.core.Constants;
@@ -56,14 +90,22 @@ import net.minecraft.block.BlockBed;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityCreature;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.EnumCreatureAttribute;
+import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
 import net.minecraft.entity.ai.EntityAIAvoidEntity;
 import net.minecraft.entity.ai.EntityAIBase;
+import net.minecraft.entity.ai.EntityAIBreakDoor;
+import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAIMoveThroughVillage;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
+import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAITasks;
+import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.ai.RandomPositionGenerator;
 import net.minecraft.entity.monster.EntityVex;
@@ -73,8 +115,10 @@ import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.Biomes;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.init.MobEffects;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
@@ -83,6 +127,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.pathfinding.PathNavigateGround;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -97,13 +143,14 @@ import net.minecraft.util.registry.RegistryNamespaced;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.registry.VillagerRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class EntityVillagerMCA extends EntityVillager {
+public class EntityVillagerMCA extends EntityVillager implements IFactionEntity {
     public static final int VANILLA_CAREER_ID_FIELD_INDEX = 13;
     public static final int VANILLA_CAREER_LEVEL_FIELD_INDEX = 14;
 
@@ -138,7 +185,7 @@ public class EntityVillagerMCA extends EntityVillager {
     public final InventoryMCA inventory;
     public int babyAge = 0;
     public UUID playerToFollowUUID = Constants.ZERO_UUID;
-
+    private EntityAIBase tasks_avoidHunter;
     private BlockPos home = BlockPos.ORIGIN;
     private int startingAge = 0;
     private float swingProgressTicks;
@@ -148,23 +195,25 @@ public class EntityVillagerMCA extends EntityVillager {
     public float renderOffsetZ;
 
     public EntityVillagerMCA() {
-        super(null);
+    	super(null);
+        this.countAsMonsterForSpawn = false;
         inventory = null;
     }
 
     public EntityVillagerMCA(World worldIn) {
-        super(worldIn);
+		super(worldIn);
+        this.countAsMonsterForSpawn = false;
         inventory = new InventoryMCA(this);
     }
 
     public EntityVillagerMCA(World worldIn, Optional<VillagerRegistry.VillagerProfession> profession, Optional<EnumGender> gender) {
-        this(worldIn);
-
+		this(worldIn);
+		this.countAsMonsterForSpawn = false;
         if (!worldIn.isRemote) {
             EnumGender eGender = gender.isPresent() ? gender.get() : EnumGender.getRandom();
             set(GENDER, eGender.getId());
             set(VILLAGER_NAME, API.getRandomName(eGender));
-            setProfession(profession.isPresent() ? profession.get() : ProfessionsMCA.randomProfession());
+            setProfession(ProfessionsMCA.randomProfession());
             setVanillaCareer(getProfessionForge().getRandomCareer(worldIn.rand));
             set(TEXTURE, API.getRandomSkin(this));
 
@@ -211,6 +260,7 @@ public class EntityVillagerMCA extends EntityVillager {
         if (this.getHealth() <= VampirismMod.getConfig().villagerMaxHealth) {
             this.setHealth(VampirismMod.getConfig().villagerMaxHealth);
         }
+        getAttributeMap().registerAttribute(VReference.sunDamage).setBaseValue(Balance.mobProps.VAMPIRE_MOB_SUN_DAMAGE);
     }
 
     public <T> T get(DataParameter<T> key) {
@@ -220,13 +270,7 @@ public class EntityVillagerMCA extends EntityVillager {
     public <T> void set(DataParameter<T> key, T value) {
         this.dataManager.set(key, value);
     }
-
-    @Override
-    public boolean attackEntityAsMob(@Nonnull Entity entityIn) {
-        super.attackEntityAsMob(entityIn);
-        return entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), this.getProfessionForge() == ProfessionsMCA.guard ? 9.0F : 2.0F);
-    }
-
+    
     @Override
     public void readEntityFromNBT(NBTTagCompound nbt) {
         super.readEntityFromNBT(nbt);
@@ -354,6 +398,15 @@ public class EntityVillagerMCA extends EntityVillager {
 
     @Override
     public void onDeath(@Nonnull DamageSource cause) {
+        super.onDeath(cause);
+        if (cause.getImmediateSource() instanceof EntityPlayer && Helper.isHunter(cause.getImmediateSource())) {
+            ItemStack weapon = ((EntityPlayer) cause.getImmediateSource()).getHeldItemMainhand();
+            if (!weapon.isEmpty() && weapon.getItem() instanceof IVampireFinisher) {
+                dropSoul = true;
+            }
+        } else {
+            dropSoul = false;//In case a previous death has been canceled somehow
+        }
         if (!world.isRemote) {
             if (VampirismMod.getConfig().logVillagerDeaths) {
                 String causeName = cause.getImmediateSource() == null ? "Unknown" : cause.getImmediateSource().getName();
@@ -1053,6 +1106,7 @@ public class EntityVillagerMCA extends EntityVillager {
         this.tasks.addTask(1, new EntityAISleeping(this));
         this.tasks.addTask(10, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
         this.tasks.addTask(10, new EntityAILookIdle(this));
+        this.tasks.addTask(0, new EntityAISwimming(this));
     }
 
     private void applySpecialAI() {
@@ -1063,6 +1117,40 @@ public class EntityVillagerMCA extends EntityVillager {
 
             this.targetTasks.addTask(0, new EntityAINearestAttackableTarget<>(this, EntityVillagerMCA.class, 100, false, false, BANDIT_TARGET_SELECTOR));
             this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, true));
+        } else if (getProfessionForge() == ModVillages.profession_vampire_rogue || getProfessionForge() == ModVillages.profession_vampire_expert) {
+            removeCertainTasks(EntityAIAvoidEntity.class);
+            removeCertainTasks(EntityAIWatchClosest.class);
+            removeCertainTasks(EntityAIGoHangout.class);
+            removeCertainTasks(EntityAISleeping.class);
+            removeCertainTasks(EntityAIGoWorkplace.class);
+            
+            if (world.getDifficulty() == EnumDifficulty.HARD) {
+                //Only break doors on hard difficulty
+                this.tasks.addTask(1, new EntityAIBreakDoor(this));
+                ((PathNavigateGround) this.getNavigator()).setBreakDoors(true);
+            }
+            
+            this.tasks_avoidHunter = new EntityAIAvoidEntity<>(this, EntityCreature.class, VampirismAPI.factionRegistry().getPredicate(getFaction(), false, true, false, false, VReference.HUNTER_FACTION), 10, 1.0, 1.1);
+            this.tasks.addTask(2, this.tasks_avoidHunter);
+            this.tasks.addTask(2, new VampireAIRestrictSun((EntityVampirism)this));
+            this.tasks.addTask(3, new VampireAIFleeSun(this, 0.9, false));
+            this.tasks.addTask(3, new VampireAIFleeGarlic((EntityVampirism)this, 0.9, false));
+            this.tasks.addTask(4, new EntityAIAttackMeleeNoSun(this, 1.0, false));
+            this.tasks.addTask(5, new VampireAIBiteNearbyEntity((EntityVampirism)this));
+            this.tasks.addTask(6, new VampireAIFollowAdvanced((EntityVampirism)this, 1.0));
+            this.tasks.addTask(7, new VampireAIMoveToBiteable((EntityVampirism)this, 0.75));
+            this.tasks.addTask(8, new EntityAIMoveThroughVillageCustom(this, 0.6, true, 600));
+            this.tasks.addTask(9, new EntityAIWander(this, 0.7));
+            this.tasks.addTask(10, new EntityAIWatchClosestVisible(this, EntityPlayer.class, 8F));
+            this.tasks.addTask(10, new EntityAIWatchClosest(this, EntityHunterBase.class, 17F));
+            this.tasks.addTask(10, new EntityAILookIdle(this));
+
+            this.targetTasks.addTask(3, new EntityAIHurtByTarget(this, false));
+            this.targetTasks.addTask(4, new EntityAIAttackVillage(this));
+            this.targetTasks.addTask(4, new EntityAIDefendVillage(this));//Should automatically be mutually exclusive with  attack village
+            this.targetTasks.addTask(5, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, 5, true, false, VampirismAPI.factionRegistry().getPredicate(getFaction(), true, true, false, false, null)));
+            this.targetTasks.addTask(6, new EntityAINearestAttackableTarget<>(this, EntityCreature.class, 5, true, false, VampirismAPI.factionRegistry().getPredicate(getFaction(), false, true, false, false, null)));//TODO maybe make them not attack hunters, although it looks interesting
+
         } else if (getProfessionForge() == ProfessionsMCA.guard) {
             removeCertainTasks(EntityAIAvoidEntity.class);
 
@@ -1281,4 +1369,148 @@ public class EntityVillagerMCA extends EntityVillager {
 
         set(SLEEPING, false);
     }
+
+    /**
+     * Rules to consider for {@link #getCanSpawnHere()}
+     */
+    protected SpawnRestriction spawnRestriction = SpawnRestriction.NORMAL;
+    private boolean countAsMonsterForSpawn;
+
+    protected EnumStrength garlicResist = EnumStrength.NONE;
+    protected boolean canSuckBloodFromPlayer = false;
+    protected boolean vulnerableToFire = true;
+    private boolean sundamageCache;
+    private EnumStrength garlicCache = EnumStrength.NONE;
+    /**
+     * If the vampire should spawn a vampire soul at the end of its death animation.
+     * No need to store this in NBT as it is only set during onDeath() so basically 20 ticks beforehand.
+     */
+    private boolean dropSoul = false;
+
+    /**
+     * Select rules to consider for {@link #getCanSpawnHere()}
+     */
+    public void setSpawnRestriction(SpawnRestriction spawnRules) {
+        this.spawnRestriction = spawnRules;
+    }
+
+    @Override
+    public boolean attackEntityAsMob(Entity entity) {
+        for (ItemStack e : entity.getArmorInventoryList()) {
+            if (e != null && e.getItem() instanceof ItemHunterCoat) {
+                int j = 1;
+                if (((ItemHunterCoat) e.getItem()).getTier(e).equals(TIER.ENHANCED))
+                    j = 2;
+                else if (((ItemHunterCoat) e.getItem()).getTier(e).equals(TIER.ULTIMATE))
+                    j = 3;
+                if (getRNG().nextInt((4 - j) * 2) == 0)
+                    addPotionEffect(new PotionEffect(ModPotions.poison, (int) (20 * Math.sqrt(j)), j));
+            }
+        }
+
+        return entity.attackEntityFrom(DamageSource.causeMobDamage(this), this.getProfessionForge() == ProfessionsMCA.guard ? 9.0F : 2.0F);
+    }
+
+    @Override
+    public boolean attackEntityFrom(DamageSource damageSource, float amount) {
+        if (vulnerableToFire) {
+            if (DamageSource.IN_FIRE.equals(damageSource)) {
+                return this.attackEntityFrom(VReference.VAMPIRE_IN_FIRE, calculateFireDamage(amount));
+            } else if (DamageSource.ON_FIRE.equals(damageSource)) {
+                return this.attackEntityFrom(VReference.VAMPIRE_ON_FIRE, calculateFireDamage(amount));
+            }
+        }
+        return super.attackEntityFrom(damageSource, amount);
+    }
+
+    public enum SpawnRestriction {
+        /**
+         * Only entity spawn checks
+         */
+        NONE(0),
+        /**
+         * +No direct sunlight or garlic
+         */
+        SIMPLE(1),
+        /**
+         * +Avoid villages and daytime (random chance)
+         */
+        NORMAL(2),
+        /**
+         * +Only at low light level or in vampire biome on cursed earth
+         */
+        SPECIAL(3);
+
+        int level;
+
+        SpawnRestriction(int level) {
+            this.level = level;
+        }
+    }
+
+    @Override
+    public EnumCreatureAttribute getCreatureAttribute() {
+        return VReference.VAMPIRE_CREATURE_ATTRIBUTE;
+    }
+
+    @Override
+    public float getEyeHeight() {
+        return height * 0.875f;
+    }
+
+    @Override
+    public boolean isCreatureType(EnumCreatureType type, boolean forSpawnCount) {
+        return super.isCreatureType(type, forSpawnCount);
+    }
+
+
+
+    @Override
+    public void onLivingUpdate() {
+        if (!this.world.isRemote) {
+            if (isEntityAlive() && isInWater()) {
+                setAir(300);
+                if (ticksExisted % 16 == 4) {
+                    addPotionEffect(new PotionEffect(MobEffects.WEAKNESS, 80, 0));
+                }
+            }
+        }
+        super.onLivingUpdate();
+    }
+
+    /**
+     * Calculates the increased fire damage is this vampire creature is especially vulnerable to fire
+     *
+     * @param amount
+     * @return
+     */
+    protected float calculateFireDamage(float amount) {
+        return amount;
+    }
+
+    @Override
+    protected void onDeathUpdate() {
+        if (this.deathTime == 19) {
+            if (!this.world.isRemote && (dropSoul && this.world.getGameRules().getBoolean("doMobLoot"))) {
+                this.world.spawnEntity(new EntitySoulOrb(this.world, this.posX, this.posY, this.posZ, EntitySoulOrb.TYPE.VAMPIRE));
+            }
+        }
+        super.onDeathUpdate();
+    }
+
+    private boolean isCursedTerrain(IBlockState iBlockState) {
+    	return ModBlocks.cursed_earth.equals(iBlockState.getBlock());
+    }
+
+	@Override
+	public IFaction getFaction() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public EntityLivingBase getRepresentingEntity() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

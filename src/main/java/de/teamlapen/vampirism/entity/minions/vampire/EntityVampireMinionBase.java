@@ -5,9 +5,9 @@ import de.teamlapen.vampirism.api.entity.minions.IMinionCommand;
 import de.teamlapen.vampirism.api.entity.minions.ISaveableMinion;
 import de.teamlapen.vampirism.api.entity.vampire.IVampireMinion;
 import de.teamlapen.vampirism.config.Balance;
+import de.teamlapen.vampirism.entity.EntityVampirism;
 import de.teamlapen.vampirism.entity.minions.ai.MinionAIHurtByTarget;
 import de.teamlapen.vampirism.entity.vampire.EntityVampireBaron;
-import de.teamlapen.vampirism.entity.vampire.EntityVampireBase;
 import de.teamlapen.vampirism.util.MinionHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureType;
@@ -35,7 +35,7 @@ import java.util.List;
  * Base class for small vampire minions
  * Does not count as entity for spawning algorithm
  */
-public abstract class EntityVampireMinionBase extends EntityVampireBase implements IVampireMinion {
+public abstract class EntityVampireMinionBase extends EntityVampirism implements IVampireMinion {
 
 
     /**
@@ -50,7 +50,7 @@ public abstract class EntityVampireMinionBase extends EntityVampireBase implemen
 
 
     public EntityVampireMinionBase(World world) {
-        super(world, false);
+        super(world);
         // this.setSize(0.5F, 1.1F);
         //this.func_110163_bv(); TODO check if this was relevant
 

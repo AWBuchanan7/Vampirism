@@ -21,13 +21,15 @@ import net.minecraftforge.registries.IForgeRegistry;
 import java.util.Arrays;
 import java.util.Random;
 
+import de.teamlapen.vampirism.util.REFERENCE;
+
 @GameRegistry.ObjectHolder("mca")
 public class ProfessionsMCA {
-    public static final VillagerProfession guard = new VillagerProfession("mca:guard", "minecraft:textures/entity/villager/villager.png", "minecraft:textures/entity/zombie_villager/zombie_villager.png");
-    public static final VillagerProfession bandit = new VillagerProfession("mca:bandit", "minecraft:textures/entity/villager/villager.png", "minecraft:textures/entity/zombie_villager/zombie_villager.png");
-    public static final VillagerProfession child = new VillagerProfession("mca:child", "minecraft:textures/entity/villager/villager.png", "minecraft:textures/entity/zombie_villager/zombie_villager.png");
-    public static final VillagerProfession baker = new VillagerProfession("mca:baker", "minecraft:textures/entity/villager/farmer.png", "minecraft:textures/entity/zombie_villager/zombie_farmer.png");
-    public static final VillagerProfession miner = new VillagerProfession("mca:miner", "minecraft:textures/entity/villager/smith.png", "minecraft:textures/entity/zombie_villager/zombie_smith.png");
+    public static final VillagerProfession guard = new VillagerProfession("vampirism:guard", "minecraft:textures/entity/villager/villager.png", "minecraft:textures/entity/zombie_villager/zombie_villager.png");
+    public static final VillagerProfession bandit = new VillagerProfession("vampirism:bandit", "minecraft:textures/entity/villager/villager.png", "minecraft:textures/entity/zombie_villager/zombie_villager.png");
+    public static final VillagerProfession child = new VillagerProfession("vampirism:child", "minecraft:textures/entity/villager/villager.png", "minecraft:textures/entity/zombie_villager/zombie_villager.png");
+    public static final VillagerProfession baker = new VillagerProfession("vampirism:baker", "minecraft:textures/entity/villager/farmer.png", "minecraft:textures/entity/zombie_villager/zombie_farmer.png");
+    public static final VillagerProfession miner = new VillagerProfession("vampirism:miner", "minecraft:textures/entity/villager/smith.png", "minecraft:textures/entity/zombie_villager/zombie_smith.png");
 
     public static VillagerCareer guard_warrior;
     public static VillagerCareer guard_archer;
@@ -40,6 +42,8 @@ public class ProfessionsMCA {
     public static VillagerCareer miner_miner;
 
     public static IForgeRegistry<VillagerProfession> registry;
+    
+    
 
     private static final VillagerProfession[] FORBIDDEN_RANDOM_PROFESSIONS = {
             bandit, child
@@ -77,10 +81,11 @@ public class ProfessionsMCA {
             int i = new Random().nextInt(registry.getKeys().size() - 1);
             resource = (ResourceLocation)registry.getKeys().toArray()[i];
         }
-        return registry.getValue(resource);
+        VillagerProfession x = registry.getValue(resource);
+        return (x != null) ? x : (VillagerProfession)registry.getValues().toArray()[new Random().nextInt(registry.getValuesCollection().size())];
     }
 
-    @Mod.EventBusSubscriber(modid = "mca")
+    @Mod.EventBusSubscriber(modid = REFERENCE.MODID)
     public static class RegistrationHandler {
         /**
          * Register this mod's {@link VillagerProfession}s.
