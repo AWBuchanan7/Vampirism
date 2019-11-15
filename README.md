@@ -2,6 +2,10 @@
 
 This is a (currently very messy) project to bring features of MCA and Vampirism together. It also integrates with (and requires) iYamato's Mod to port iYamato's mobs to the new NPC system and give all mod's mobs access to iYamato's weaponry.
 
+Features:
+* Compatibility patch for Vampirism's faction system (including Vampire and Vampire Hunter factions) to work with MCA's NPC interaction system.
+* Compatability patch to use AI improvements from both mods.
+
 Requires:
 * IYamatos_Mod
 * MCA (Minecraft Comes Alive)
