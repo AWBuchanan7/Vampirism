@@ -1,6 +1,6 @@
 # Vampirism Comes Alive (Minecraft 1.12.2)
 
-This is a (currently very messy) merge of MCA and Vampirism. It also integrates with (and requires) iYamato's Mod for the new Lizardfolk and Apefolk factions.
+This is a (currently very messy) project to bring features of MCA and Vampirism together. It also integrates with (and requires) iYamato's Mod to port iYamato's mobs to the new NPC system and give all mod's mobs access to iYamato's weaponry.
 
 Requires:
 * IYamatos_Mod
