@@ -336,6 +336,7 @@ public class EntityBasicVampire extends EntityVampireBase implements IBasicVampi
     protected void initEntityAI() {
         super.initEntityAI();
         
+        removeCertainTasks(EntityAIMoveThroughVillage.class);
         removeCertainTasks(EntityAIAvoidEntity.class);
         removeCertainTasks(EntityAIWatchClosest.class);
         removeCertainTasks(EntityAIGoHangout.class);
