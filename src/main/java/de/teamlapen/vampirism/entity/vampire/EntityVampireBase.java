@@ -18,13 +18,21 @@ import de.teamlapen.vampirism.items.ItemHunterCoat;
 import de.teamlapen.vampirism.player.vampire.VampirePlayer;
 import de.teamlapen.vampirism.util.Helper;
 import de.teamlapen.vampirism.util.REFERENCE;
-
+import mca.entity.ai.EntityAIGoHangout;
+import mca.entity.ai.EntityAIGoWorkplace;
+import mca.entity.ai.EntityAISleeping;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.EnumCreatureType;
+import net.minecraft.entity.ai.EntityAIAvoidEntity;
+import net.minecraft.entity.ai.EntityAIBase;
+import net.minecraft.entity.ai.EntityAIMoveIndoors;
+import net.minecraft.entity.ai.EntityAIMoveThroughVillage;
 import net.minecraft.entity.ai.EntityAISwimming;
+import net.minecraft.entity.ai.EntityAITasks;
+import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Biomes;
 import net.minecraft.init.MobEffects;
@@ -33,6 +41,8 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+
+import java.util.Iterator;
 
 import javax.annotation.Nonnull;
 
@@ -279,8 +289,27 @@ public abstract class EntityVampireBase extends EntityVampirism implements IVamp
 
     @Override
     protected void initEntityAI() {
-        super.initEntityAI();
+        removeCertainTasks(EntityAIMoveThroughVillage.class);
+        removeCertainTasks(EntityAIMoveIndoors.class);
+        removeCertainTasks(EntityAIAvoidEntity.class);
+        removeCertainTasks(EntityAIWatchClosest.class);
+        removeCertainTasks(EntityAIGoHangout.class);
+        removeCertainTasks(EntityAISleeping.class);
+        removeCertainTasks(EntityAIGoWorkplace.class);
         this.tasks.addTask(0, new EntityAISwimming(this));
+    }
+    
+    private void removeCertainTasks(Class<?> typ) {
+        Iterator<EntityAITasks.EntityAITaskEntry> iterator = this.tasks.taskEntries.iterator();
+
+        while (iterator.hasNext()) {
+            EntityAITasks.EntityAITaskEntry entityaitasks$entityaitaskentry = iterator.next();
+            EntityAIBase entityaibase = entityaitasks$entityaitaskentry.action;
+
+            if (entityaibase.getClass().equals(typ)) {
+                iterator.remove();
+            }
+        }
     }
 
     @Override

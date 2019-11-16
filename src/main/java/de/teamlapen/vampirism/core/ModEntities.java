@@ -124,12 +124,18 @@ public class ModEntities {
         addSpawn(basicVampire, EnumCreatureType.MONSTER, Balance.mobProps.VAMPIRE_SPAWN_CHANCE, 1, 2, biomes);
         registry.register(basicVampire.build());
         
+        EntityEntryBuilder<EntityAdvancedVampire> advancedVampire = prepareEntityEntry(EntityAdvancedVampire.class, ADVANCED_VAMPIRE, "advanced_vampire", EntityLiving.SpawnPlacementType.ON_GROUND, true);
+        addSpawn(advancedVampire, EnumCreatureType.MONSTER, Balance.mobProps.ADVANCED_VAMPIRE_SPAWN_PROBE, 1, 1, biomes);
+        registry.register(advancedVampire.build());
+
         EntityEntryBuilder<EntityLizardfolk> basicLizardfolk = prepareEntityEntry(EntityLizardfolk.class, BASIC_LIZARDFOLK_NAME, "lizardfolk", EntityLiving.SpawnPlacementType.ON_GROUND, true);
-        addSpawn(basicLizardfolk, EnumCreatureType.MONSTER, Balance.mobProps.LIZARDFOLK_SPAWN_CHANCE, 1, 2, biomes);
+// TO DO : Reenable lizard folkspawning once their faction has been implemented.
+//        addSpawn(basicLizardfolk, EnumCreatureType.MONSTER, Balance.mobProps.LIZARDFOLK_SPAWN_CHANCE, 1, 2, biomes);
         registry.register(basicLizardfolk.build());
         
         EntityEntryBuilder<EntityGreaterLizardfolk> greaterLizardfolk = prepareEntityEntry(EntityGreaterLizardfolk.class, GREATER_LIZARDFOLK_NAME, "greater_lizardfolk", EntityLiving.SpawnPlacementType.ON_GROUND, true);
-        addSpawn(greaterLizardfolk, EnumCreatureType.MONSTER, Balance.mobProps.GREATER_LIZARDFOLK_SPAWN_CHANCE, 1, 1, biomes);
+     // TO DO : Reenable lizardfolk spawning once their faction has been implemented.
+//        addSpawn(greaterLizardfolk, EnumCreatureType.MONSTER, Balance.mobProps.GREATER_LIZARDFOLK_SPAWN_CHANCE, 1, 1, biomes);
         registry.register(greaterLizardfolk.build());
         
         registry.register(prepareEntityEntry(EntityHunterTrainer.class, HUNTER_TRAINER, "hunter_trainer", EntityLiving.SpawnPlacementType.ON_GROUND, true).build());
@@ -138,10 +144,7 @@ public class ModEntities {
         registry.register(prepareEntityEntry(EntityVampireMinionSaveable.class, VAMPIRE_MINION_SAVEABLE_NAME, "vampireMinionS", EntityLiving.SpawnPlacementType.ON_GROUND, false).build());
         registry.register(prepareEntityEntry(EntityDummyBittenAnimal.class, DUMMY_CREATURE, "dummy_creature", EntityLiving.SpawnPlacementType.ON_GROUND, false).build());
         
-        EntityEntryBuilder<EntityAdvancedVampire> advancedVampire = prepareEntityEntry(EntityAdvancedVampire.class, ADVANCED_VAMPIRE, "advanced_vampire", EntityLiving.SpawnPlacementType.ON_GROUND, true);
-        addSpawn(advancedVampire, EnumCreatureType.MONSTER, Balance.mobProps.ADVANCED_VAMPIRE_SPAWN_PROBE, 1, 1, biomes);
-        registry.register(advancedVampire.build());
-        
+
         registry.register(prepareEntityEntry(EntityConvertedVillager.class, VILLAGER_CONVERTED, "converted.villager", EntityLiving.SpawnPlacementType.ON_GROUND, false).build());
         
         OLD_TO_NEW_MAP.put(new ResourceLocation("vampirism", "converted_villager").toString(), new ResourceLocation("vampirism", VILLAGER_CONVERTED).toString());

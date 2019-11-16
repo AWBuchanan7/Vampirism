@@ -237,15 +237,6 @@ public class EntityAdvancedVampire extends EntityVampireBase implements IAdvance
     protected void initEntityAI() {
         super.initEntityAI();
 
-        removeCertainTasks(EntityAIMoveThroughVillage.class);
-        removeCertainTasks(EntityAIAvoidEntity.class);
-        removeCertainTasks(EntityAIWatchClosest.class);
-        removeCertainTasks(EntityAIGoHangout.class);
-        removeCertainTasks(EntityAISleeping.class);
-        removeCertainTasks(EntityAIGoWorkplace.class);
-        
-
-        
         if (world.getDifficulty() == EnumDifficulty.HARD) {
             //Only break doors on hard difficulty
             this.tasks.addTask(1, new EntityAIBreakDoor(this));
@@ -265,19 +256,6 @@ public class EntityAdvancedVampire extends EntityVampireBase implements IAdvance
         this.targetTasks.addTask(3, new EntityAIHurtByTarget(this, false));
         this.targetTasks.addTask(4, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, 5, true, false, VampirismAPI.factionRegistry().getPredicate(getFaction(), true, true, true, false, null)));
         this.targetTasks.addTask(5, new EntityAINearestAttackableTarget<>(this, EntityCreature.class, 5, true, false, VampirismAPI.factionRegistry().getPredicate(getFaction(), false, true, false, false, null)));
-    }
-    
-    private void removeCertainTasks(Class<?> typ) {
-        Iterator<EntityAITasks.EntityAITaskEntry> iterator = this.tasks.taskEntries.iterator();
-
-        while (iterator.hasNext()) {
-            EntityAITasks.EntityAITaskEntry entityaitasks$entityaitaskentry = iterator.next();
-            EntityAIBase entityaibase = entityaitasks$entityaitaskentry.action;
-
-            if (entityaibase.getClass().equals(typ)) {
-                iterator.remove();
-            }
-        }
     }
 
     protected void updateEntityAttributes() {
