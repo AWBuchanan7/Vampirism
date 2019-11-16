@@ -10,7 +10,6 @@ import net.minecraft.world.World;
 /**
  * Base class for all vampire hunter
  */
-@SuppressWarnings("EntityConstructor")
 public abstract class EntityHunterBase extends EntityVampirism implements IHunter {
     private final boolean countAsMonster;
 
