@@ -22,11 +22,15 @@ import mca.entity.ai.EntityAIGoHangout;
 import mca.entity.ai.EntityAIGoWorkplace;
 import mca.entity.ai.EntityAISleeping;
 import net.minecraft.entity.EntityCreature;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.projectile.EntityArrow;
+import net.minecraft.entity.projectile.EntityTippedArrow;
 import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -39,6 +43,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -350,8 +355,8 @@ public class EntityBasicVampire extends EntityVampireBase implements IBasicVampi
         }
         this.tasks_avoidHunter = new EntityAIAvoidEntity<>(this, EntityCreature.class, VampirismAPI.factionRegistry().getPredicate(getFaction(), false, true, false, false, VReference.HUNTER_FACTION), 10, 1.0, 1.1);
         this.tasks.addTask(2, this.tasks_avoidHunter);
-        this.tasks.addTask(2, new VampireAIRestrictSun(this));
-        this.tasks.addTask(3, new VampireAIFleeSun(this, 0.9, false));
+        this.tasks.addTask(2, new VampireAIRestrictSun<EntityBasicVampire>(this));
+        this.tasks.addTask(3, new VampireAIFleeSun<EntityBasicVampire>(this, 0.9, false));
         this.tasks.addTask(3, new VampireAIFleeGarlic(this, 0.9, false));
         this.tasks.addTask(4, new EntityAIAttackMeleeNoSun(this, 1.0, false));
         this.tasks.addTask(5, new VampireAIBiteNearbyEntity(this));
@@ -371,7 +376,7 @@ public class EntityBasicVampire extends EntityVampireBase implements IBasicVampi
 
     }
     
-    private void removeCertainTasks(Class typ) {
+    private void removeCertainTasks(Class<?> typ) {
         Iterator<EntityAITasks.EntityAITaskEntry> iterator = this.tasks.taskEntries.iterator();
 
         while (iterator.hasNext()) {
@@ -389,5 +394,11 @@ public class EntityBasicVampire extends EntityVampireBase implements IBasicVampi
         this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(Balance.mobProps.VAMPIRE_MAX_HEALTH + Balance.mobProps.VAMPIRE_MAX_HEALTH_PL * l);
         this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(Balance.mobProps.VAMPIRE_ATTACK_DAMAGE + Balance.mobProps.VAMPIRE_ATTACK_DAMAGE_PL * l);
         this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(Balance.mobProps.VAMPIRE_SPEED);
+    }
+    
+    @Override
+    public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor)
+    {
+    	super.attackEntityWithRangedAttack(target, distanceFactor);
     }
 }

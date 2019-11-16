@@ -7,6 +7,7 @@ import de.teamlapen.vampirism.entity.ai.HunterAILookAtTrainee;
 import de.teamlapen.vampirism.entity.vampire.EntityVampireBase;
 import de.teamlapen.vampirism.util.Helper;
 import net.minecraft.entity.EntityCreature;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.player.EntityPlayer;
@@ -93,5 +94,10 @@ public class EntityHunterTrainerDummy extends EntityVampirism {
         return super.processInteract(player, hand);
     }
 
+    @Override
+    public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor)
+    {
+    	super.attackEntityWithRangedAttack(target, distanceFactor);
+    }
 
 }

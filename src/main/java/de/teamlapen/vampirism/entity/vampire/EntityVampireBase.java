@@ -88,6 +88,8 @@ public abstract class EntityVampireBase extends EntityVampirism implements IVamp
      */
     public EntityVampireBase(World world, boolean countAsMonsterForSpawn) {
         super(world);
+        super.setCustomNameTag("Aub Test Vampire");
+        super.setAlwaysRenderNameTag(true);
         this.countAsMonsterForSpawn = countAsMonsterForSpawn;
 
     }

@@ -446,4 +446,10 @@ public class EntityBasicHunter extends EntityHunterBase implements IBasicHunter,
     private void updateWatchedId(int id) {
         getDataManager().set(WATCHED_ID, id);
     }
+
+    @Override
+    public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor)
+    {
+    	super.attackEntityWithRangedAttack(target, distanceFactor);
+    }
 }

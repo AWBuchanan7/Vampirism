@@ -8,6 +8,7 @@ import de.teamlapen.vampirism.api.entity.vampire.IVampireMinion;
 import de.teamlapen.vampirism.entity.ai.VampireAIFleeGarlic;
 import de.teamlapen.vampirism.entity.minions.ai.MinionAIFollowLord;
 import de.teamlapen.vampirism.entity.minions.commands.DefendLordCommand;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIFleeSun;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
@@ -138,5 +139,11 @@ public class EntityVampireMinionSaveable extends EntityVampireMinionBase impleme
         this.tasks.addTask(7, new MinionAIFollowLord(this, 1.0D));
         this.tasks.addTask(14, new EntityAIFleeSun(this, 0.9F));
         this.tasks.addTask(14, new VampireAIFleeGarlic(this, 0.9F, false));
+    }
+
+    @Override
+    public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor)
+    {
+    	super.attackEntityWithRangedAttack(target, distanceFactor);
     }
 }

@@ -191,4 +191,10 @@ public class EntityDraculaHalloween extends EntityVampirism {
             this.setPosition(behind.getX(), y, behind.getZ());
         }
     }
+
+    @Override
+    public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor)
+    {
+    	super.attackEntityWithRangedAttack(target, distanceFactor);
+    }
 }

@@ -87,6 +87,8 @@ public abstract class EntityBaseLizardfolk extends EntityVampirism implements IV
      */
     public EntityBaseLizardfolk(World world, boolean countAsMonsterForSpawn) {
         super(world);
+        super.setCustomNameTag("Aub Test Lizard");
+        super.setAlwaysRenderNameTag(true);
         this.countAsMonsterForSpawn = countAsMonsterForSpawn;
 
     }
@@ -293,4 +295,11 @@ public abstract class EntityBaseLizardfolk extends EntityVampirism implements IV
     private boolean getCanSpawnHereRestricted() {
         return true;
     }
+    
+    @Override
+    public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor)
+    {
+    	super.attackEntityWithRangedAttack(target, distanceFactor);
+    }
+    
 }

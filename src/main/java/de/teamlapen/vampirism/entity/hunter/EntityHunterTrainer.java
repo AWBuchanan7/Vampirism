@@ -11,6 +11,7 @@ import de.teamlapen.vampirism.inventory.HunterTrainerContainer;
 import de.teamlapen.vampirism.network.ModGuiHandler;
 import de.teamlapen.vampirism.player.hunter.HunterLevelingConf;
 import net.minecraft.entity.EntityCreature;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.player.EntityPlayer;
@@ -132,6 +133,11 @@ public class EntityHunterTrainer extends EntityHunterBase implements HunterAILoo
 
         return super.processInteract(player, hand);
     }
+
+	@Override
+	public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor) {
+		super.attackEntityWithRangedAttack(target, distanceFactor);
+	}
 
 
 }

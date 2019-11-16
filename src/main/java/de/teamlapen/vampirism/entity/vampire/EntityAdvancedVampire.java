@@ -16,12 +16,18 @@ import de.teamlapen.vampirism.util.IPlayerFace;
 import de.teamlapen.vampirism.util.PlayerSkinHelper;
 import de.teamlapen.vampirism.util.SupporterManager;
 import de.teamlapen.vampirism.world.loot.LootHandler;
+import mca.entity.ai.EntityAIGoHangout;
+import mca.entity.ai.EntityAIGoWorkplace;
+import mca.entity.ai.EntityAISleeping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityCreature;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -214,7 +220,6 @@ public class EntityAdvancedVampire extends EntityVampireBase implements IAdvance
         this.getDataManager().register(TYPE, supporter.typeId);
         this.getDataManager().register(NAME, supporter.senderName == null ? "none" : supporter.senderName);
         this.getDataManager().register(TEXTURE, supporter.textureName == null ? "none" : supporter.textureName);
-
     }
 
     @Override
@@ -231,18 +236,29 @@ public class EntityAdvancedVampire extends EntityVampireBase implements IAdvance
     @Override
     protected void initEntityAI() {
         super.initEntityAI();
+
+        removeCertainTasks(EntityAIMoveThroughVillage.class);
         removeCertainTasks(EntityAIAvoidEntity.class);
+        removeCertainTasks(EntityAIWatchClosest.class);
+        removeCertainTasks(EntityAIGoHangout.class);
+        removeCertainTasks(EntityAISleeping.class);
+        removeCertainTasks(EntityAIGoWorkplace.class);
+        
+
+        
         if (world.getDifficulty() == EnumDifficulty.HARD) {
             //Only break doors on hard difficulty
             this.tasks.addTask(1, new EntityAIBreakDoor(this));
             ((PathNavigateGround) this.getNavigator()).setBreakDoors(true);
         }
-        this.tasks.addTask(2, new VampireAIRestrictSun(this));
-        this.tasks.addTask(3, new VampireAIFleeSun(this, 0.9, false));
+        this.tasks.addTask(2, new VampireAIRestrictSun<EntityAdvancedVampire>(this));
+        this.tasks.addTask(3, new VampireAIFleeSun<EntityAdvancedVampire>(this, 0.9, false));
         this.tasks.addTask(3, new VampireAIFleeGarlic(this, 0.9, false));
         this.tasks.addTask(4, new EntityAIAttackMeleeNoSun(this, 1.0, false));
+        this.tasks.addTask(4, new EntityAISwitchBetweenRangedAndMelee(this, 1.35D, 20, 15.0F));
+        this.tasks.addTask(5, new EntityAISwitchWeapons(this, 5D, 6D, new ItemStack(Items.IRON_SWORD), new ItemStack(Items.BOW)));        
         this.tasks.addTask(8, new EntityAIWander(this, 0.9, 25));
-        this.tasks.addTask(9, new EntityAIWatchClosestVisible(this, EntityPlayer.class, 10F));
+        this.tasks.addTask(9, new EntityAIWatchClosestVisible(this, EntityPlayer.class, 7F));
         this.tasks.addTask(10, new EntityAIWatchClosest(this, EntityHunterBase.class, 17F));
         this.tasks.addTask(11, new EntityAILookIdle(this));
 
@@ -251,7 +267,7 @@ public class EntityAdvancedVampire extends EntityVampireBase implements IAdvance
         this.targetTasks.addTask(5, new EntityAINearestAttackableTarget<>(this, EntityCreature.class, 5, true, false, VampirismAPI.factionRegistry().getPredicate(getFaction(), false, true, false, false, null)));
     }
     
-    private void removeCertainTasks(Class typ) {
+    private void removeCertainTasks(Class<?> typ) {
         Iterator<EntityAITasks.EntityAITaskEntry> iterator = this.tasks.taskEntries.iterator();
 
         while (iterator.hasNext()) {
@@ -271,4 +287,9 @@ public class EntityAdvancedVampire extends EntityVampireBase implements IAdvance
         this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(Balance.mobProps.ADVANCED_VAMPIRE_SPEED);
         this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(13);
     }
+
+	@Override
+	public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor) {
+		super.attackEntityWithRangedAttack(target, distanceFactor);
+	}
 }

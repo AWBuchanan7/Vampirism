@@ -5,6 +5,7 @@ import de.teamlapen.vampirism.api.VampirismAPI;
 import de.teamlapen.vampirism.config.Balance;
 import de.teamlapen.vampirism.world.loot.LootHandler;
 import net.minecraft.block.Block;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.monster.IMob;
@@ -25,6 +26,8 @@ import javax.annotation.Nullable;
 public class EntityGhost extends EntityVampirism implements IMob {
     public EntityGhost(World p_i1595_1_) {
         super(p_i1595_1_);
+        super.setCustomNameTag("Aub Test Ghost");
+        super.setAlwaysRenderNameTag(true);
         ((PathNavigateGround) getNavigator()).setCanSwim(true);
         this.setSize(0.8F, 1.95F);
         this.experienceValue = 8;
@@ -84,6 +87,12 @@ public class EntityGhost extends EntityVampirism implements IMob {
     @Override
     protected void playStepSound(BlockPos p_180429_1_, Block p_180429_2_) {
         return;
+    }
+
+    @Override
+    public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor)
+    {
+    	super.attackEntityWithRangedAttack(target, distanceFactor);
     }
 
 }

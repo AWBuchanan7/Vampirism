@@ -16,6 +16,8 @@ public abstract class EntityHunterBase extends EntityVampirism implements IHunte
 
     public EntityHunterBase(World world, boolean countAsMonster) {
         super(world);
+        super.setCustomNameTag("Aub Test Hunter");
+        super.setAlwaysRenderNameTag(true);
         this.countAsMonster = countAsMonster;
     }
 

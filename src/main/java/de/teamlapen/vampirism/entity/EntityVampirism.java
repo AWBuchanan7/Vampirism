@@ -21,11 +21,20 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.IRangedAttackMob;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.EntityAIAttackMelee;
+import net.minecraft.entity.ai.EntityAIAttackRangedBow;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
+import net.minecraft.entity.monster.AbstractSkeleton;
+import net.minecraft.entity.projectile.EntityArrow;
+import net.minecraft.entity.projectile.EntityTippedArrow;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -35,6 +44,8 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -43,7 +54,7 @@ import java.util.List;
  * Base class for most vampirism mobs
  * TODO @cheaterpaul why are all EntityAction parts in this class but it does not implement IEntityActionUser. Either move it to the entities that actually use it (preferred) or make this implement IEntityActionUser
  */
-public abstract class EntityVampirism extends EntityVillagerMCA implements IEntityWithHome, IVampirismEntity {
+public abstract class EntityVampirism extends EntityVillagerMCA implements IEntityWithHome, IVampirismEntity, IRangedAttackMob {
 
     public EntityAdvancedVampire advancedLeader = null;
     private final EntityAIBase moveTowardsRestriction;
@@ -67,12 +78,35 @@ public abstract class EntityVampirism extends EntityVillagerMCA implements IEnti
      * Counter which reaches zero every 70 to 120 ticks
      */
     private int randomTickDivider;
+    
+    private static final DataParameter<Boolean> SWINGING_ARMS = EntityDataManager.<Boolean>createKey(EntityVampirism.class, DataSerializers.BOOLEAN);
+    private final EntityAIAttackMelee aiAttackOnCollide = new EntityAIAttackMelee(this, 1.2D, false)
+    {
+        /**
+         * Reset the task's internal state. Called when this task is interrupted by another one
+         */
+        public void resetTask()
+        {
+            super.resetTask();
+            EntityVampirism.this.setSwingingArms(false);
+        }
+        /**
+         * Execute a one shot task or start executing a continuous task
+         */
+        public void startExecuting()
+        {
+            super.startExecuting();
+            EntityVampirism.this.setSwingingArms(true);
+        }
+    };
 
     public EntityVampirism(World world) {
         super(world);
-        super.setStartingAge(19);
+        super.setCustomNameTag("Aub Test Subject");
+        super.setAlwaysRenderNameTag(true);
         setupEntityClass();
         moveTowardsRestriction = new EntityAIMoveTowardsRestriction(this, 1.0F);
+        this.setCanPickUpLoot(true);
     }
 
     public boolean attackEntityAsMob(Entity entity) {
@@ -110,7 +144,7 @@ public abstract class EntityVampirism extends EntityVillagerMCA implements IEnti
     }
 
     @Nullable
-    public EntityActionHandler getActionHandler() {
+    public EntityActionHandler<?> getActionHandler() {
         return entityActionHandler;
     }
 
@@ -406,5 +440,36 @@ public abstract class EntityVampirism extends EntityVillagerMCA implements IEnti
     
     public EntityAdvancedVampire getAdvancedLeader() {
     	return advancedLeader;
+    }
+    
+    @SideOnly(Side.CLIENT)
+    public boolean isSwingingArms()
+    {
+        return ((Boolean)this.dataManager.get(SWINGING_ARMS)).booleanValue();
+    }
+
+    public void setSwingingArms(boolean swingingArms)
+    {
+        this.dataManager.set(SWINGING_ARMS, Boolean.valueOf(swingingArms));
+    }
+
+	@Override
+    public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor)
+    {
+        EntityArrow entityarrow = this.getArrow(distanceFactor);
+        double d0 = target.posX - this.posX;
+        double d1 = target.getEntityBoundingBox().minY + (double)(target.height / 3.0F) - entityarrow.posY;
+        double d2 = target.posZ - this.posZ;
+        double d3 = (double)MathHelper.sqrt(d0 * d0 + d2 * d2);
+        entityarrow.shoot(d0, d1 + d3 * 0.20000000298023224D, d2, 1.6F, (float)(14 - this.world.getDifficulty().getId() * 4));
+        this.playSound(SoundEvents.ENTITY_SKELETON_SHOOT, 1.0F, 1.0F / (this.getRNG().nextFloat() * 0.4F + 0.8F));
+        this.world.spawnEntity(entityarrow);
+    }
+	
+    protected EntityArrow getArrow(float p_190726_1_)
+    {
+        EntityTippedArrow entitytippedarrow = new EntityTippedArrow(this.world, this);
+        entitytippedarrow.setEnchantmentEffectsFromEntity(this, p_190726_1_);
+        return entitytippedarrow;
     }
 }
